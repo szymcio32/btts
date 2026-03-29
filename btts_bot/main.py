@@ -5,6 +5,7 @@ from pathlib import Path
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.config import load_config
 from btts_bot.logging_setup import setup_logging
+from btts_bot.state.market_registry import MarketRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -25,3 +26,6 @@ def main() -> None:
 
     ClobClientWrapper()
     logger.info("Authentication successful")
+
+    market_registry = MarketRegistry()  # noqa: F841
+    logger.info("State managers initialized")
