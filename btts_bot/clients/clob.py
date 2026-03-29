@@ -1,5 +1,93 @@
-"""
-CLOB client wrapper for Polymarket.
-Implemented in Story 1.5.
-"""
-# TODO: implemented in Story 1.5
+"""CLOB client wrapper for Polymarket."""
+
+import logging
+import os
+import sys
+
+from py_clob_client.client import ClobClient
+from py_clob_client.constants import POLYGON
+
+from btts_bot.constants import CLOB_HOST, POLY_GNOSIS_SAFE
+from btts_bot.retry import with_retry
+
+logger = logging.getLogger(__name__)
+
+
+class ClobClientWrapper:
+    """Authenticated Polymarket CLOB client wrapper.
+
+    Performs three-phase authentication on instantiation:
+      Phase 1 — L1 ClobClient (key + chain_id) used only to derive API creds.
+      Phase 2 — derive/create API credentials via create_or_derive_api_creds().
+      Phase 3 — L2 ClobClient (key + chain_id + creds + signature_type=POLY_GNOSIS_SAFE).
+
+    Exits with SystemExit(1) if required environment variables are missing.
+    """
+
+    def __init__(self) -> None:
+        private_key = os.environ.get("POLYMARKET_PRIVATE_KEY")
+        proxy_address = os.environ.get("POLYMARKET_PROXY_ADDRESS")
+
+        if not private_key:
+            print(
+                "Error: POLYMARKET_PRIVATE_KEY environment variable is not set.",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
+
+        if not proxy_address:
+            print(
+                "Error: POLYMARKET_PROXY_ADDRESS environment variable is not set.",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
+
+        # Phase 1: L1 client — only used to derive creds
+        l1_client = ClobClient(host=CLOB_HOST, chain_id=POLYGON, key=private_key)
+
+        # Phase 2: Derive or create API credentials
+        creds = l1_client.create_or_derive_api_creds()
+
+        # Phase 3: L2 client — the operational client
+        self._client = ClobClient(
+            host=CLOB_HOST,
+            chain_id=POLYGON,
+            key=private_key,
+            creds=creds,
+            signature_type=POLY_GNOSIS_SAFE,
+            funder=proxy_address,
+        )
+
+        # Discard L1 reference immediately
+        del l1_client
+
+        logger.info("ClobClientWrapper initialized — L2 auth established")
+
+    def get_tick_size(self, token_id: str) -> str:
+        """Return the tick size for the given token (TTL-cached internally by py-clob-client)."""
+        return self._client.get_tick_size(token_id)
+
+    @with_retry
+    def get_order_book(self, token_id: str):
+        """Fetch the order book for a token."""
+        return self._client.get_order_book(token_id)
+
+    @with_retry
+    def get_order(self, order_id: str):
+        """Fetch a specific order by ID."""
+        return self._client.get_order(order_id)
+
+    @with_retry
+    def post_order(self, order, order_type: str = "GTC"):
+        """Post an order to the CLOB."""
+        return self._client.post_order(order, order_type)
+
+    @with_retry
+    def cancel_order(self, order_id: str):
+        """Cancel a single order by ID."""
+        return self._client.cancel({"orderID": order_id})
+
+    @with_retry
+    def cancel_orders(self, order_ids: list[str]):
+        """Cancel multiple orders by their IDs."""
+        return self._client.cancel_orders([{"orderID": oid} for oid in order_ids])

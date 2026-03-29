@@ -1,5 +1,12 @@
-"""
-Constants for btts-bot: API URLs, enums, and shared values.
-Implemented in later stories.
-"""
-# TODO: API URLs, enums added in later stories
+"""Constants for btts-bot: API URLs, enums, and shared values."""
+
+# Polymarket CLOB API
+CLOB_HOST: str = "https://clob.polymarket.com"
+CHAIN_ID: int = 137  # POLYGON
+
+# Signature type for Polymarket proxy wallets (POLY_GNOSIS_SAFE = 2)
+POLY_GNOSIS_SAFE: int = 2
+
+# Order sides (used in OrderArgs.side)
+BUY_SIDE: str = "BUY"
+SELL_SIDE: str = "SELL"

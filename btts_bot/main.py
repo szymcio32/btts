@@ -2,6 +2,7 @@ import argparse
 import logging
 from pathlib import Path
 
+from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.config import load_config
 from btts_bot.logging_setup import setup_logging
 
@@ -21,3 +22,6 @@ def main() -> None:
     config = load_config(args.config)
     setup_logging(config.logging)
     logger.info("btts-bot starting... config loaded from %s", args.config)
+
+    ClobClientWrapper()
+    logger.info("Authentication successful")

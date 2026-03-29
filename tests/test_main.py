@@ -34,13 +34,14 @@ class MainTests(unittest.TestCase):
             patch.object(main_module, "load_config", return_value=make_config()) as mock_load,
             patch.object(main_module, "setup_logging") as mock_setup_logging,
             patch.object(main_module, "logger") as mock_logger,
+            patch.object(main_module, "ClobClientWrapper"),
         ):
             with redirect_stdout(io.StringIO()):
                 main_module.main()
 
         self.assertEqual(mock_load.call_args.args[0], Path("config_btts.yaml"))
         mock_setup_logging.assert_called_once()
-        mock_logger.info.assert_called_once()
+        mock_logger.info.assert_called()
 
     def test_main_uses_config_argument_override(self) -> None:
         override_path = Path("custom-config.yaml")
@@ -49,13 +50,14 @@ class MainTests(unittest.TestCase):
             patch.object(main_module, "load_config", return_value=make_config()) as mock_load,
             patch.object(main_module, "setup_logging") as mock_setup_logging,
             patch.object(main_module, "logger") as mock_logger,
+            patch.object(main_module, "ClobClientWrapper"),
         ):
             with redirect_stdout(io.StringIO()):
                 main_module.main()
 
         self.assertEqual(mock_load.call_args.args[0], override_path)
         mock_setup_logging.assert_called_once()
-        mock_logger.info.assert_called_once()
+        mock_logger.info.assert_called()
 
     def test_main_sets_up_logging_with_loaded_config(self) -> None:
         config = make_config()
@@ -65,12 +67,13 @@ class MainTests(unittest.TestCase):
             patch.object(main_module, "load_config", return_value=config),
             patch.object(main_module, "setup_logging") as mock_setup_logging,
             patch.object(main_module, "logger") as mock_logger,
+            patch.object(main_module, "ClobClientWrapper"),
         ):
             with redirect_stdout(io.StringIO()):
                 main_module.main()
 
         mock_setup_logging.assert_called_once_with(config.logging)
-        mock_logger.info.assert_called_once_with(
+        mock_logger.info.assert_any_call(
             "btts-bot starting... config loaded from %s", Path("config_btts.yaml")
         )
 
@@ -102,13 +105,41 @@ logging:
             with (
                 patch("sys.argv", ["btts_bot", "--config", str(config_path)]),
                 patch.object(main_module, "logger", fake_logger),
+                patch.object(main_module, "ClobClientWrapper"),
             ):
                 with redirect_stdout(io.StringIO()):
                     main_module.main()
 
-            fake_logger.info.assert_called_once_with(
+            fake_logger.info.assert_any_call(
                 "btts-bot starting... config loaded from %s", config_path
             )
+
+    def test_main_instantiates_clob_client_wrapper(self) -> None:
+        """ClobClientWrapper is instantiated after setup_logging (AC #2 integration)."""
+        with (
+            patch("sys.argv", ["btts_bot"]),
+            patch.object(main_module, "load_config", return_value=make_config()),
+            patch.object(main_module, "setup_logging"),
+            patch.object(main_module, "logger"),
+            patch.object(main_module, "ClobClientWrapper") as mock_wrapper_cls,
+        ):
+            main_module.main()
+
+        mock_wrapper_cls.assert_called_once()
+
+    def test_main_logs_authentication_successful(self) -> None:
+        """main() logs 'Authentication successful' after ClobClientWrapper init."""
+        mock_logger = MagicMock()
+        with (
+            patch("sys.argv", ["btts_bot"]),
+            patch.object(main_module, "load_config", return_value=make_config()),
+            patch.object(main_module, "setup_logging"),
+            patch.object(main_module, "logger", mock_logger),
+            patch.object(main_module, "ClobClientWrapper"),
+        ):
+            main_module.main()
+
+        mock_logger.info.assert_any_call("Authentication successful")
 
 
 if __name__ == "__main__":

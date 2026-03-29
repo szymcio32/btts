@@ -54,3 +54,113 @@
 2026-03-29 20:51:23,981 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
 2026-03-29 20:51:23,982 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
 2026-03-29 20:51:23,983 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-03-29 22:08:24,844 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-03-29 22:08:24,933 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 1/5 failed: connection refused — retrying in 1.0s
+2026-03-29 22:08:24,935 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 2/5 failed: connection refused — retrying in 2.0s
+2026-03-29 22:08:24,936 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 3/5 failed: connection refused — retrying in 4.0s
+2026-03-29 22:08:24,938 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 4/5 failed: connection refused — retrying in 8.0s
+2026-03-29 22:08:24,939 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 5/5 failed: connection refused — retrying in 16.0s
+2026-03-29 22:08:24,940 | ERROR    | btts_bot.retry | [retry] network_fail: all 5 retries exhausted. Last error: connection refused. Returning None.
+2026-03-29 22:08:24,951 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 1/5 failed: something went wrong — retrying in 1.0s
+2026-03-29 22:08:24,954 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 2/5 failed: something went wrong — retrying in 2.0s
+2026-03-29 22:08:24,960 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 3/5 failed: something went wrong — retrying in 4.0s
+2026-03-29 22:08:24,961 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 4/5 failed: something went wrong — retrying in 8.0s
+2026-03-29 22:08:24,963 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 5/5 failed: something went wrong — retrying in 16.0s
+2026-03-29 22:08:24,964 | ERROR    | btts_bot.retry | [retry] generic_fail: all 5 retries exhausted. Last error: something went wrong. Returning None.
+2026-03-29 22:08:24,980 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:08:24,984 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:08:24,987 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:08:24,990 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:08:24,994 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:08:24,995 | ERROR    | btts_bot.retry | [retry] flaky_425: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:08:25,009 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:08:25,012 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:08:25,014 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:08:25,016 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:08:25,018 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:08:25,019 | ERROR    | btts_bot.retry | [retry] flaky_429: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:08:25,035 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:08:25,038 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:08:25,039 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:08:25,042 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:08:25,044 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:08:25,045 | ERROR    | btts_bot.retry | [retry] flaky_500: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:08:25,055 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:08:25,059 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:08:25,061 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:08:25,064 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:08:25,067 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:08:25,068 | ERROR    | btts_bot.retry | [retry] flaky_503: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:08:25,080 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 1/5 failed: timed out — retrying in 1.0s
+2026-03-29 22:08:25,083 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 2/5 failed: timed out — retrying in 2.0s
+2026-03-29 22:08:25,084 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 3/5 failed: timed out — retrying in 4.0s
+2026-03-29 22:08:25,085 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 4/5 failed: timed out — retrying in 8.0s
+2026-03-29 22:08:25,088 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 5/5 failed: timed out — retrying in 16.0s
+2026-03-29 22:08:25,089 | ERROR    | btts_bot.retry | [retry] timeout_fail: all 5 retries exhausted. Last error: timed out. Returning None.
+2026-03-29 22:08:25,201 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-03-29 22:08:25,203 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-03-29 22:08:25,205 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-03-29 22:08:25,206 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-03-29 22:08:25,207 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-03-29 22:08:25,208 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-03-29 22:08:25,220 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-03-29 22:08:25,222 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-03-29 22:08:25,223 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-03-29 22:08:25,224 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-03-29 22:08:25,225 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-03-29 22:08:25,226 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-03-29 22:12:37,197 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-03-29 22:12:37,292 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 1/5 failed: connection refused — retrying in 1.0s
+2026-03-29 22:12:37,293 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 2/5 failed: connection refused — retrying in 2.0s
+2026-03-29 22:12:37,294 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 3/5 failed: connection refused — retrying in 4.0s
+2026-03-29 22:12:37,296 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 4/5 failed: connection refused — retrying in 8.0s
+2026-03-29 22:12:37,299 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 5/5 failed: connection refused — retrying in 16.0s
+2026-03-29 22:12:37,300 | ERROR    | btts_bot.retry | [retry] network_fail: all 5 retries exhausted. Last error: connection refused. Returning None.
+2026-03-29 22:12:37,311 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 1/5 failed: something went wrong — retrying in 1.0s
+2026-03-29 22:12:37,313 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 2/5 failed: something went wrong — retrying in 2.0s
+2026-03-29 22:12:37,314 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 3/5 failed: something went wrong — retrying in 4.0s
+2026-03-29 22:12:37,316 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 4/5 failed: something went wrong — retrying in 8.0s
+2026-03-29 22:12:37,317 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 5/5 failed: something went wrong — retrying in 16.0s
+2026-03-29 22:12:37,318 | ERROR    | btts_bot.retry | [retry] generic_fail: all 5 retries exhausted. Last error: something went wrong. Returning None.
+2026-03-29 22:12:37,329 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:12:37,331 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:12:37,333 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:12:37,335 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:12:37,337 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:12:37,338 | ERROR    | btts_bot.retry | [retry] flaky_425: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:12:37,347 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:12:37,350 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:12:37,352 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:12:37,356 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:12:37,359 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:12:37,360 | ERROR    | btts_bot.retry | [retry] flaky_429: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:12:37,374 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:12:37,376 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:12:37,378 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:12:37,384 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:12:37,386 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:12:37,387 | ERROR    | btts_bot.retry | [retry] flaky_500: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:12:37,398 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 1/5 failed:  — retrying in 1.0s
+2026-03-29 22:12:37,406 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 2/5 failed:  — retrying in 2.0s
+2026-03-29 22:12:37,408 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 3/5 failed:  — retrying in 4.0s
+2026-03-29 22:12:37,410 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 4/5 failed:  — retrying in 8.0s
+2026-03-29 22:12:37,413 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 5/5 failed:  — retrying in 16.0s
+2026-03-29 22:12:37,414 | ERROR    | btts_bot.retry | [retry] flaky_503: all 5 retries exhausted. Last error: . Returning None.
+2026-03-29 22:12:37,433 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 1/5 failed: timed out — retrying in 1.0s
+2026-03-29 22:12:37,442 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 2/5 failed: timed out — retrying in 2.0s
+2026-03-29 22:12:37,444 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 3/5 failed: timed out — retrying in 4.0s
+2026-03-29 22:12:37,445 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 4/5 failed: timed out — retrying in 8.0s
+2026-03-29 22:12:37,447 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 5/5 failed: timed out — retrying in 16.0s
+2026-03-29 22:12:37,448 | ERROR    | btts_bot.retry | [retry] timeout_fail: all 5 retries exhausted. Last error: timed out. Returning None.
+2026-03-29 22:12:37,562 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-03-29 22:12:37,564 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-03-29 22:12:37,565 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-03-29 22:12:37,568 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-03-29 22:12:37,569 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-03-29 22:12:37,570 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-03-29 22:12:37,581 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-03-29 22:12:37,583 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-03-29 22:12:37,584 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-03-29 22:12:37,585 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-03-29 22:12:37,591 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-03-29 22:12:37,592 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.

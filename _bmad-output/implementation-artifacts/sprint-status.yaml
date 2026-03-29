@@ -49,7 +49,7 @@ development_status:
   1-2-configuration-loading-and-validation-with-pydantic: review
   1-3-structured-logging-setup: review
   1-4-retry-decorator-for-api-resilience: review
-  1-5-polymarket-clob-client-authentication: backlog
+  1-5-polymarket-clob-client-authentication: review
   1-6-game-lifecycle-state-machine-and-market-registry: backlog
   epic-1-retrospective: optional
 
