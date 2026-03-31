@@ -8,6 +8,7 @@ from btts_bot.config import BotConfig, load_config
 
 
 VALID_CONFIG = """\
+data_file: "games-data.json"
 leagues:
   - name: Premier League
     abbreviation: EPL
@@ -54,6 +55,7 @@ class ConfigModelTests(unittest.TestCase):
                     "max_bytes": 10485760,
                     "backup_count": 5,
                 },
+                "data_file": "games-data.json",
             }
         )
 
@@ -75,6 +77,7 @@ class ConfigModelTests(unittest.TestCase):
                     },
                     "timing": {"daily_fetch_hour_utc": 24},
                     "logging": {"level": "INFO"},
+                    "data_file": "games-data.json",
                 }
             )
 
@@ -92,6 +95,7 @@ class ConfigModelTests(unittest.TestCase):
                     },
                     "timing": {"daily_fetch_hour_utc": 23},
                     "logging": {"level": "VERBOSE"},
+                    "data_file": "games-data.json",
                 }
             )
 

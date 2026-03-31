@@ -58,6 +58,14 @@ class BotConfig(BaseModel):
     liquidity: LiquidityConfig
     timing: TimingConfig
     logging: LoggingConfig
+    data_file: str = Field(min_length=1)  # Path to the local JSON data file with games/markets
+
+    @field_validator("data_file")
+    @classmethod
+    def validate_data_file(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("data_file must not be empty")
+        return value
 
 
 def load_config(config_path: Path) -> BotConfig:
