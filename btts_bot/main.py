@@ -1,11 +1,13 @@
 import argparse
 import logging
+import time
 from pathlib import Path
 
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import load_config
 from btts_bot.core.market_discovery import MarketDiscoveryService
+from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
 from btts_bot.state.market_registry import MarketRegistry
 
@@ -38,3 +40,20 @@ def main() -> None:
     # Immediate startup discovery (FR5)
     discovered_count = discovery_service.discover_markets()
     logger.info("Startup discovery complete: %d markets", discovered_count)
+
+    # Schedule daily fetch (FR6)
+    scheduler_service = SchedulerService(
+        daily_fetch_hour_utc=config.timing.daily_fetch_hour_utc,
+        discovery_service=discovery_service,
+    )
+    scheduler_service.start()
+
+    logger.info("btts-bot running. Press Ctrl+C to exit.")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        logger.info("Shutdown requested")
+    finally:
+        scheduler_service.shutdown()
+        logger.info("btts-bot stopped")

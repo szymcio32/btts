@@ -1,5 +1,5 @@
 # generated: 2026-03-28
-# last_updated: 2026-03-31
+# last_updated: 2026-04-01
 
 # project: btts-bot
 # project_key: NOKEY
@@ -36,7 +36,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-28
-last_updated: 2026-03-31
+last_updated: 2026-04-01
 project: btts-bot
 project_key: NOKEY
 tracking_system: file-system
@@ -56,7 +56,7 @@ development_status:
   # Epic 2: Market Discovery & Liquidity Analysis
   epic-2: in-progress
   2-1-market-discovery-from-json-data-file: done
-  2-2-scheduled-daily-market-fetch: backlog
+  2-2-scheduled-daily-market-fetch: done
   2-3-btts-no-token-selection-and-market-deduplication: backlog
   2-4-three-case-orderbook-liquidity-analysis: backlog
   epic-2-retrospective: optional
