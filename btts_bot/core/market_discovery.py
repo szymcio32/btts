@@ -173,7 +173,7 @@ class MarketDiscoveryService:
         try:
             # ISO 8601 format: "2026-03-22T04:00:00Z"
             parsed = datetime.fromisoformat(kickoff_value.replace("Z", "+00:00"))
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return None
 
         if parsed.tzinfo is None:

@@ -8,6 +8,7 @@ from unittest.mock import MagicMock, patch
 from btts_bot.config import BotConfig
 
 from btts_bot import main as main_module
+from btts_bot.core.liquidity import AnalysisResult
 
 
 def make_config() -> BotConfig:
@@ -46,9 +47,14 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mock_scheduler_cls = extra_patches.pop("SchedulerService", MagicMock())
     mock_order_tracker_cls = extra_patches.pop("OrderTracker", MagicMock())
     mock_time_sleep = extra_patches.pop("time_sleep", MagicMock(side_effect=KeyboardInterrupt))
+    mock_liquidity_analyser_cls = extra_patches.pop("LiquidityAnalyser", MagicMock())
+    mock_analysis_pipeline_cls = extra_patches.pop("MarketAnalysisPipeline", MagicMock())
 
     mock_discovery_cls.return_value.discover_markets.return_value = extra_patches.pop(
         "discover_count", 0
+    )
+    mock_analysis_pipeline_cls.return_value.analyse_all_discovered.return_value = extra_patches.pop(
+        "analysis_results", []
     )
 
     with (
@@ -61,6 +67,8 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
         patch.object(main_module, "MarketDiscoveryService", mock_discovery_cls),
         patch.object(main_module, "SchedulerService", mock_scheduler_cls),
         patch.object(main_module, "OrderTracker", mock_order_tracker_cls),
+        patch.object(main_module, "LiquidityAnalyser", mock_liquidity_analyser_cls),
+        patch.object(main_module, "MarketAnalysisPipeline", mock_analysis_pipeline_cls),
         patch.object(main_module.time, "sleep", mock_time_sleep),
     ):
         with redirect_stdout(io.StringIO()):
@@ -74,6 +82,8 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mocks["MarketDiscoveryService"] = mock_discovery_cls
     mocks["SchedulerService"] = mock_scheduler_cls
     mocks["OrderTracker"] = mock_order_tracker_cls
+    mocks["LiquidityAnalyser"] = mock_liquidity_analyser_cls
+    mocks["MarketAnalysisPipeline"] = mock_analysis_pipeline_cls
     mocks["time_sleep"] = mock_time_sleep
     mocks["config"] = config
     return mocks
@@ -129,6 +139,8 @@ logging:
             mock_scheduler_cls = MagicMock()
             mock_discovery_cls = MagicMock()
             mock_discovery_cls.return_value.discover_markets.return_value = 0
+            mock_analysis_pipeline_cls = MagicMock()
+            mock_analysis_pipeline_cls.return_value.analyse_all_discovered.return_value = []
 
             with (
                 patch("sys.argv", ["btts_bot", "--config", str(config_path)]),
@@ -138,6 +150,8 @@ logging:
                 patch.object(main_module, "MarketDiscoveryService", mock_discovery_cls),
                 patch.object(main_module, "SchedulerService", mock_scheduler_cls),
                 patch.object(main_module, "OrderTracker"),
+                patch.object(main_module, "LiquidityAnalyser"),
+                patch.object(main_module, "MarketAnalysisPipeline", mock_analysis_pipeline_cls),
                 patch.object(main_module.time, "sleep", side_effect=KeyboardInterrupt),
             ):
                 with redirect_stdout(io.StringIO()):
@@ -227,6 +241,52 @@ logging:
         # Verify the order_tracker instance was passed as 4th positional arg
         call_args = mock_discovery_cls.call_args
         self.assertIs(call_args.args[3], mock_order_tracker_instance)
+
+    # --- New tests for Story 2.4: Liquidity analysis wiring ---
+
+    def test_main_stores_clob_client_in_variable(self) -> None:
+        """ClobClientWrapper instance is stored and passed to MarketAnalysisPipeline."""
+        mocks = _run_main_with_patches()
+        mock_clob_instance = mocks["ClobClientWrapper"].return_value
+        mock_pipeline_cls = mocks["MarketAnalysisPipeline"]
+        call_args = mock_pipeline_cls.call_args
+        self.assertIs(call_args.args[0], mock_clob_instance)
+
+    def test_main_instantiates_liquidity_analyser_with_config(self) -> None:
+        """LiquidityAnalyser is instantiated with config.liquidity and config.btts."""
+        config = make_config()
+        mocks = _run_main_with_patches(config=config)
+        mock_analyser_cls = mocks["LiquidityAnalyser"]
+        mock_analyser_cls.assert_called_once_with(config.liquidity, config.btts)
+
+    def test_main_instantiates_analysis_pipeline_with_dependencies(self) -> None:
+        """MarketAnalysisPipeline is instantiated with clob_client, analyser, registry."""
+        mocks = _run_main_with_patches()
+        mock_clob_instance = mocks["ClobClientWrapper"].return_value
+        mock_analyser_instance = mocks["LiquidityAnalyser"].return_value
+        mock_pipeline_cls = mocks["MarketAnalysisPipeline"]
+        call_args = mock_pipeline_cls.call_args
+        self.assertIs(call_args.args[0], mock_clob_instance)
+        self.assertIs(call_args.args[1], mock_analyser_instance)
+
+    def test_main_calls_analyse_all_discovered_after_discovery(self) -> None:
+        """analyse_all_discovered() is called after discover_markets()."""
+        mocks = _run_main_with_patches(discover_count=3)
+        mock_pipeline_instance = mocks["MarketAnalysisPipeline"].return_value
+        mock_pipeline_instance.analyse_all_discovered.assert_called_once()
+
+    def test_main_logs_analysis_complete_summary(self) -> None:
+        """main() logs liquidity analysis summary with analysed and skipped counts."""
+        results = [
+            AnalysisResult(buy_price=0.48, sell_price=0.50, case="A"),
+            AnalysisResult(buy_price=0.49, sell_price=0.51, case="B"),
+        ]
+        mocks = _run_main_with_patches(discover_count=3, analysis_results=results)
+        mocks["logger"].info.assert_any_call(
+            "Liquidity analysis complete: %d analysed, %d skipped",
+            2,
+            1,
+        )
 
 
 if __name__ == "__main__":

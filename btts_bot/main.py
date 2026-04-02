@@ -6,6 +6,7 @@ from pathlib import Path
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import load_config
+from btts_bot.core.liquidity import LiquidityAnalyser, MarketAnalysisPipeline
 from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
@@ -29,7 +30,7 @@ def main() -> None:
     setup_logging(config.logging)
     logger.info("btts-bot starting... config loaded from %s", args.config)
 
-    ClobClientWrapper()
+    clob_client = ClobClientWrapper()
     logger.info("Authentication successful")
 
     market_registry = MarketRegistry()
@@ -41,9 +42,22 @@ def main() -> None:
         gamma_client, market_registry, config.leagues, order_tracker
     )
 
+    liquidity_analyser = LiquidityAnalyser(config.liquidity, config.btts)
+    analysis_pipeline = MarketAnalysisPipeline(clob_client, liquidity_analyser, market_registry)
+
     # Immediate startup discovery (FR5)
     discovered_count = discovery_service.discover_markets()
     logger.info("Startup discovery complete: %d markets", discovered_count)
+
+    # Liquidity analysis for all discovered markets
+    analysis_results = analysis_pipeline.analyse_all_discovered()
+    analysed_count = len(analysis_results)
+    skipped_count = discovered_count - analysed_count
+    logger.info(
+        "Liquidity analysis complete: %d analysed, %d skipped",
+        analysed_count,
+        skipped_count,
+    )
 
     # Schedule daily fetch (FR6)
     scheduler_service = SchedulerService(
