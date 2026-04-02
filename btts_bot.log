@@ -1124,3 +1124,295 @@
 2026-04-02 21:58:26,628 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch complete: 5 new markets
 2026-04-02 21:58:26,669 | INFO     | btts_bot.core.scheduling | Scheduler shut down
 2026-04-02 21:58:26,693 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-02 22:43:46,476 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-04-02 22:43:46,669 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-abc league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,670 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,672 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:46,682 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,683 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,684 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:46,695 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,703 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market has insufficient token_ids, skipping
+2026-04-02 22:43:46,704 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,705 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,716 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market missing condition_id, skipping
+2026-04-02 22:43:46,717 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,718 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,728 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got str
+2026-04-02 22:43:46,729 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got int
+2026-04-02 22:43:46,730 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,731 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,732 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:46,741 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-02 22:43:46,742 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,745 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,753 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,766 | ERROR    | btts_bot.core.market_discovery | Market discovery failed: could not fetch games data
+2026-04-02 22:43:46,776 | WARNING  | btts_bot.core.market_discovery | [A vs B] BTTS market has insufficient token_ids, skipping
+2026-04-02 22:43:46,777 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,778 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,791 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-02 22:43:46,792 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,795 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,806 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,807 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,808 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:46,832 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-1 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,833 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-2 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,846 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,868 | WARNING  | btts_bot.core.market_discovery | [A vs B] Invalid kickoff_utc, skipping
+2026-04-02 22:43:46,869 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,870 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,878 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,880 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-liga league=liga kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,881 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,882 | INFO     | btts_bot.core.market_discovery | Discovery: liga — 1 BTTS markets found
+2026-04-02 22:43:46,883 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 2 new markets registered
+2026-04-02 22:43:46,893 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,895 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,897 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:46,912 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,913 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=order-1 price=0.4800
+2026-04-02 22:43:46,923 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-dup league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,924 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,925 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:46,933 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,935 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,936 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,944 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,945 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,954 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:43:46,955 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:43:46,965 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-02 22:43:46,975 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-02 22:43:46,985 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:46,986 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:43:46,987 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:43:47,000 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,009 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,018 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=special-token league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,026 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,035 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,051 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,062 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,084 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,085 | INFO     | btts_bot.state.market_registry | Market registered: [Real Madrid vs Atletico] token=tok-2 league=LIGA kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,094 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,104 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,113 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,123 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,132 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:43:47,150 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:43:47,160 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:43:47,179 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:43:47,198 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1
+2026-04-02 22:43:47,205 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:43:47,206 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.5200
+2026-04-02 22:43:47,218 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:43:47,219 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-2 price=0.5000
+2026-04-02 22:43:47,251 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 1/5 failed: connection refused — retrying in 1.0s
+2026-04-02 22:43:47,254 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 2/5 failed: connection refused — retrying in 2.0s
+2026-04-02 22:43:47,255 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 3/5 failed: connection refused — retrying in 4.0s
+2026-04-02 22:43:47,256 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 4/5 failed: connection refused — retrying in 8.0s
+2026-04-02 22:43:47,257 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 5/5 failed: connection refused — retrying in 16.0s
+2026-04-02 22:43:47,258 | ERROR    | btts_bot.retry | [retry] network_fail: all 5 retries exhausted. Last error: connection refused. Returning None.
+2026-04-02 22:43:47,267 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 1/5 failed: something went wrong — retrying in 1.0s
+2026-04-02 22:43:47,270 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 2/5 failed: something went wrong — retrying in 2.0s
+2026-04-02 22:43:47,272 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 3/5 failed: something went wrong — retrying in 4.0s
+2026-04-02 22:43:47,272 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 4/5 failed: something went wrong — retrying in 8.0s
+2026-04-02 22:43:47,274 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 5/5 failed: something went wrong — retrying in 16.0s
+2026-04-02 22:43:47,276 | ERROR    | btts_bot.retry | [retry] generic_fail: all 5 retries exhausted. Last error: something went wrong. Returning None.
+2026-04-02 22:43:47,288 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:43:47,291 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:43:47,293 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:43:47,299 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:43:47,301 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:43:47,303 | ERROR    | btts_bot.retry | [retry] flaky_425: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:43:47,319 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:43:47,359 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:43:47,361 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:43:47,362 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:43:47,364 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:43:47,365 | ERROR    | btts_bot.retry | [retry] flaky_429: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:43:47,373 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:43:47,375 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:43:47,376 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:43:47,378 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:43:47,379 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:43:47,380 | ERROR    | btts_bot.retry | [retry] flaky_500: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:43:47,391 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:43:47,394 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:43:47,397 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:43:47,399 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:43:47,401 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:43:47,402 | ERROR    | btts_bot.retry | [retry] flaky_503: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:43:47,412 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 1/5 failed: timed out — retrying in 1.0s
+2026-04-02 22:43:47,413 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 2/5 failed: timed out — retrying in 2.0s
+2026-04-02 22:43:47,415 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 3/5 failed: timed out — retrying in 4.0s
+2026-04-02 22:43:47,416 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 4/5 failed: timed out — retrying in 8.0s
+2026-04-02 22:43:47,417 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 5/5 failed: timed out — retrying in 16.0s
+2026-04-02 22:43:47,418 | ERROR    | btts_bot.retry | [retry] timeout_fail: all 5 retries exhausted. Last error: timed out. Returning None.
+2026-04-02 22:43:47,508 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-02 22:43:47,510 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-02 22:43:47,511 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-02 22:43:47,512 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-02 22:43:47,513 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-02 22:43:47,516 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-02 22:43:47,526 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-02 22:43:47,528 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-02 22:43:47,533 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-02 22:43:47,535 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-02 22:43:47,536 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-02 22:43:47,537 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-02 22:43:47,558 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 14:00 UTC
+2026-04-02 22:43:47,569 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 07:00 UTC
+2026-04-02 22:43:47,584 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-02 22:43:47,586 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch complete: 5 new markets
+2026-04-02 22:43:47,597 | INFO     | btts_bot.core.scheduling | Scheduler shut down
+2026-04-02 22:43:47,608 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-02 22:45:21,754 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-04-02 22:45:22,064 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-abc league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,066 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,068 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,080 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,081 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,082 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,099 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,112 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market has insufficient token_ids, skipping
+2026-04-02 22:45:22,115 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,116 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,128 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market missing condition_id, skipping
+2026-04-02 22:45:22,129 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,130 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,139 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got str
+2026-04-02 22:45:22,141 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got int
+2026-04-02 22:45:22,142 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,143 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,144 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,156 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-02 22:45:22,158 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,159 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,167 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,179 | ERROR    | btts_bot.core.market_discovery | Market discovery failed: could not fetch games data
+2026-04-02 22:45:22,189 | WARNING  | btts_bot.core.market_discovery | [A vs B] BTTS market has insufficient token_ids, skipping
+2026-04-02 22:45:22,191 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,192 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,208 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-02 22:45:22,210 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,212 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,223 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,224 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,225 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,247 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-1 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,248 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-2 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,258 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,288 | WARNING  | btts_bot.core.market_discovery | [A vs B] Invalid kickoff_utc, skipping
+2026-04-02 22:45:22,289 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,289 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,302 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,304 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-liga league=liga kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,310 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,311 | INFO     | btts_bot.core.market_discovery | Discovery: liga — 1 BTTS markets found
+2026-04-02 22:45:22,312 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 2 new markets registered
+2026-04-02 22:45:22,326 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,327 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,328 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,338 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,340 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=order-1 price=0.4800
+2026-04-02 22:45:22,351 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-dup league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,352 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,353 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,362 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,364 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,366 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,377 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,378 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,394 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-02 22:45:22,395 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-02 22:45:22,406 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-02 22:45:22,416 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-02 22:45:22,428 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,429 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-02 22:45:22,431 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-02 22:45:22,440 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,449 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,459 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=special-token league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,470 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,481 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,501 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,510 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,535 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,536 | INFO     | btts_bot.state.market_registry | Market registered: [Real Madrid vs Atletico] token=tok-2 league=LIGA kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,551 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,577 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,588 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,597 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,605 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-02 22:45:22,623 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:45:22,632 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:45:22,649 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:45:22,667 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1
+2026-04-02 22:45:22,674 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:45:22,675 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.5200
+2026-04-02 22:45:22,684 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-02 22:45:22,686 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-2 price=0.5000
+2026-04-02 22:45:22,727 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 1/5 failed: connection refused — retrying in 1.0s
+2026-04-02 22:45:22,728 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 2/5 failed: connection refused — retrying in 2.0s
+2026-04-02 22:45:22,729 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 3/5 failed: connection refused — retrying in 4.0s
+2026-04-02 22:45:22,730 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 4/5 failed: connection refused — retrying in 8.0s
+2026-04-02 22:45:22,731 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 5/5 failed: connection refused — retrying in 16.0s
+2026-04-02 22:45:22,732 | ERROR    | btts_bot.retry | [retry] network_fail: all 5 retries exhausted. Last error: connection refused. Returning None.
+2026-04-02 22:45:22,745 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 1/5 failed: something went wrong — retrying in 1.0s
+2026-04-02 22:45:22,747 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 2/5 failed: something went wrong — retrying in 2.0s
+2026-04-02 22:45:22,748 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 3/5 failed: something went wrong — retrying in 4.0s
+2026-04-02 22:45:22,749 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 4/5 failed: something went wrong — retrying in 8.0s
+2026-04-02 22:45:22,751 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 5/5 failed: something went wrong — retrying in 16.0s
+2026-04-02 22:45:22,752 | ERROR    | btts_bot.retry | [retry] generic_fail: all 5 retries exhausted. Last error: something went wrong. Returning None.
+2026-04-02 22:45:22,765 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:45:22,768 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:45:22,769 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:45:22,771 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:45:22,773 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:45:22,775 | ERROR    | btts_bot.retry | [retry] flaky_425: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:45:22,787 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:45:22,792 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:45:22,794 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:45:22,796 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:45:22,798 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:45:22,799 | ERROR    | btts_bot.retry | [retry] flaky_429: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:45:22,811 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:45:22,813 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:45:22,815 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:45:22,816 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:45:22,818 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:45:22,820 | ERROR    | btts_bot.retry | [retry] flaky_500: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:45:22,841 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-02 22:45:22,843 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-02 22:45:22,845 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-02 22:45:22,846 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-02 22:45:22,848 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-02 22:45:22,849 | ERROR    | btts_bot.retry | [retry] flaky_503: all 5 retries exhausted. Last error: . Returning None.
+2026-04-02 22:45:22,861 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 1/5 failed: timed out — retrying in 1.0s
+2026-04-02 22:45:22,863 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 2/5 failed: timed out — retrying in 2.0s
+2026-04-02 22:45:22,865 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 3/5 failed: timed out — retrying in 4.0s
+2026-04-02 22:45:22,866 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 4/5 failed: timed out — retrying in 8.0s
+2026-04-02 22:45:22,867 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 5/5 failed: timed out — retrying in 16.0s
+2026-04-02 22:45:22,868 | ERROR    | btts_bot.retry | [retry] timeout_fail: all 5 retries exhausted. Last error: timed out. Returning None.
+2026-04-02 22:45:22,959 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-02 22:45:22,961 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-02 22:45:22,963 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-02 22:45:22,964 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-02 22:45:22,965 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-02 22:45:22,966 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-02 22:45:22,976 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-02 22:45:22,978 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-02 22:45:22,979 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-02 22:45:22,980 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-02 22:45:22,982 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-02 22:45:22,983 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-02 22:45:23,002 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 14:00 UTC
+2026-04-02 22:45:23,013 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 07:00 UTC
+2026-04-02 22:45:23,022 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-02 22:45:23,024 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch complete: 5 new markets
+2026-04-02 22:45:23,033 | INFO     | btts_bot.core.scheduling | Scheduler shut down
+2026-04-02 22:45:23,043 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting

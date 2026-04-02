@@ -54,12 +54,12 @@ development_status:
   epic-1-retrospective: done
 
   # Epic 2: Market Discovery & Liquidity Analysis
-  epic-2: in-progress
+  epic-2: done
   2-1-market-discovery-from-json-data-file: done
   2-2-scheduled-daily-market-fetch: done
   2-3-btts-no-token-selection-and-market-deduplication: done
   2-4-three-case-orderbook-liquidity-analysis: done
-  epic-2-retrospective: optional
+  epic-2-retrospective: done
 
   # Epic 3: Order Execution & Position Management
   epic-3: backlog

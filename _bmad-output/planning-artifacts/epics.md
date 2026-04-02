@@ -406,6 +406,8 @@ As an operator,
 I want the bot to place limit buy orders at the analysed price for each viable market,
 So that it enters positions automatically at optimal prices without risking duplicate orders.
 
+> **Implementation Reality Note:** Story 2.3 already introduced a partial `OrderTracker` with buy-order recording/query methods and basic sell-order placeholders. Story 3.1 should extend that implementation to complete order tracking behavior rather than recreate `order_tracker.py` from scratch. Story 2.4 also already produces analysed markets via `MarketAnalysisPipeline`, so Story 3.1 should consume that existing `ANALYSED` state as its upstream handoff.
+
 **Acceptance Criteria:**
 
 **Given** the `btts_bot/state/` package from Story 1.1
