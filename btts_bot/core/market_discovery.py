@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import LeagueConfig
 from btts_bot.state.market_registry import MarketRegistry
+from btts_bot.state.order_tracker import OrderTracker
 
 logger = logging.getLogger(__name__)
 
@@ -23,9 +24,11 @@ class MarketDiscoveryService:
         gamma_client: GammaClient,
         market_registry: MarketRegistry,
         leagues: list[LeagueConfig],
+        order_tracker: OrderTracker,
     ) -> None:
         self._gamma_client = gamma_client
         self._registry = market_registry
+        self._order_tracker = order_tracker
         # Build a set of lowercase abbreviations for fast lookup
         self._league_abbreviations: set[str] = {league.abbreviation.lower() for league in leagues}
 
@@ -83,10 +86,20 @@ class MarketDiscoveryService:
 
             no_token_id = token_ids[BTTS_NO_TOKEN_INDEX]
 
-            # Duplicate check
+            # Duplicate check: already in registry
             if self._registry.is_processed(no_token_id):
                 logger.debug(
                     "[%s vs %s] Already processed, skipping (token=%s)",
+                    game.get("home_team", "?"),
+                    game.get("away_team", "?"),
+                    no_token_id,
+                )
+                continue
+
+            # Duplicate check: existing buy order (from API reconciliation)
+            if self._order_tracker.has_buy_order(no_token_id):
+                logger.info(
+                    "[%s vs %s] Buy order already exists, skipping (token=%s)",
                     game.get("home_team", "?"),
                     game.get("away_team", "?"),
                     no_token_id,
@@ -160,7 +173,7 @@ class MarketDiscoveryService:
         try:
             # ISO 8601 format: "2026-03-22T04:00:00Z"
             parsed = datetime.fromisoformat(kickoff_value.replace("Z", "+00:00"))
-        except ValueError, TypeError:
+        except (ValueError, TypeError):
             return None
 
         if parsed.tzinfo is None:

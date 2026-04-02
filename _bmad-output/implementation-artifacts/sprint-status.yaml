@@ -57,7 +57,7 @@ development_status:
   epic-2: in-progress
   2-1-market-discovery-from-json-data-file: done
   2-2-scheduled-daily-market-fetch: done
-  2-3-btts-no-token-selection-and-market-deduplication: backlog
+  2-3-btts-no-token-selection-and-market-deduplication: done
   2-4-three-case-orderbook-liquidity-analysis: backlog
   epic-2-retrospective: optional
 

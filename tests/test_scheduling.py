@@ -3,8 +3,6 @@
 from datetime import timezone
 from unittest.mock import MagicMock, patch
 
-from apscheduler.triggers.cron import CronTrigger
-
 from btts_bot.core.scheduling import SchedulerService
 
 

@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 from btts_bot.config import LeagueConfig
 from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.state.market_registry import MarketRegistry
+from btts_bot.state.order_tracker import OrderTracker
 
 
 def _make_game(
@@ -43,6 +44,7 @@ def _make_service(
     games: list[dict] | None,
     leagues: list[str] | None = None,
     registry: MarketRegistry | None = None,
+    order_tracker: OrderTracker | None = None,
 ) -> tuple[MarketDiscoveryService, MagicMock, MarketRegistry]:
     """Create a MarketDiscoveryService with a mocked GammaClient."""
     gamma = MagicMock()
@@ -55,7 +57,10 @@ def _make_service(
         leagues = ["epl"]
     league_configs = [LeagueConfig(name=abbr, abbreviation=abbr) for abbr in leagues]
 
-    service = MarketDiscoveryService(gamma, registry, league_configs)
+    if order_tracker is None:
+        order_tracker = OrderTracker()
+
+    service = MarketDiscoveryService(gamma, registry, league_configs, order_tracker)
     return service, gamma, registry
 
 
@@ -403,6 +408,73 @@ class MarketDiscoveryServiceTests(unittest.TestCase):
         combined = "\n".join(log.output).lower()
         self.assertIn("discovery: epl", combined)
         self.assertNotIn("discovery: epl - 0", combined)
+
+    # --- AC #3 (story 2.3): OrderTracker buy-order deduplication ---
+
+    def test_skips_market_with_existing_buy_order(self) -> None:
+        """Markets with an existing buy order in OrderTracker are skipped with INFO log."""
+        order_tracker = OrderTracker()
+        order_tracker.record_buy("no-token-id", "existing-order", 0.48)
+        service, _, registry = _make_service(
+            [_make_game()], leagues=["epl"], order_tracker=order_tracker
+        )
+
+        with self.assertLogs("btts_bot.core.market_discovery", level="INFO") as log:
+            count = service.discover_markets()
+
+        self.assertEqual(count, 0)
+        self.assertFalse(registry.is_processed("no-token-id"))
+        self.assertTrue(any("Buy order already exists" in m for m in log.output))
+
+    def test_skips_market_with_existing_buy_order_logs_info_not_debug(self) -> None:
+        """Buy-order skip is logged at INFO level (not DEBUG)."""
+        order_tracker = OrderTracker()
+        order_tracker.record_buy("no-token-id", "existing-order", 0.48)
+        service, _, _ = _make_service([_make_game()], leagues=["epl"], order_tracker=order_tracker)
+
+        with self.assertLogs("btts_bot.core.market_discovery", level="DEBUG") as log:
+            service.discover_markets()
+
+        info_msgs = [m for m in log.output if "INFO" in m]
+        self.assertTrue(any("Buy order already exists" in m for m in info_msgs))
+
+    def test_processes_market_when_no_buy_order(self) -> None:
+        """Markets without existing buy orders are processed normally."""
+        order_tracker = OrderTracker()  # empty — no buy orders
+        service, _, registry = _make_service(
+            [_make_game()], leagues=["epl"], order_tracker=order_tracker
+        )
+
+        count = service.discover_markets()
+
+        self.assertEqual(count, 1)
+        self.assertTrue(registry.is_processed("no-token-id"))
+
+    def test_registry_check_takes_precedence_over_buy_order_check(self) -> None:
+        """Registry duplicate check fires before the buy-order check (two separate guards)."""
+        registry = MarketRegistry()
+        registry.register(
+            token_id="no-token-id",
+            condition_id="0xprev",
+            token_ids=["yes-token-id", "no-token-id"],
+            kickoff_time=datetime(2026, 4, 1, 15, 0, 0, tzinfo=timezone.utc),
+            league="epl",
+            home_team="Arsenal",
+            away_team="Chelsea",
+        )
+        # Also has a buy order — but registry check should fire first
+        order_tracker = OrderTracker()
+        order_tracker.record_buy("no-token-id", "order-1", 0.48)
+        service, _, _ = _make_service(
+            [_make_game()], leagues=["epl"], registry=registry, order_tracker=order_tracker
+        )
+
+        with self.assertLogs("btts_bot.core.market_discovery", level="DEBUG") as log:
+            count = service.discover_markets()
+
+        self.assertEqual(count, 0)
+        debug_msgs = [m for m in log.output if "DEBUG" in m]
+        self.assertTrue(any("already processed" in m.lower() for m in debug_msgs))
 
 
 if __name__ == "__main__":

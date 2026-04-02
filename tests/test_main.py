@@ -44,6 +44,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mock_gamma = extra_patches.pop("GammaClient", MagicMock())
     mock_discovery_cls = extra_patches.pop("MarketDiscoveryService", MagicMock())
     mock_scheduler_cls = extra_patches.pop("SchedulerService", MagicMock())
+    mock_order_tracker_cls = extra_patches.pop("OrderTracker", MagicMock())
     mock_time_sleep = extra_patches.pop("time_sleep", MagicMock(side_effect=KeyboardInterrupt))
 
     mock_discovery_cls.return_value.discover_markets.return_value = extra_patches.pop(
@@ -59,6 +60,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
         patch.object(main_module, "GammaClient", mock_gamma),
         patch.object(main_module, "MarketDiscoveryService", mock_discovery_cls),
         patch.object(main_module, "SchedulerService", mock_scheduler_cls),
+        patch.object(main_module, "OrderTracker", mock_order_tracker_cls),
         patch.object(main_module.time, "sleep", mock_time_sleep),
     ):
         with redirect_stdout(io.StringIO()):
@@ -71,6 +73,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mocks["GammaClient"] = mock_gamma
     mocks["MarketDiscoveryService"] = mock_discovery_cls
     mocks["SchedulerService"] = mock_scheduler_cls
+    mocks["OrderTracker"] = mock_order_tracker_cls
     mocks["time_sleep"] = mock_time_sleep
     mocks["config"] = config
     return mocks
@@ -134,6 +137,7 @@ logging:
                 patch.object(main_module, "GammaClient"),
                 patch.object(main_module, "MarketDiscoveryService", mock_discovery_cls),
                 patch.object(main_module, "SchedulerService", mock_scheduler_cls),
+                patch.object(main_module, "OrderTracker"),
                 patch.object(main_module.time, "sleep", side_effect=KeyboardInterrupt),
             ):
                 with redirect_stdout(io.StringIO()):
@@ -207,6 +211,22 @@ logging:
         """main() logs 'btts-bot stopped' after shutdown."""
         mocks = _run_main_with_patches()
         mocks["logger"].info.assert_any_call("btts-bot stopped")
+
+    # --- New tests for Story 2.3: OrderTracker wiring ---
+
+    def test_main_instantiates_order_tracker(self) -> None:
+        """OrderTracker is instantiated in main() alongside MarketRegistry."""
+        mocks = _run_main_with_patches()
+        mocks["OrderTracker"].assert_called_once_with()
+
+    def test_main_passes_order_tracker_to_discovery_service(self) -> None:
+        """MarketDiscoveryService is constructed with the OrderTracker instance."""
+        mocks = _run_main_with_patches()
+        mock_order_tracker_instance = mocks["OrderTracker"].return_value
+        mock_discovery_cls = mocks["MarketDiscoveryService"]
+        # Verify the order_tracker instance was passed as 4th positional arg
+        call_args = mock_discovery_cls.call_args
+        self.assertIs(call_args.args[3], mock_order_tracker_instance)
 
 
 if __name__ == "__main__":

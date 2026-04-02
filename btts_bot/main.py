@@ -10,6 +10,7 @@ from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
 from btts_bot.state.market_registry import MarketRegistry
+from btts_bot.state.order_tracker import OrderTracker
 
 logger = logging.getLogger(__name__)
 
@@ -32,10 +33,13 @@ def main() -> None:
     logger.info("Authentication successful")
 
     market_registry = MarketRegistry()
+    order_tracker = OrderTracker()
     logger.info("State managers initialized")
 
     gamma_client = GammaClient(config.data_file)
-    discovery_service = MarketDiscoveryService(gamma_client, market_registry, config.leagues)
+    discovery_service = MarketDiscoveryService(
+        gamma_client, market_registry, config.leagues, order_tracker
+    )
 
     # Immediate startup discovery (FR5)
     discovered_count = discovery_service.discover_markets()
