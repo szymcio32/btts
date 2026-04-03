@@ -64,7 +64,7 @@ development_status:
   # Epic 3: Order Execution & Position Management
   epic-3: in-progress
   3-1-buy-order-placement-with-duplicate-prevention: done
-  3-2-fill-accumulation-tracking-via-polling: backlog
+  3-2-fill-accumulation-tracking-via-polling: done
   3-3-automatic-sell-order-placement-on-fill-threshold: backlog
   epic-3-retrospective: optional
 

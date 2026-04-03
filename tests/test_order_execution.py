@@ -138,7 +138,7 @@ def test_place_buy_order_duplicate_prevented(caplog: pytest.LogCaptureFixture):
     """Duplicate buy order is prevented: WARNING logged, no API call made."""
     clob = MagicMock()
     tracker = OrderTracker()
-    tracker.record_buy("token-1", "existing-order", 0.48)
+    tracker.record_buy("token-1", "existing-order", 0.48, 0.50)
     registry = MarketRegistry()
     _register_market(registry, "token-1")
 
@@ -156,7 +156,7 @@ def test_place_buy_order_duplicate_does_not_overwrite_tracker():
     """Duplicate prevention: existing buy order record is NOT overwritten."""
     clob = MagicMock()
     tracker = OrderTracker()
-    tracker.record_buy("token-1", "original-order-id", 0.48)
+    tracker.record_buy("token-1", "original-order-id", 0.48, 0.50)
     registry = MarketRegistry()
     _register_market(registry, "token-1")
 
@@ -394,7 +394,7 @@ def test_execute_all_analysed_skips_existing_buy_orders():
     clob = MagicMock()
     clob.create_buy_order.return_value = {"orderID": "new-order"}
     tracker = OrderTracker()
-    tracker.record_buy("token-1", "existing-order", 0.48)  # Pre-existing buy
+    tracker.record_buy("token-1", "existing-order", 0.48, 0.50)  # Pre-existing buy
     registry = MarketRegistry()
 
     entry1 = _register_market(registry, "token-1")

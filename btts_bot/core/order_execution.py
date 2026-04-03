@@ -132,7 +132,7 @@ class OrderExecutionService:
             return False
 
         # Record and transition
-        self._order_tracker.record_buy(token_id, order_id, buy_price)
+        self._order_tracker.record_buy(token_id, order_id, buy_price, sell_price)
         entry.lifecycle.transition(GameState.BUY_PLACED)
         logger.info(
             "%s Buy order placed: token=%s, price=%.4f, size=%d, order=%s",

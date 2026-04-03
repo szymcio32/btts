@@ -414,7 +414,7 @@ class MarketDiscoveryServiceTests(unittest.TestCase):
     def test_skips_market_with_existing_buy_order(self) -> None:
         """Markets with an existing buy order in OrderTracker are skipped with INFO log."""
         order_tracker = OrderTracker()
-        order_tracker.record_buy("no-token-id", "existing-order", 0.48)
+        order_tracker.record_buy("no-token-id", "existing-order", 0.48, 0.50)
         service, _, registry = _make_service(
             [_make_game()], leagues=["epl"], order_tracker=order_tracker
         )
@@ -429,7 +429,7 @@ class MarketDiscoveryServiceTests(unittest.TestCase):
     def test_skips_market_with_existing_buy_order_logs_info_not_debug(self) -> None:
         """Buy-order skip is logged at INFO level (not DEBUG)."""
         order_tracker = OrderTracker()
-        order_tracker.record_buy("no-token-id", "existing-order", 0.48)
+        order_tracker.record_buy("no-token-id", "existing-order", 0.48, 0.50)
         service, _, _ = _make_service([_make_game()], leagues=["epl"], order_tracker=order_tracker)
 
         with self.assertLogs("btts_bot.core.market_discovery", level="DEBUG") as log:
@@ -464,7 +464,7 @@ class MarketDiscoveryServiceTests(unittest.TestCase):
         )
         # Also has a buy order — but registry check should fire first
         order_tracker = OrderTracker()
-        order_tracker.record_buy("no-token-id", "order-1", 0.48)
+        order_tracker.record_buy("no-token-id", "order-1", 0.48, 0.50)
         service, _, _ = _make_service(
             [_make_game()], leagues=["epl"], registry=registry, order_tracker=order_tracker
         )

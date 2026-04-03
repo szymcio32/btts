@@ -6,6 +6,7 @@ from pathlib import Path
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import load_config
+from btts_bot.core.fill_polling import FillPollingService
 from btts_bot.core.liquidity import LiquidityAnalyser, MarketAnalysisPipeline
 from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.core.order_execution import OrderExecutionService
@@ -13,6 +14,7 @@ from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
+from btts_bot.state.position_tracker import PositionTracker
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +38,7 @@ def main() -> None:
 
     market_registry = MarketRegistry()
     order_tracker = OrderTracker()
+    position_tracker = PositionTracker()
     logger.info("State managers initialized")
 
     gamma_client = GammaClient(config.data_file)
@@ -71,12 +74,31 @@ def main() -> None:
         analysed_count,
     )
 
+    # Fill polling service (FR13)
+    fill_polling_service = FillPollingService(
+        clob_client, order_tracker, position_tracker, market_registry, config.btts
+    )
+
     # Schedule daily fetch (FR6)
     scheduler_service = SchedulerService(
         daily_fetch_hour_utc=config.timing.daily_fetch_hour_utc,
         discovery_service=discovery_service,
     )
     scheduler_service.start()
+
+    # Register fill polling interval job
+    scheduler_service.scheduler.add_job(
+        fill_polling_service.poll_all_active_orders,
+        "interval",
+        seconds=config.timing.fill_poll_interval_seconds,
+        id="fill_polling",
+        name="Fill polling",
+        replace_existing=True,
+    )
+    logger.info(
+        "Fill polling started: every %d seconds",
+        config.timing.fill_poll_interval_seconds,
+    )
 
     logger.info("btts-bot running. Press Ctrl+C to exit.")
     try:
