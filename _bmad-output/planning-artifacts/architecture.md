@@ -319,7 +319,7 @@ btts:
   order_size: 30
   price_diff: 0.02
   min_order_size: 5
-  buy_expiration_hours: 12
+  expiration_hour_offset: 1
 
 liquidity:
   standard_depth: 1000
@@ -654,7 +654,7 @@ Full directory tree with every file named and purpose-annotated. `__main__.py` i
 
 1. **`__main__.py` added to directory tree** — Required for `python -m btts_bot` invocation. Contents: import and call `main()` from `main.py`.
 
-2. **Buy order expiration strategy clarified** — Buy orders use the Polymarket GTD (Good Til Date) order type with a Unix timestamp calculated as `now + buy_expiration_hours`. Polymarket handles cancellation server-side — no APScheduler job needed for buy expiration.
+2. **Buy order expiration strategy clarified** — Buy orders use the Polymarket GTD (Good Til Date) order type with a Unix timestamp calculated as `kickoff_time - expiration_hour_offset`. The expiration is anchored to each market's kickoff time so orders expire before the game starts. Polymarket handles cancellation server-side — no APScheduler job needed for buy expiration.
 
 **Nice-to-Have Gaps Noted:**
 

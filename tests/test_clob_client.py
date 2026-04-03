@@ -273,5 +273,101 @@ class TestClobClientWrapperCredentialLogging(unittest.TestCase):
         self.assertNotIn(mock_creds.api_passphrase, all_messages)
 
 
+@patch("btts_bot.clients.clob.ClobClient")
+class TestClobClientWrapperCreateBuyOrder(unittest.TestCase):
+    """Tests for ClobClientWrapper.create_buy_order (Story 3.1)."""
+
+    def _make_wrapper(self, mock_clob_cls):
+        mock_l1 = MagicMock()
+        mock_creds = MagicMock()
+        mock_l1.create_or_derive_api_creds.return_value = mock_creds
+        mock_l2 = MagicMock()
+        mock_clob_cls.side_effect = [mock_l1, mock_l2]
+        with patch.dict(
+            "os.environ",
+            {
+                "POLYMARKET_PRIVATE_KEY": "0xdeadbeef",
+                "POLYMARKET_PROXY_ADDRESS": "0xproxy",
+            },
+        ):
+            wrapper = ClobClientWrapper()
+        return wrapper, mock_l2
+
+    def test_create_buy_order_constructs_correct_order_args(self, mock_clob_cls) -> None:
+        """create_buy_order builds OrderArgs with correct token_id, price, size, side, expiration."""
+        from py_clob_client.clob_types import OrderArgs
+
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        mock_signed = MagicMock()
+        mock_l2.create_order.return_value = mock_signed
+        mock_l2.post_order.return_value = {"orderID": "test-order"}
+
+        with patch("btts_bot.clients.clob.OrderArgs", wraps=OrderArgs) as mock_order_args:
+            wrapper.create_buy_order(
+                token_id="token-abc",
+                price=0.48,
+                size=30.0,
+                expiration_ts=9999999,
+            )
+
+        mock_order_args.assert_called_once()
+        call_kwargs = mock_order_args.call_args.kwargs
+        self.assertEqual(call_kwargs["token_id"], "token-abc")
+        self.assertAlmostEqual(call_kwargs["price"], 0.48)
+        self.assertAlmostEqual(call_kwargs["size"], 30.0)
+        self.assertEqual(call_kwargs["side"], "BUY")
+        self.assertEqual(call_kwargs["expiration"], 9999999)
+
+    def test_create_buy_order_passes_gtd_order_type(self, mock_clob_cls) -> None:
+        """create_buy_order calls post_order with OrderType.GTD."""
+        from py_clob_client.clob_types import OrderType
+
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        mock_signed = MagicMock()
+        mock_l2.create_order.return_value = mock_signed
+        mock_l2.post_order.return_value = {"orderID": "gtd-order"}
+
+        wrapper.create_buy_order(
+            token_id="token-abc",
+            price=0.48,
+            size=30.0,
+            expiration_ts=9999999,
+        )
+
+        mock_l2.post_order.assert_called_once_with(mock_signed, orderType=OrderType.GTD)
+
+    def test_create_buy_order_returns_api_response(self, mock_clob_cls) -> None:
+        """create_buy_order returns the response dict from post_order."""
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        mock_signed = MagicMock()
+        mock_l2.create_order.return_value = mock_signed
+        expected_response = {"orderID": "resp-order-123", "status": "placed"}
+        mock_l2.post_order.return_value = expected_response
+
+        result = wrapper.create_buy_order(
+            token_id="token-abc",
+            price=0.48,
+            size=30.0,
+            expiration_ts=9999999,
+        )
+
+        self.assertIs(result, expected_response)
+
+    def test_create_buy_order_returns_none_when_retry_exhausted(self, mock_clob_cls) -> None:
+        """create_buy_order returns None when all retries are exhausted."""
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        mock_l2.create_order.side_effect = Exception("network error")
+
+        with patch("time.sleep"):
+            result = wrapper.create_buy_order(
+                token_id="token-abc",
+                price=0.48,
+                size=30.0,
+                expiration_ts=9999999,
+            )
+
+        self.assertIsNone(result)
+
+
 if __name__ == "__main__":
     unittest.main()

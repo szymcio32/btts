@@ -16,7 +16,7 @@ btts:
   order_size: 30
   price_diff: 0.02
   min_order_size: 5
-  buy_expiration_hours: 12
+  expiration_hour_offset: 1
 
 liquidity:
   standard_depth: 1000

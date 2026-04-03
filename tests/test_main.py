@@ -49,12 +49,16 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mock_time_sleep = extra_patches.pop("time_sleep", MagicMock(side_effect=KeyboardInterrupt))
     mock_liquidity_analyser_cls = extra_patches.pop("LiquidityAnalyser", MagicMock())
     mock_analysis_pipeline_cls = extra_patches.pop("MarketAnalysisPipeline", MagicMock())
+    mock_order_execution_cls = extra_patches.pop("OrderExecutionService", MagicMock())
 
     mock_discovery_cls.return_value.discover_markets.return_value = extra_patches.pop(
         "discover_count", 0
     )
     mock_analysis_pipeline_cls.return_value.analyse_all_discovered.return_value = extra_patches.pop(
         "analysis_results", []
+    )
+    mock_order_execution_cls.return_value.execute_all_analysed.return_value = extra_patches.pop(
+        "placed_count", 0
     )
 
     with (
@@ -69,6 +73,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
         patch.object(main_module, "OrderTracker", mock_order_tracker_cls),
         patch.object(main_module, "LiquidityAnalyser", mock_liquidity_analyser_cls),
         patch.object(main_module, "MarketAnalysisPipeline", mock_analysis_pipeline_cls),
+        patch.object(main_module, "OrderExecutionService", mock_order_execution_cls),
         patch.object(main_module.time, "sleep", mock_time_sleep),
     ):
         with redirect_stdout(io.StringIO()):
@@ -84,6 +89,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mocks["OrderTracker"] = mock_order_tracker_cls
     mocks["LiquidityAnalyser"] = mock_liquidity_analyser_cls
     mocks["MarketAnalysisPipeline"] = mock_analysis_pipeline_cls
+    mocks["OrderExecutionService"] = mock_order_execution_cls
     mocks["time_sleep"] = mock_time_sleep
     mocks["config"] = config
     return mocks
@@ -141,6 +147,8 @@ logging:
             mock_discovery_cls.return_value.discover_markets.return_value = 0
             mock_analysis_pipeline_cls = MagicMock()
             mock_analysis_pipeline_cls.return_value.analyse_all_discovered.return_value = []
+            mock_order_execution_cls = MagicMock()
+            mock_order_execution_cls.return_value.execute_all_analysed.return_value = 0
 
             with (
                 patch("sys.argv", ["btts_bot", "--config", str(config_path)]),
@@ -152,6 +160,7 @@ logging:
                 patch.object(main_module, "OrderTracker"),
                 patch.object(main_module, "LiquidityAnalyser"),
                 patch.object(main_module, "MarketAnalysisPipeline", mock_analysis_pipeline_cls),
+                patch.object(main_module, "OrderExecutionService", mock_order_execution_cls),
                 patch.object(main_module.time, "sleep", side_effect=KeyboardInterrupt),
             ):
                 with redirect_stdout(io.StringIO()):
@@ -278,14 +287,65 @@ logging:
     def test_main_logs_analysis_complete_summary(self) -> None:
         """main() logs liquidity analysis summary with analysed and skipped counts."""
         results = [
-            AnalysisResult(buy_price=0.48, sell_price=0.50, case="A"),
-            AnalysisResult(buy_price=0.49, sell_price=0.51, case="B"),
+            AnalysisResult(token_id="t-1", buy_price=0.48, sell_price=0.50, case="A"),
+            AnalysisResult(token_id="t-2", buy_price=0.49, sell_price=0.51, case="B"),
         ]
         mocks = _run_main_with_patches(discover_count=3, analysis_results=results)
         mocks["logger"].info.assert_any_call(
             "Liquidity analysis complete: %d analysed, %d skipped",
             2,
             1,
+        )
+
+    # --- New tests for Story 3.1: OrderExecutionService wiring ---
+
+    def test_main_instantiates_order_execution_service(self) -> None:
+        """OrderExecutionService is instantiated in main() after analysis pipeline."""
+        mocks = _run_main_with_patches()
+        mocks["OrderExecutionService"].assert_called_once()
+
+    def test_main_instantiates_order_execution_service_with_correct_deps(self) -> None:
+        """OrderExecutionService is instantiated with clob_client, order_tracker, registry, config.btts."""
+        config = make_config()
+        mocks = _run_main_with_patches(config=config)
+        mock_clob_instance = mocks["ClobClientWrapper"].return_value
+        mock_tracker_instance = mocks["OrderTracker"].return_value
+        mock_exec_cls = mocks["OrderExecutionService"]
+        call_args = mock_exec_cls.call_args
+        self.assertIs(call_args.args[0], mock_clob_instance)
+        self.assertIs(call_args.args[1], mock_tracker_instance)
+
+    def test_main_calls_execute_all_analysed_after_analysis(self) -> None:
+        """execute_all_analysed() is called after analyse_all_discovered()."""
+        analysis_results = [
+            AnalysisResult(token_id="t-1", buy_price=0.48, sell_price=0.50, case="A"),
+        ]
+        mocks = _run_main_with_patches(analysis_results=analysis_results)
+        mock_exec_instance = mocks["OrderExecutionService"].return_value
+        mock_exec_instance.execute_all_analysed.assert_called_once_with(analysis_results)
+
+    def test_main_passes_analysis_results_to_execute_all_analysed(self) -> None:
+        """analysis_results from analyse_all_discovered() are passed to execute_all_analysed()."""
+        results = [
+            AnalysisResult(token_id="t-1", buy_price=0.48, sell_price=0.50, case="A"),
+            AnalysisResult(token_id="t-2", buy_price=0.49, sell_price=0.51, case="B"),
+        ]
+        mocks = _run_main_with_patches(analysis_results=results)
+        mock_exec_instance = mocks["OrderExecutionService"].return_value
+        call_args = mock_exec_instance.execute_all_analysed.call_args
+        self.assertIs(call_args.args[0], results)
+
+    def test_main_logs_buy_orders_placed_summary(self) -> None:
+        """main() logs buy orders placed summary after execute_all_analysed()."""
+        results = [
+            AnalysisResult(token_id="t-1", buy_price=0.48, sell_price=0.50, case="A"),
+            AnalysisResult(token_id="t-2", buy_price=0.49, sell_price=0.51, case="B"),
+        ]
+        mocks = _run_main_with_patches(analysis_results=results, placed_count=2)
+        mocks["logger"].info.assert_any_call(
+            "Buy orders placed: %d out of %d analysed markets",
+            2,
+            2,
         )
 
 

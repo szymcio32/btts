@@ -36,7 +36,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-28
-last_updated: 2026-04-02
+last_updated: 2026-04-03
 project: btts-bot
 project_key: NOKEY
 tracking_system: file-system
@@ -62,8 +62,8 @@ development_status:
   epic-2-retrospective: done
 
   # Epic 3: Order Execution & Position Management
-  epic-3: backlog
-  3-1-buy-order-placement-with-duplicate-prevention: backlog
+  epic-3: in-progress
+  3-1-buy-order-placement-with-duplicate-prevention: done
   3-2-fill-accumulation-tracking-via-polling: backlog
   3-3-automatic-sell-order-placement-on-fill-threshold: backlog
   epic-3-retrospective: optional

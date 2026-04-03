@@ -19,7 +19,7 @@ class BttsConfig(BaseModel):
     order_size: int = Field(gt=0)
     price_diff: float = Field(gt=0, lt=1.0)
     min_order_size: int = Field(default=5, gt=0)
-    buy_expiration_hours: int = Field(default=12, gt=0)
+    expiration_hour_offset: int = Field(default=1, gt=0)
 
 
 class LiquidityConfig(BaseModel):

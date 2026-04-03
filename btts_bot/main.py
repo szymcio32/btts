@@ -8,6 +8,7 @@ from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import load_config
 from btts_bot.core.liquidity import LiquidityAnalyser, MarketAnalysisPipeline
 from btts_bot.core.market_discovery import MarketDiscoveryService
+from btts_bot.core.order_execution import OrderExecutionService
 from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
 from btts_bot.state.market_registry import MarketRegistry
@@ -57,6 +58,17 @@ def main() -> None:
         "Liquidity analysis complete: %d analysed, %d skipped",
         analysed_count,
         skipped_count,
+    )
+
+    # Buy order placement (FR12)
+    order_execution_service = OrderExecutionService(
+        clob_client, order_tracker, market_registry, config.btts
+    )
+    placed_count = order_execution_service.execute_all_analysed(analysis_results)
+    logger.info(
+        "Buy orders placed: %d out of %d analysed markets",
+        placed_count,
+        analysed_count,
     )
 
     # Schedule daily fetch (FR6)

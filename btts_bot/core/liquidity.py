@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 @dataclasses.dataclass
 class AnalysisResult:
+    token_id: str
     buy_price: float
     sell_price: float
     case: str
@@ -141,7 +142,9 @@ class LiquidityAnalyser:
 
         sell_price = min(buy_price + self._btts.price_diff, 0.99)
 
-        return AnalysisResult(buy_price=buy_price, sell_price=sell_price, case=case)
+        return AnalysisResult(
+            token_id=token_id, buy_price=buy_price, sell_price=sell_price, case=case
+        )
 
 
 class MarketAnalysisPipeline:

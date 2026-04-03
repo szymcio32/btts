@@ -34,7 +34,7 @@ def _make_btts_config(**overrides: object) -> BttsConfig:
         "order_size": 30,
         "price_diff": 0.02,
         "min_order_size": 5,
-        "buy_expiration_hours": 12,
+        "expiration_hour_offset": 1,
     }
     defaults.update(overrides)
     return BttsConfig(**defaults)  # type: ignore[arg-type]
@@ -80,6 +80,7 @@ class TestLiquidityAnalyserCaseB:
         ob = _make_orderbook([("0.50", "800"), ("0.49", "700"), ("0.48", "600")])
         result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
         assert result is not None
+        assert result.token_id == "token-1"
         assert result.buy_price == pytest.approx(0.49)
         assert result.case == "B"
 
@@ -371,7 +372,7 @@ class TestMarketAnalysisPipelineAnalyseMarket:
 
     def test_success_path_transitions_to_analysed(self) -> None:
         entry = _make_market_entry("token-1")
-        result = AnalysisResult(buy_price=0.48, sell_price=0.50, case="A")
+        result = AnalysisResult(token_id="token-1", buy_price=0.48, sell_price=0.50, case="A")
         ob = MagicMock()
         pipeline, mock_clob, mock_analyser, mock_registry = _make_pipeline(
             orderbook_return=ob, analyse_return=result, registry_entry=entry
@@ -410,7 +411,7 @@ class TestMarketAnalysisPipelineAnalyseMarket:
 
     def test_returns_analysis_result_on_success(self) -> None:
         entry = _make_market_entry("token-1")
-        expected = AnalysisResult(buy_price=0.50, sell_price=0.52, case="B")
+        expected = AnalysisResult(token_id="token-1", buy_price=0.50, sell_price=0.52, case="B")
         ob = MagicMock()
         pipeline, *_ = _make_pipeline(
             orderbook_return=ob, analyse_return=expected, registry_entry=entry
@@ -422,7 +423,7 @@ class TestMarketAnalysisPipelineAnalyseMarket:
 
     def test_no_registry_entry_does_not_crash(self) -> None:
         """analyse_market handles missing registry entry gracefully."""
-        result = AnalysisResult(buy_price=0.48, sell_price=0.50, case="A")
+        result = AnalysisResult(token_id="token-1", buy_price=0.48, sell_price=0.50, case="A")
         ob = MagicMock()
         pipeline, *_ = _make_pipeline(
             orderbook_return=ob, analyse_return=result, registry_entry=None
@@ -443,7 +444,7 @@ class TestMarketAnalysisPipelineAnalyseAllDiscovered:
         mock_clob = MagicMock()
         mock_analyser = MagicMock()
         mock_analyser.analyse.return_value = AnalysisResult(
-            buy_price=0.48, sell_price=0.50, case="A"
+            token_id="token-1", buy_price=0.48, sell_price=0.50, case="A"
         )
         ob = MagicMock()
         mock_clob.get_order_book.return_value = ob
@@ -495,7 +496,9 @@ class TestMarketAnalysisPipelineAnalyseAllDiscovered:
         mock_clob = MagicMock()
         mock_analyser = MagicMock()
         # token-1 → success; token-2 → skip (None)
-        success_result = AnalysisResult(buy_price=0.48, sell_price=0.50, case="A")
+        success_result = AnalysisResult(
+            token_id="token-1", buy_price=0.48, sell_price=0.50, case="A"
+        )
         ob = MagicMock()
         mock_clob.get_order_book.return_value = ob
         mock_analyser.analyse.side_effect = [success_result, None]
@@ -520,9 +523,10 @@ class TestMarketAnalysisPipelineAnalyseAllDiscovered:
         mock_analyser = MagicMock()
         ob = MagicMock()
         mock_clob.get_order_book.return_value = ob
-        mock_analyser.analyse.return_value = AnalysisResult(
-            buy_price=0.48, sell_price=0.50, case="A"
-        )
+        mock_analyser.analyse.side_effect = [
+            AnalysisResult(token_id=f"token-{i}", buy_price=0.48, sell_price=0.50, case="A")
+            for i in range(3)
+        ]
 
         mock_registry = MagicMock()
         mock_registry.all_markets.return_value = entries
@@ -544,7 +548,8 @@ class TestMarketAnalysisPipelineAnalyseAllDiscovered:
 
 class TestAnalysisResult:
     def test_analysis_result_fields(self) -> None:
-        r = AnalysisResult(buy_price=0.48, sell_price=0.50, case="A")
+        r = AnalysisResult(token_id="token-1", buy_price=0.48, sell_price=0.50, case="A")
+        assert r.token_id == "token-1"
         assert r.buy_price == 0.48
         assert r.sell_price == 0.50
         assert r.case == "A"

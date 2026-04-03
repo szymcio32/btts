@@ -5,6 +5,7 @@ import os
 import sys
 
 from py_clob_client.client import ClobClient
+from py_clob_client.clob_types import OrderArgs, OrderType
 from py_clob_client.constants import POLYGON
 
 from btts_bot.constants import CLOB_HOST, POLY_GNOSIS_SAFE
@@ -91,3 +92,22 @@ class ClobClientWrapper:
     def cancel_orders(self, order_ids: list[str]):
         """Cancel multiple orders by their IDs."""
         return self._client.cancel_orders([{"orderID": oid} for oid in order_ids])
+
+    @with_retry
+    def create_buy_order(
+        self, token_id: str, price: float, size: float, expiration_ts: int
+    ) -> dict | None:
+        """Create and post a GTD limit buy order.
+
+        Returns the API response dict containing the order ID,
+        or None if the retry decorator exhausts retries.
+        """
+        order_args = OrderArgs(
+            token_id=token_id,
+            price=price,
+            size=float(size),
+            side="BUY",
+            expiration=expiration_ts,
+        )
+        signed_order = self._client.create_order(order_args)
+        return self._client.post_order(signed_order, orderType=OrderType.GTD)

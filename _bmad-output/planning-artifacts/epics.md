@@ -421,7 +421,7 @@ So that it enters positions automatically at optimal prices without risking dupl
 **Then** it checks `OrderTracker.has_buy_order(token_id)` first
 **And** if no existing buy order, it fetches the tick size for the token via ClobClientWrapper (cached per-session)
 **And** places a limit buy order on the Polymarket CLOB with the configured share amount (`btts.order_size`)
-**And** the order uses GTD (Good Til Date) type with expiration timestamp calculated as `now + btts.buy_expiration_hours`
+**And** the order uses GTD (Good Til Date) type with expiration timestamp calculated as `kickoff_time - btts.expiration_hour_offset`
 **And** the order ID is recorded in OrderTracker via `record_buy(token_id, order_id, buy_price)`
 **And** the game transitions to BUY_PLACED via GameLifecycle
 **And** an INFO log is emitted: `[Home vs Away] Buy order placed: token=..., price=..., size=...`
