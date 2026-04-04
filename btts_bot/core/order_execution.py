@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import time
+from typing import TYPE_CHECKING
 
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.config import BttsConfig
@@ -11,22 +12,28 @@ from btts_bot.core.game_lifecycle import GameState
 from btts_bot.core.liquidity import AnalysisResult
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
+from btts_bot.state.position_tracker import PositionTracker
+
+if TYPE_CHECKING:
+    pass
 
 logger = logging.getLogger(__name__)
 
 
 class OrderExecutionService:
-    """Places buy orders for analysed markets with duplicate prevention."""
+    """Places buy and sell orders with duplicate prevention."""
 
     def __init__(
         self,
         clob_client: ClobClientWrapper,
         order_tracker: OrderTracker,
+        position_tracker: PositionTracker,
         market_registry: MarketRegistry,
         btts_config: BttsConfig,
     ) -> None:
         self._clob_client = clob_client
         self._order_tracker = order_tracker
+        self._position_tracker = position_tracker
         self._market_registry = market_registry
         self._btts = btts_config
 
@@ -169,3 +176,144 @@ class OrderExecutionService:
             if self.place_buy_order(entry.token_id, result.buy_price, result.sell_price):
                 placed_count += 1
         return placed_count
+
+    def place_sell_order(self, token_id: str) -> bool:
+        """Place a GTC limit sell order for accumulated fills on a token.
+
+        Returns True if order was placed successfully, False otherwise.
+        """
+        entry = self._market_registry.get(token_id)
+        market_name = (
+            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
+        )
+
+        # Duplicate prevention (AC #2)
+        if self._order_tracker.has_sell_order(token_id):
+            logger.debug(
+                "%s Duplicate sell prevented -- live sell exists",
+                market_name,
+            )
+            return False
+
+        buy_record = self._order_tracker.get_buy_order(token_id)
+        if buy_record is None:
+            logger.error(
+                "%s Sell skipped: no buy order record found for token=%s",
+                market_name,
+                token_id,
+            )
+            return False
+
+        # Use pre-computed sell_price from buy record, capped at 0.99 (AC #1)
+        sell_price = min(buy_record.sell_price, 0.99)
+
+        # Sell size equals total accumulated fills (AC #1)
+        sell_size = self._position_tracker.get_accumulated_fills(token_id)
+
+        result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
+
+        if result is None:
+            # Do NOT transition to SKIPPED — position still needs to be managed
+            logger.error(
+                "%s Sell order failed (retry exhausted): token=%s price=%.4f size=%.2f",
+                market_name,
+                token_id,
+                sell_price,
+                sell_size,
+            )
+            return False
+
+        order_id = result.get("orderID", "")
+        if not order_id:
+            logger.error(
+                "%s Sell order posted but no orderID in response: token=%s",
+                market_name,
+                token_id,
+            )
+            return False
+
+        self._order_tracker.record_sell(token_id, order_id, sell_price, sell_size)
+
+        # Transition FILLING -> SELL_PLACED (only on first sell)
+        if entry is not None:
+            entry.lifecycle.transition(GameState.SELL_PLACED)
+
+        logger.info(
+            "%s Sell order placed: token=%s, price=%.4f, size=%.2f",
+            market_name,
+            token_id,
+            sell_price,
+            sell_size,
+        )
+        return True
+
+    def update_sell_order(self, token_id: str) -> bool:
+        """Cancel existing sell and re-place for updated accumulated fill size.
+
+        Returns True if the sell was successfully updated, False otherwise.
+        """
+        entry = self._market_registry.get(token_id)
+        market_name = (
+            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
+        )
+
+        existing_record = self._order_tracker.get_sell_order(token_id)
+        if existing_record is None:
+            logger.debug(
+                "%s update_sell_order: no existing sell order for token=%s",
+                market_name,
+                token_id,
+            )
+            return False
+
+        accumulated_fills = self._position_tracker.get_accumulated_fills(token_id)
+
+        # No update needed if accumulated fills don't exceed existing sell size (AC #3)
+        if accumulated_fills <= existing_record.sell_size:
+            return False
+
+        # Cancel existing sell
+        cancel_result = self._clob_client.cancel_order(existing_record.order_id)
+        if cancel_result is None:
+            logger.error(
+                "%s Sell update failed: cancel of order=%s returned None, keeping old sell",
+                market_name,
+                existing_record.order_id,
+            )
+            return False
+
+        # Remove old record before placing new sell
+        self._order_tracker.remove_sell_order(token_id)
+
+        # Place new sell for full accumulated amount at same price
+        sell_price = existing_record.sell_price
+        result = self._clob_client.create_sell_order(token_id, sell_price, accumulated_fills)
+
+        if result is None:
+            logger.error(
+                "%s Sell update: cancel succeeded but new sell failed for token=%s — "
+                "position temporarily has no sell coverage",
+                market_name,
+                token_id,
+            )
+            return False
+
+        order_id = result.get("orderID", "")
+        if not order_id:
+            logger.error(
+                "%s Sell update posted but no orderID in response: token=%s",
+                market_name,
+                token_id,
+            )
+            return False
+
+        self._order_tracker.record_sell(token_id, order_id, sell_price, accumulated_fills)
+
+        logger.info(
+            "%s Sell order updated: token=%s, new_size=%.2f, old_size=%.2f",
+            market_name,
+            token_id,
+            accumulated_fills,
+            existing_record.sell_size,
+        )
+        return True

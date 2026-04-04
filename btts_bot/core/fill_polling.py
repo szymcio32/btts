@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from btts_bot.clients.clob import ClobClientWrapper
     from btts_bot.config import BttsConfig
+    from btts_bot.core.order_execution import OrderExecutionService
     from btts_bot.state.market_registry import MarketRegistry
     from btts_bot.state.order_tracker import BuyOrderRecord, OrderTracker
     from btts_bot.state.position_tracker import PositionTracker
@@ -35,12 +36,14 @@ class FillPollingService:
         position_tracker: PositionTracker,
         market_registry: MarketRegistry,
         btts_config: BttsConfig,
+        order_execution_service: OrderExecutionService,
     ) -> None:
         self._clob_client = clob_client
         self._order_tracker = order_tracker
         self._position_tracker = position_tracker
         self._market_registry = market_registry
         self._btts = btts_config
+        self._order_execution = order_execution_service
 
     def poll_all_active_orders(self) -> None:
         """Poll all active buy orders for fills. Called by scheduler."""
@@ -61,10 +64,12 @@ class FillPollingService:
         )
 
         try:
-            # Only poll orders in BUY_PLACED or FILLING state
+            # Only poll orders in active buy lifecycle states.
+            # SELL_PLACED is included because buy fills can continue after first sell.
             if entry is not None and entry.lifecycle.state not in (
                 GameState.BUY_PLACED,
                 GameState.FILLING,
+                GameState.SELL_PLACED,
             ):
                 return
 
@@ -99,6 +104,9 @@ class FillPollingService:
                 if entry is not None and entry.lifecycle.state == GameState.BUY_PLACED:
                     entry.lifecycle.transition(GameState.FILLING)
 
+                # Check sell threshold after new fills (AC #1, #3)
+                self._check_and_trigger_sell(token_id)
+
             # Handle terminal order statuses or fully-filled size match
             order_status = order.status
             is_fully_filled = current_filled >= original_size
@@ -117,6 +125,10 @@ class FillPollingService:
                             market_name,
                             order_id,
                         )
+                else:
+                    # Fully matched — ensure sell exists if threshold met (AC #1, #3)
+                    if order_status == "MATCHED":
+                        self._check_and_trigger_sell(token_id)
         except Exception as exc:
             logger.warning(
                 "%s Fill poll failed for order=%s: %s",
@@ -124,3 +136,13 @@ class FillPollingService:
                 order_id,
                 exc,
             )
+
+    def _check_and_trigger_sell(self, token_id: str) -> None:
+        """Check fill threshold and trigger sell placement or update."""
+        if not self._position_tracker.has_reached_threshold(token_id, self._btts.min_order_size):
+            return
+
+        if not self._order_tracker.has_sell_order(token_id):
+            self._order_execution.place_sell_order(token_id)
+        else:
+            self._order_execution.update_sell_order(token_id)

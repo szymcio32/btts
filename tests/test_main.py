@@ -313,15 +313,17 @@ logging:
         mocks["OrderExecutionService"].assert_called_once()
 
     def test_main_instantiates_order_execution_service_with_correct_deps(self) -> None:
-        """OrderExecutionService is instantiated with clob_client, order_tracker, registry, config.btts."""
+        """OrderExecutionService is instantiated with clob_client, order_tracker, position_tracker, registry, config.btts."""
         config = make_config()
         mocks = _run_main_with_patches(config=config)
         mock_clob_instance = mocks["ClobClientWrapper"].return_value
         mock_tracker_instance = mocks["OrderTracker"].return_value
+        mock_pos_tracker_instance = mocks["PositionTracker"].return_value
         mock_exec_cls = mocks["OrderExecutionService"]
         call_args = mock_exec_cls.call_args
         self.assertIs(call_args.args[0], mock_clob_instance)
         self.assertIs(call_args.args[1], mock_tracker_instance)
+        self.assertIs(call_args.args[2], mock_pos_tracker_instance)
 
     def test_main_calls_execute_all_analysed_after_analysis(self) -> None:
         """execute_all_analysed() is called after analyse_all_discovered()."""
@@ -380,6 +382,14 @@ logging:
         self.assertIs(call_args.args[0], mock_clob_instance)
         self.assertIs(call_args.args[1], mock_tracker_instance)
         self.assertIs(call_args.args[2], mock_pos_tracker_instance)
+
+    def test_main_fill_polling_service_receives_order_execution_service(self) -> None:
+        """FillPollingService is instantiated with order_execution_service as 6th positional arg."""
+        mocks = _run_main_with_patches()
+        mock_exec_instance = mocks["OrderExecutionService"].return_value
+        mock_fill_cls = mocks["FillPollingService"]
+        call_args = mock_fill_cls.call_args
+        self.assertIs(call_args.args[5], mock_exec_instance)
 
     def test_main_registers_fill_polling_job_after_scheduler_start(self) -> None:
         """main() registers fill polling interval job after scheduler_service.start()."""

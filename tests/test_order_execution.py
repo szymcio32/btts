@@ -13,6 +13,7 @@ from btts_bot.core.liquidity import AnalysisResult
 from btts_bot.core.order_execution import OrderExecutionService
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
+from btts_bot.state.position_tracker import PositionTracker
 
 
 # ---------------------------------------------------------------------------
@@ -34,12 +35,14 @@ def _make_btts_config(**overrides: object) -> BttsConfig:
 def _make_service(
     clob: object = None,
     tracker: OrderTracker | None = None,
+    position_tracker: PositionTracker | None = None,
     registry: MarketRegistry | None = None,
     btts: BttsConfig | None = None,
 ) -> OrderExecutionService:
     return OrderExecutionService(
         clob_client=clob or MagicMock(),
         order_tracker=tracker or OrderTracker(),
+        position_tracker=position_tracker or PositionTracker(),
         market_registry=registry or MarketRegistry(),
         btts_config=btts or _make_btts_config(),
     )
@@ -495,3 +498,293 @@ def test_execute_all_analysed_partial_failures():
     assert tracker.has_buy_order("token-1")
     assert not tracker.has_buy_order("token-2")
     assert entry2.lifecycle.state == GameState.SKIPPED
+
+
+# ---------------------------------------------------------------------------
+# place_sell_order (AC #1, #2, #4)
+# ---------------------------------------------------------------------------
+
+
+def test_place_sell_order_success():
+    """Successful sell order: API called, recorded in tracker, lifecycle → SELL_PLACED."""
+    clob = MagicMock()
+    clob.create_sell_order.return_value = {"orderID": "sell-order-1"}
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 0.52)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-1")
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+
+    service = _make_service(
+        clob=clob, tracker=tracker, position_tracker=pos_tracker, registry=registry
+    )
+    result = service.place_sell_order("token-1")
+
+    assert result is True
+    assert tracker.has_sell_order("token-1")
+    assert tracker.get_sell_order("token-1").order_id == "sell-order-1"
+    assert entry.lifecycle.state == GameState.SELL_PLACED
+
+
+def test_place_sell_order_uses_precomputed_sell_price():
+    """place_sell_order uses buy_record.sell_price (pre-computed), not a new calculation."""
+    clob = MagicMock()
+    clob.create_sell_order.return_value = {"orderID": "sell-order-2"}
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 0.55)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-1")
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+
+    service = _make_service(
+        clob=clob, tracker=tracker, position_tracker=pos_tracker, registry=registry
+    )
+    service.place_sell_order("token-1")
+
+    call_args = clob.create_sell_order.call_args
+    assert call_args.args[1] == pytest.approx(0.55)
+
+
+def test_place_sell_order_uses_accumulated_fills_as_size():
+    """place_sell_order uses position_tracker accumulated fills as sell size."""
+    clob = MagicMock()
+    clob.create_sell_order.return_value = {"orderID": "sell-order-3"}
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 0.52)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 15.5)
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-1")
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+
+    service = _make_service(
+        clob=clob, tracker=tracker, position_tracker=pos_tracker, registry=registry
+    )
+    service.place_sell_order("token-1")
+
+    call_args = clob.create_sell_order.call_args
+    assert call_args.args[2] == pytest.approx(15.5)
+
+
+def test_place_sell_order_caps_sell_price_at_099():
+    """place_sell_order caps sell_price at 0.99 even if buy_record.sell_price is higher."""
+    clob = MagicMock()
+    clob.create_sell_order.return_value = {"orderID": "sell-order-cap"}
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 1.00)  # sell_price above 0.99
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-1")
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+
+    service = _make_service(
+        clob=clob, tracker=tracker, position_tracker=pos_tracker, registry=registry
+    )
+    service.place_sell_order("token-1")
+
+    call_args = clob.create_sell_order.call_args
+    assert call_args.args[1] == pytest.approx(0.99)
+
+
+def test_place_sell_order_duplicate_prevented():
+    """Duplicate sell order is prevented: no API call, returns False."""
+    clob = MagicMock()
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 0.52)
+    tracker.record_sell("token-1", "sell-order-existing", 0.52, 10.0)
+    pos_tracker = PositionTracker()
+
+    service = _make_service(clob=clob, tracker=tracker, position_tracker=pos_tracker)
+    result = service.place_sell_order("token-1")
+
+    assert result is False
+    clob.create_sell_order.assert_not_called()
+
+
+def test_place_sell_order_no_buy_record_returns_false(caplog: pytest.LogCaptureFixture):
+    """place_sell_order returns False and logs ERROR when no buy order exists."""
+    clob = MagicMock()
+    tracker = OrderTracker()  # No buy record
+
+    service = _make_service(clob=clob, tracker=tracker)
+    with caplog.at_level("ERROR", logger="btts_bot.core.order_execution"):
+        result = service.place_sell_order("token-1")
+
+    assert result is False
+    clob.create_sell_order.assert_not_called()
+    assert "no buy order record" in caplog.text
+
+
+def test_place_sell_order_api_failure_returns_false(caplog: pytest.LogCaptureFixture):
+    """API failure (None response): ERROR logged, returns False, lifecycle NOT changed."""
+    clob = MagicMock()
+    clob.create_sell_order.return_value = None
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 0.52)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-1")
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+
+    service = _make_service(
+        clob=clob, tracker=tracker, position_tracker=pos_tracker, registry=registry
+    )
+    with caplog.at_level("ERROR", logger="btts_bot.core.order_execution"):
+        result = service.place_sell_order("token-1")
+
+    assert result is False
+    assert not tracker.has_sell_order("token-1")
+    # Lifecycle must NOT transition to SKIPPED
+    assert entry.lifecycle.state == GameState.FILLING
+    assert "Sell order failed" in caplog.text
+
+
+def test_place_sell_order_logs_info_on_success(caplog: pytest.LogCaptureFixture):
+    """Successful sell order emits INFO log."""
+    clob = MagicMock()
+    clob.create_sell_order.return_value = {"orderID": "sell-order-log"}
+    tracker = OrderTracker()
+    tracker.record_buy("token-1", "buy-order-1", 0.48, 0.52)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-1")
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+
+    service = _make_service(
+        clob=clob, tracker=tracker, position_tracker=pos_tracker, registry=registry
+    )
+    with caplog.at_level("INFO", logger="btts_bot.core.order_execution"):
+        service.place_sell_order("token-1")
+
+    assert "Sell order placed" in caplog.text
+
+
+# ---------------------------------------------------------------------------
+# update_sell_order (AC #3)
+# ---------------------------------------------------------------------------
+
+
+def test_update_sell_order_no_existing_sell_returns_false():
+    """update_sell_order returns False when there is no existing sell order."""
+    clob = MagicMock()
+    tracker = OrderTracker()
+
+    service = _make_service(clob=clob, tracker=tracker)
+    result = service.update_sell_order("token-1")
+
+    assert result is False
+    clob.cancel_order.assert_not_called()
+
+
+def test_update_sell_order_no_size_increase_returns_false():
+    """update_sell_order returns False when accumulated fills <= existing sell size."""
+    clob = MagicMock()
+    tracker = OrderTracker()
+    tracker.record_sell("token-1", "sell-order-1", 0.52, 10.0)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)  # Same as existing sell size
+
+    service = _make_service(clob=clob, tracker=tracker, position_tracker=pos_tracker)
+    result = service.update_sell_order("token-1")
+
+    assert result is False
+    clob.cancel_order.assert_not_called()
+
+
+def test_update_sell_order_cancels_and_replaces():
+    """update_sell_order cancels old sell and places new one with larger size."""
+    clob = MagicMock()
+    clob.cancel_order.return_value = {"success": True}
+    clob.create_sell_order.return_value = {"orderID": "sell-order-new"}
+    tracker = OrderTracker()
+    tracker.record_sell("token-1", "sell-order-old", 0.52, 10.0)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 15.0)  # More than existing 10.0
+
+    service = _make_service(clob=clob, tracker=tracker, position_tracker=pos_tracker)
+    result = service.update_sell_order("token-1")
+
+    assert result is True
+    clob.cancel_order.assert_called_once_with("sell-order-old")
+    clob.create_sell_order.assert_called_once()
+    new_record = tracker.get_sell_order("token-1")
+    assert new_record is not None
+    assert new_record.order_id == "sell-order-new"
+    assert new_record.sell_size == pytest.approx(15.0)
+
+
+def test_update_sell_order_cancel_failure_keeps_old_record(caplog: pytest.LogCaptureFixture):
+    """If cancel fails (None), old sell record is kept and returns False."""
+    clob = MagicMock()
+    clob.cancel_order.return_value = None  # Cancel failed
+    tracker = OrderTracker()
+    tracker.record_sell("token-1", "sell-order-old", 0.52, 10.0)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 15.0)
+
+    service = _make_service(clob=clob, tracker=tracker, position_tracker=pos_tracker)
+    with caplog.at_level("ERROR", logger="btts_bot.core.order_execution"):
+        result = service.update_sell_order("token-1")
+
+    assert result is False
+    # Old record must still be there
+    assert tracker.has_sell_order("token-1")
+    assert tracker.get_sell_order("token-1").order_id == "sell-order-old"
+    clob.create_sell_order.assert_not_called()
+    assert "Sell update failed" in caplog.text
+
+
+def test_update_sell_order_new_sell_failure_logs_error(caplog: pytest.LogCaptureFixture):
+    """If cancel succeeds but new sell fails, ERROR is logged and returns False."""
+    clob = MagicMock()
+    clob.cancel_order.return_value = {"success": True}
+    clob.create_sell_order.return_value = None  # New sell failed
+    tracker = OrderTracker()
+    tracker.record_sell("token-1", "sell-order-old", 0.52, 10.0)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 15.0)
+
+    service = _make_service(clob=clob, tracker=tracker, position_tracker=pos_tracker)
+    with caplog.at_level("ERROR", logger="btts_bot.core.order_execution"):
+        result = service.update_sell_order("token-1")
+
+    assert result is False
+    # Old record was removed (cancel succeeded), new record not stored
+    assert not tracker.has_sell_order("token-1")
+    assert "cancel succeeded but new sell failed" in caplog.text
+
+
+def test_update_sell_order_logs_info_on_success(caplog: pytest.LogCaptureFixture):
+    """Successful sell update emits INFO log with new and old sizes."""
+    clob = MagicMock()
+    clob.cancel_order.return_value = {"success": True}
+    clob.create_sell_order.return_value = {"orderID": "sell-order-updated"}
+    tracker = OrderTracker()
+    tracker.record_sell("token-1", "sell-order-old", 0.52, 10.0)
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 20.0)
+
+    service = _make_service(clob=clob, tracker=tracker, position_tracker=pos_tracker)
+    with caplog.at_level("INFO", logger="btts_bot.core.order_execution"):
+        service.update_sell_order("token-1")
+
+    assert "Sell order updated" in caplog.text

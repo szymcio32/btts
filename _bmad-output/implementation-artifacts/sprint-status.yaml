@@ -65,7 +65,7 @@ development_status:
   epic-3: in-progress
   3-1-buy-order-placement-with-duplicate-prevention: done
   3-2-fill-accumulation-tracking-via-polling: done
-  3-3-automatic-sell-order-placement-on-fill-threshold: backlog
+  3-3-automatic-sell-order-placement-on-fill-threshold: done
   epic-3-retrospective: optional
 
   # Epic 4: Pre-Kickoff & Game-Start Recovery

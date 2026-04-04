@@ -33,13 +33,18 @@ def _make_service(
     pos_tracker=None,
     registry=None,
     btts=None,
+    order_execution=None,
 ):
+    if btts is None:
+        btts = MagicMock()
+        btts.min_order_size = 5.0
     return FillPollingService(
         clob_client=clob or MagicMock(),
         order_tracker=tracker or OrderTracker(),
         position_tracker=pos_tracker or PositionTracker(),
         market_registry=registry or MarketRegistry(),
-        btts_config=btts or MagicMock(),
+        btts_config=btts,
+        order_execution_service=order_execution or MagicMock(),
     )
 
 
@@ -511,6 +516,30 @@ def test_poll_processes_filling_state_orders():
     clob.get_order.assert_called_once()
 
 
+def test_poll_processes_sell_placed_state_orders():
+    """Orders in SELL_PLACED state are still processed to capture later fills."""
+    clob = MagicMock()
+    clob.get_order.return_value = _make_order_response(size_matched="70000000", status="LIVE")
+
+    tracker = OrderTracker()
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 50.0)
+    registry = MarketRegistry()
+    entry = _register_market(registry)
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+    entry.lifecycle.transition(GameState.SELL_PLACED)
+    tracker.record_buy("token-1", "order-1", 0.48, 0.50)
+
+    service = _make_service(clob=clob, tracker=tracker, pos_tracker=pos_tracker, registry=registry)
+    service.poll_all_active_orders()
+
+    # Delta 20 added (70 - 50)
+    assert pos_tracker.get_accumulated_fills("token-1") == 70.0
+    clob.get_order.assert_called_once()
+
+
 def test_poll_handles_missing_market_entry_gracefully():
     """Orders without a market registry entry are still polled (no crash)."""
     clob = MagicMock()
@@ -598,3 +627,140 @@ def test_poll_single_order_exception_does_not_stop_other_orders(caplog):
 
     assert "Fill poll failed for order=order-1" in caplog.text
     assert pos_tracker.get_accumulated_fills("token-2") == 50.0
+
+
+# ---------------------------------------------------------------------------
+# AC #1, #3: Sell threshold trigger
+# ---------------------------------------------------------------------------
+
+
+def _make_btts_config_with_min_order_size(min_order_size: float):
+    """Return a real BttsConfig-like mock with min_order_size set."""
+    btts = MagicMock()
+    btts.min_order_size = min_order_size
+    return btts
+
+
+def test_sell_triggered_when_fills_reach_threshold():
+    """place_sell_order is called when accumulated fills reach min_order_size threshold."""
+    clob = MagicMock()
+    clob.get_order.return_value = _make_order_response(size_matched="5000000", status="LIVE")
+
+    tracker = OrderTracker()
+    pos_tracker = PositionTracker()
+    registry = MarketRegistry()
+    entry = _register_market(registry)
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    tracker.record_buy("token-1", "order-1", 0.48, 0.50)
+
+    btts = _make_btts_config_with_min_order_size(5.0)
+    order_execution = MagicMock()
+
+    service = _make_service(
+        clob=clob,
+        tracker=tracker,
+        pos_tracker=pos_tracker,
+        registry=registry,
+        btts=btts,
+        order_execution=order_execution,
+    )
+    service.poll_all_active_orders()
+
+    order_execution.place_sell_order.assert_called_once_with("token-1")
+
+
+def test_sell_not_triggered_below_threshold():
+    """place_sell_order is NOT called when accumulated fills are below threshold."""
+    clob = MagicMock()
+    clob.get_order.return_value = _make_order_response(size_matched="3000000", status="LIVE")
+
+    tracker = OrderTracker()
+    pos_tracker = PositionTracker()
+    registry = MarketRegistry()
+    entry = _register_market(registry)
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    tracker.record_buy("token-1", "order-1", 0.48, 0.50)
+
+    btts = _make_btts_config_with_min_order_size(5.0)
+    order_execution = MagicMock()
+
+    service = _make_service(
+        clob=clob,
+        tracker=tracker,
+        pos_tracker=pos_tracker,
+        registry=registry,
+        btts=btts,
+        order_execution=order_execution,
+    )
+    service.poll_all_active_orders()
+
+    order_execution.place_sell_order.assert_not_called()
+    order_execution.update_sell_order.assert_not_called()
+
+
+def test_update_sell_triggered_when_existing_sell_and_new_fills():
+    """update_sell_order is called when sell already exists and new fills arrive."""
+    clob = MagicMock()
+    clob.get_order.return_value = _make_order_response(size_matched="10000000", status="LIVE")
+
+    tracker = OrderTracker()
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 5.0)  # Already accumulated 5 shares
+    registry = MarketRegistry()
+    entry = _register_market(registry)
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+    tracker.record_buy("token-1", "order-1", 0.48, 0.50)
+    tracker.record_sell("token-1", "sell-order-existing", 0.50, 5.0)  # Existing sell
+
+    btts = _make_btts_config_with_min_order_size(5.0)
+    order_execution = MagicMock()
+
+    service = _make_service(
+        clob=clob,
+        tracker=tracker,
+        pos_tracker=pos_tracker,
+        registry=registry,
+        btts=btts,
+        order_execution=order_execution,
+    )
+    service.poll_all_active_orders()
+
+    order_execution.update_sell_order.assert_called_once_with("token-1")
+    order_execution.place_sell_order.assert_not_called()
+
+
+def test_sell_triggered_on_matched_status():
+    """place_sell_order is called after MATCHED terminal status if threshold is met."""
+    clob = MagicMock()
+    clob.get_order.return_value = _make_order_response(
+        size_matched="10000000", original_size="10000000", status="MATCHED"
+    )
+
+    tracker = OrderTracker()
+    pos_tracker = PositionTracker()
+    pos_tracker.accumulate("token-1", 10.0)  # Already fully accumulated — no delta
+    registry = MarketRegistry()
+    entry = _register_market(registry)
+    entry.lifecycle.transition(GameState.ANALYSED)
+    entry.lifecycle.transition(GameState.BUY_PLACED)
+    entry.lifecycle.transition(GameState.FILLING)
+    tracker.record_buy("token-1", "order-1", 0.48, 0.50)
+
+    btts = _make_btts_config_with_min_order_size(5.0)
+    order_execution = MagicMock()
+
+    service = _make_service(
+        clob=clob,
+        tracker=tracker,
+        pos_tracker=pos_tracker,
+        registry=registry,
+        btts=btts,
+        order_execution=order_execution,
+    )
+    service.poll_all_active_orders()
+
+    order_execution.place_sell_order.assert_called_once_with("token-1")

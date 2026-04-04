@@ -65,7 +65,7 @@ def main() -> None:
 
     # Buy order placement (FR12)
     order_execution_service = OrderExecutionService(
-        clob_client, order_tracker, market_registry, config.btts
+        clob_client, order_tracker, position_tracker, market_registry, config.btts
     )
     placed_count = order_execution_service.execute_all_analysed(analysis_results)
     logger.info(
@@ -76,7 +76,12 @@ def main() -> None:
 
     # Fill polling service (FR13)
     fill_polling_service = FillPollingService(
-        clob_client, order_tracker, position_tracker, market_registry, config.btts
+        clob_client,
+        order_tracker,
+        position_tracker,
+        market_registry,
+        config.btts,
+        order_execution_service,
     )
 
     # Schedule daily fetch (FR6)

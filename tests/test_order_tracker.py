@@ -2,7 +2,7 @@
 
 import unittest
 
-from btts_bot.state.order_tracker import BuyOrderRecord, OrderTracker
+from btts_bot.state.order_tracker import BuyOrderRecord, OrderTracker, SellOrderRecord
 
 
 class OrderTrackerTests(unittest.TestCase):
@@ -67,8 +67,44 @@ class OrderTrackerTests(unittest.TestCase):
     def test_has_sell_order_returns_true_after_record_sell(self) -> None:
         """has_sell_order() returns True after record_sell() is called."""
         tracker = OrderTracker()
-        tracker.record_sell("token-1", "sell-order-1")
+        tracker.record_sell("token-1", "sell-order-1", 0.52, 5.0)
         assert tracker.has_sell_order("token-1") is True
+
+    def test_record_sell_stores_sell_order_record(self) -> None:
+        """record_sell() stores a SellOrderRecord with correct fields."""
+        tracker = OrderTracker()
+        tracker.record_sell("token-1", "sell-order-1", 0.52, 10.0)
+        record = tracker.get_sell_order("token-1")
+        assert isinstance(record, SellOrderRecord)
+        assert record.token_id == "token-1"
+        assert record.order_id == "sell-order-1"
+        assert record.sell_price == 0.52
+        assert record.sell_size == 10.0
+
+    def test_get_sell_order_returns_none_for_unknown(self) -> None:
+        """get_sell_order() returns None for an unknown token_id."""
+        tracker = OrderTracker()
+        assert tracker.get_sell_order("unknown-token") is None
+
+    def test_get_sell_order_returns_record_after_record_sell(self) -> None:
+        """get_sell_order() returns the SellOrderRecord after record_sell()."""
+        tracker = OrderTracker()
+        tracker.record_sell("token-1", "sell-order-1", 0.55, 7.5)
+        record = tracker.get_sell_order("token-1")
+        assert record is not None
+        assert record.order_id == "sell-order-1"
+
+    def test_remove_sell_order_removes_record(self) -> None:
+        """remove_sell_order() removes the sell order so has_sell_order returns False."""
+        tracker = OrderTracker()
+        tracker.record_sell("token-1", "sell-order-1", 0.52, 5.0)
+        tracker.remove_sell_order("token-1")
+        assert tracker.has_sell_order("token-1") is False
+
+    def test_remove_sell_order_unknown_token_no_crash(self) -> None:
+        """remove_sell_order() on unknown token_id does not crash."""
+        tracker = OrderTracker()
+        tracker.remove_sell_order("unknown-token")  # Should not raise
 
     def test_independent_tokens_tracked_separately(self) -> None:
         """Multiple tokens are tracked independently."""

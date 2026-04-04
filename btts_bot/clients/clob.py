@@ -111,3 +111,20 @@ class ClobClientWrapper:
         )
         signed_order = self._client.create_order(order_args)
         return self._client.post_order(signed_order, orderType=OrderType.GTD)
+
+    @with_retry
+    def create_sell_order(self, token_id: str, price: float, size: float) -> dict | None:
+        """Create and post a GTC limit sell order.
+
+        Returns the API response dict containing the order ID,
+        or None if the retry decorator exhausts retries.
+        """
+        order_args = OrderArgs(
+            token_id=token_id,
+            price=price,
+            size=float(size),
+            side="SELL",
+            expiration=0,  # GTC -- no expiration
+        )
+        signed_order = self._client.create_order(order_args)
+        return self._client.post_order(signed_order, orderType=OrderType.GTC)
