@@ -15,7 +15,7 @@ from btts_bot.state.order_tracker import OrderTracker
 from btts_bot.state.position_tracker import PositionTracker
 
 if TYPE_CHECKING:
-    pass
+    from btts_bot.core.scheduling import SchedulerService
 
 logger = logging.getLogger(__name__)
 
@@ -30,12 +30,14 @@ class OrderExecutionService:
         position_tracker: PositionTracker,
         market_registry: MarketRegistry,
         btts_config: BttsConfig,
+        scheduler_service: SchedulerService | None = None,
     ) -> None:
         self._clob_client = clob_client
         self._order_tracker = order_tracker
         self._position_tracker = position_tracker
         self._market_registry = market_registry
         self._btts = btts_config
+        self._scheduler_service = scheduler_service
 
     def place_buy_order(self, token_id: str, buy_price: float, sell_price: float) -> bool:
         """Place a limit buy order for a single token.
@@ -149,6 +151,11 @@ class OrderExecutionService:
             self._btts.order_size,
             order_id,
         )
+
+        # Register pre-kickoff trigger for this game
+        if self._scheduler_service is not None:
+            self._scheduler_service.schedule_pre_kickoff(token_id, entry.kickoff_time)
+
         return True
 
     def execute_all_analysed(self, analysis_results: list[AnalysisResult]) -> int:

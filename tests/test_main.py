@@ -52,6 +52,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mock_order_execution_cls = extra_patches.pop("OrderExecutionService", MagicMock())
     mock_position_tracker_cls = extra_patches.pop("PositionTracker", MagicMock())
     mock_fill_polling_cls = extra_patches.pop("FillPollingService", MagicMock())
+    mock_pre_kickoff_cls = extra_patches.pop("PreKickoffService", MagicMock())
 
     mock_discovery_cls.return_value.discover_markets.return_value = extra_patches.pop(
         "discover_count", 0
@@ -78,6 +79,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
         patch.object(main_module, "OrderExecutionService", mock_order_execution_cls),
         patch.object(main_module, "PositionTracker", mock_position_tracker_cls),
         patch.object(main_module, "FillPollingService", mock_fill_polling_cls),
+        patch.object(main_module, "PreKickoffService", mock_pre_kickoff_cls),
         patch.object(main_module.time, "sleep", mock_time_sleep),
     ):
         with redirect_stdout(io.StringIO()):
@@ -96,6 +98,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mocks["OrderExecutionService"] = mock_order_execution_cls
     mocks["PositionTracker"] = mock_position_tracker_cls
     mocks["FillPollingService"] = mock_fill_polling_cls
+    mocks["PreKickoffService"] = mock_pre_kickoff_cls
     mocks["time_sleep"] = mock_time_sleep
     mocks["config"] = config
     return mocks
@@ -169,6 +172,7 @@ logging:
                 patch.object(main_module, "MarketAnalysisPipeline", mock_analysis_pipeline_cls),
                 patch.object(main_module, "OrderExecutionService", mock_order_execution_cls),
                 patch.object(main_module, "FillPollingService"),
+                patch.object(main_module, "PreKickoffService"),
                 patch.object(main_module.time, "sleep", side_effect=KeyboardInterrupt),
             ):
                 with redirect_stdout(io.StringIO()):
@@ -410,6 +414,49 @@ logging:
         # Verify that a fill polling started message was logged
         info_calls = [str(call) for call in mocks["logger"].info.call_args_list]
         assert any("Fill polling started" in c for c in info_calls)
+
+    # --- New tests for Story 4.1: PreKickoffService wiring ---
+
+    def test_main_instantiates_pre_kickoff_service(self) -> None:
+        """PreKickoffService is instantiated in main() before SchedulerService."""
+        mocks = _run_main_with_patches()
+        mocks["PreKickoffService"].assert_called_once()
+
+    def test_main_pre_kickoff_service_receives_correct_deps(self) -> None:
+        """PreKickoffService is constructed with clob_client, order_tracker, position_tracker, registry."""
+        mocks = _run_main_with_patches()
+        mock_clob_instance = mocks["ClobClientWrapper"].return_value
+        mock_tracker_instance = mocks["OrderTracker"].return_value
+        mock_pos_tracker_instance = mocks["PositionTracker"].return_value
+        mock_pre_kickoff_cls = mocks["PreKickoffService"]
+        call_args = mock_pre_kickoff_cls.call_args
+        self.assertIs(call_args.args[0], mock_clob_instance)
+        self.assertIs(call_args.args[1], mock_tracker_instance)
+        self.assertIs(call_args.args[2], mock_pos_tracker_instance)
+
+    def test_main_scheduler_receives_pre_kickoff_service(self) -> None:
+        """SchedulerService is constructed with pre_kickoff_service kwarg."""
+        mocks = _run_main_with_patches()
+        mock_pre_kickoff_instance = mocks["PreKickoffService"].return_value
+        mock_scheduler_cls = mocks["SchedulerService"]
+        call_kwargs = mock_scheduler_cls.call_args.kwargs
+        self.assertIs(call_kwargs["pre_kickoff_service"], mock_pre_kickoff_instance)
+
+    def test_main_scheduler_receives_timing_config(self) -> None:
+        """SchedulerService is constructed with timing_config from BotConfig."""
+        config = make_config()
+        mocks = _run_main_with_patches(config=config)
+        mock_scheduler_cls = mocks["SchedulerService"]
+        call_kwargs = mock_scheduler_cls.call_args.kwargs
+        self.assertIs(call_kwargs["timing_config"], config.timing)
+
+    def test_main_order_execution_service_receives_scheduler_service(self) -> None:
+        """OrderExecutionService receives scheduler_service as 6th positional arg."""
+        mocks = _run_main_with_patches()
+        mock_scheduler_instance = mocks["SchedulerService"].return_value
+        mock_exec_cls = mocks["OrderExecutionService"]
+        call_args = mock_exec_cls.call_args
+        self.assertIs(call_args.args[5], mock_scheduler_instance)
 
 
 if __name__ == "__main__":

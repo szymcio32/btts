@@ -10,6 +10,7 @@ from btts_bot.core.fill_polling import FillPollingService
 from btts_bot.core.liquidity import LiquidityAnalyser, MarketAnalysisPipeline
 from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.core.order_execution import OrderExecutionService
+from btts_bot.core.pre_kickoff import PreKickoffService
 from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
 from btts_bot.state.market_registry import MarketRegistry
@@ -36,45 +37,45 @@ def main() -> None:
     clob_client = ClobClientWrapper()
     logger.info("Authentication successful")
 
+    # 1. State managers (no deps)
     market_registry = MarketRegistry()
     order_tracker = OrderTracker()
     position_tracker = PositionTracker()
     logger.info("State managers initialized")
 
+    # 2. Clients
     gamma_client = GammaClient(config.data_file)
+
+    # 3. Core services — discovery and pre-kickoff (no circular deps)
     discovery_service = MarketDiscoveryService(
         gamma_client, market_registry, config.leagues, order_tracker
+    )
+    pre_kickoff_service = PreKickoffService(
+        clob_client, order_tracker, position_tracker, market_registry
     )
 
     liquidity_analyser = LiquidityAnalyser(config.liquidity, config.btts)
     analysis_pipeline = MarketAnalysisPipeline(clob_client, liquidity_analyser, market_registry)
 
-    # Immediate startup discovery (FR5)
-    discovered_count = discovery_service.discover_markets()
-    logger.info("Startup discovery complete: %d markets", discovered_count)
-
-    # Liquidity analysis for all discovered markets
-    analysis_results = analysis_pipeline.analyse_all_discovered()
-    analysed_count = len(analysis_results)
-    skipped_count = discovered_count - analysed_count
-    logger.info(
-        "Liquidity analysis complete: %d analysed, %d skipped",
-        analysed_count,
-        skipped_count,
+    # 4. Scheduler (depends on pre_kickoff_service and discovery_service)
+    scheduler_service = SchedulerService(
+        daily_fetch_hour_utc=config.timing.daily_fetch_hour_utc,
+        discovery_service=discovery_service,
+        pre_kickoff_service=pre_kickoff_service,
+        timing_config=config.timing,
     )
 
-    # Buy order placement (FR12)
+    # 5. Order execution (depends on scheduler_service for trigger registration)
     order_execution_service = OrderExecutionService(
-        clob_client, order_tracker, position_tracker, market_registry, config.btts
-    )
-    placed_count = order_execution_service.execute_all_analysed(analysis_results)
-    logger.info(
-        "Buy orders placed: %d out of %d analysed markets",
-        placed_count,
-        analysed_count,
+        clob_client,
+        order_tracker,
+        position_tracker,
+        market_registry,
+        config.btts,
+        scheduler_service,
     )
 
-    # Fill polling service (FR13)
+    # 6. Fill polling (depends on order_execution_service)
     fill_polling_service = FillPollingService(
         clob_client,
         order_tracker,
@@ -84,12 +85,32 @@ def main() -> None:
         order_execution_service,
     )
 
-    # Schedule daily fetch (FR6)
-    scheduler_service = SchedulerService(
-        daily_fetch_hour_utc=config.timing.daily_fetch_hour_utc,
-        discovery_service=discovery_service,
+    # 7. Immediate startup discovery (FR5)
+    discovered_count = discovery_service.discover_markets()
+    logger.info("Startup discovery complete: %d markets", discovered_count)
+
+    # 8. Liquidity analysis for all discovered markets
+    analysis_results = analysis_pipeline.analyse_all_discovered()
+    analysed_count = len(analysis_results)
+    skipped_count = discovered_count - analysed_count
+    logger.info(
+        "Liquidity analysis complete: %d analysed, %d skipped",
+        analysed_count,
+        skipped_count,
     )
+
+    # 9. Start scheduler BEFORE execute_all_analysed so pre-kickoff triggers
+    #    can be added to a running scheduler (APScheduler also allows adding
+    #    jobs before start — they queue safely either way)
     scheduler_service.start()
+
+    # 10. Buy order placement — registers pre-kickoff trigger per game (FR12)
+    placed_count = order_execution_service.execute_all_analysed(analysis_results)
+    logger.info(
+        "Buy orders placed: %d out of %d analysed markets",
+        placed_count,
+        analysed_count,
+    )
 
     # Register fill polling interval job
     scheduler_service.scheduler.add_job(

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest.mock import MagicMock
 
 import pytest
@@ -59,7 +59,7 @@ def _register_market(
         token_id=token_id,
         condition_id=f"cond-{token_id}",
         token_ids=[token_id],
-        kickoff_time=datetime(2026, 4, 5, 15, 0, tzinfo=timezone.utc),
+        kickoff_time=datetime.now(timezone.utc) + timedelta(days=30),
         league="EPL",
         home_team=home_team,
         away_team=away_team,
@@ -127,8 +127,8 @@ def test_place_buy_order_uses_correct_clob_args():
     assert call_kwargs["price"] == pytest.approx(0.48)
     assert call_kwargs["size"] == pytest.approx(25.0)
     # Expiration is kickoff_ts - 2 * 3600
-    kickoff_dt = datetime(2026, 4, 5, 15, 0, tzinfo=timezone.utc)
-    expected_ts = int(kickoff_dt.timestamp()) - 2 * 3600
+    entry_obj = registry.get("token-1")
+    expected_ts = int(entry_obj.kickoff_time.timestamp()) - 2 * 3600
     assert call_kwargs["expiration_ts"] == expected_ts
 
 
@@ -283,8 +283,7 @@ def test_expiration_timestamp_uses_expiration_hour_offset():
     service.place_buy_order("token-1", buy_price=0.48, sell_price=0.50)
 
     call_kwargs = clob.create_buy_order.call_args.kwargs
-    kickoff_dt = datetime(2026, 4, 5, 15, 0, tzinfo=timezone.utc)
-    expected_ts = int(kickoff_dt.timestamp()) - 1 * 3600
+    expected_ts = int(entry.kickoff_time.timestamp()) - 1 * 3600
     assert call_kwargs["expiration_ts"] == expected_ts
 
 
@@ -301,8 +300,7 @@ def test_expiration_timestamp_different_offset():
     service.place_buy_order("token-1", buy_price=0.48, sell_price=0.50)
 
     call_kwargs = clob.create_buy_order.call_args.kwargs
-    kickoff_dt = datetime(2026, 4, 5, 15, 0, tzinfo=timezone.utc)
-    expected_ts = int(kickoff_dt.timestamp()) - 3 * 3600
+    expected_ts = int(entry.kickoff_time.timestamp()) - 3 * 3600
     assert call_kwargs["expiration_ts"] == expected_ts
 
 
@@ -788,3 +786,82 @@ def test_update_sell_order_logs_info_on_success(caplog: pytest.LogCaptureFixture
         service.update_sell_order("token-1")
 
     assert "Sell order updated" in caplog.text
+
+
+# ---------------------------------------------------------------------------
+# Pre-kickoff trigger registration (Task 9 / AC #1)
+# ---------------------------------------------------------------------------
+
+
+def _make_service_with_scheduler(
+    clob: object = None,
+    tracker: OrderTracker | None = None,
+    registry: MarketRegistry | None = None,
+    btts: BttsConfig | None = None,
+    scheduler_service: object = None,
+) -> OrderExecutionService:
+    """Build OrderExecutionService with an injected scheduler."""
+    return OrderExecutionService(
+        clob_client=clob or MagicMock(),
+        order_tracker=tracker or OrderTracker(),
+        position_tracker=PositionTracker(),
+        market_registry=registry or MarketRegistry(),
+        btts_config=btts or _make_btts_config(),
+        scheduler_service=scheduler_service,
+    )
+
+
+def test_place_buy_order_success_calls_schedule_pre_kickoff() -> None:
+    """After successful buy placement, scheduler.schedule_pre_kickoff is called with correct args."""
+    clob = MagicMock()
+    clob.create_buy_order.return_value = {"orderID": "order-sched-1"}
+    scheduler = MagicMock()
+    tracker = OrderTracker()
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-sched")
+    entry.lifecycle.transition(GameState.ANALYSED)
+
+    service = _make_service_with_scheduler(
+        clob=clob, tracker=tracker, registry=registry, scheduler_service=scheduler
+    )
+    result = service.place_buy_order("token-sched", buy_price=0.48, sell_price=0.50)
+
+    assert result is True
+    scheduler.schedule_pre_kickoff.assert_called_once_with("token-sched", entry.kickoff_time)
+
+
+def test_place_buy_order_api_failure_does_not_call_scheduler() -> None:
+    """After failed buy placement (None response), scheduler.schedule_pre_kickoff is NOT called."""
+    clob = MagicMock()
+    clob.create_buy_order.return_value = None  # API failure
+    scheduler = MagicMock()
+    tracker = OrderTracker()
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-sched-fail")
+    entry.lifecycle.transition(GameState.ANALYSED)
+
+    service = _make_service_with_scheduler(
+        clob=clob, tracker=tracker, registry=registry, scheduler_service=scheduler
+    )
+    result = service.place_buy_order("token-sched-fail", buy_price=0.48, sell_price=0.50)
+
+    assert result is False
+    scheduler.schedule_pre_kickoff.assert_not_called()
+
+
+def test_place_buy_order_no_scheduler_service_does_not_crash() -> None:
+    """place_buy_order succeeds without a scheduler_service (backward-compatible None default)."""
+    clob = MagicMock()
+    clob.create_buy_order.return_value = {"orderID": "order-no-sched"}
+    tracker = OrderTracker()
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-nosched")
+    entry.lifecycle.transition(GameState.ANALYSED)
+
+    # No scheduler_service passed (defaults to None)
+    service = _make_service_with_scheduler(
+        clob=clob, tracker=tracker, registry=registry, scheduler_service=None
+    )
+    result = service.place_buy_order("token-nosched", buy_price=0.48, sell_price=0.50)
+
+    assert result is True

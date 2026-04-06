@@ -30,7 +30,9 @@ class InvalidTransitionError(Exception):
 VALID_TRANSITIONS: dict[GameState, frozenset[GameState]] = {
     GameState.DISCOVERED: frozenset({GameState.ANALYSED, GameState.SKIPPED}),
     GameState.ANALYSED: frozenset({GameState.BUY_PLACED, GameState.SKIPPED}),
-    GameState.BUY_PLACED: frozenset({GameState.FILLING, GameState.SKIPPED, GameState.EXPIRED}),
+    GameState.BUY_PLACED: frozenset(
+        {GameState.FILLING, GameState.SKIPPED, GameState.EXPIRED, GameState.PRE_KICKOFF}
+    ),
     GameState.FILLING: frozenset({GameState.SELL_PLACED, GameState.PRE_KICKOFF, GameState.EXPIRED}),
     GameState.SELL_PLACED: frozenset({GameState.PRE_KICKOFF, GameState.DONE}),
     GameState.PRE_KICKOFF: frozenset({GameState.GAME_STARTED, GameState.DONE}),
