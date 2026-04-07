@@ -152,9 +152,10 @@ class OrderExecutionService:
             order_id,
         )
 
-        # Register pre-kickoff trigger for this game
+        # Register pre-kickoff trigger and game-start trigger for this game
         if self._scheduler_service is not None:
             self._scheduler_service.schedule_pre_kickoff(token_id, entry.kickoff_time)
+            self._scheduler_service.schedule_game_start(token_id, entry.kickoff_time)
 
         return True
 

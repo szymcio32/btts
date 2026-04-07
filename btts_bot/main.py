@@ -7,6 +7,7 @@ from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import load_config
 from btts_bot.core.fill_polling import FillPollingService
+from btts_bot.core.game_start import GameStartService
 from btts_bot.core.liquidity import LiquidityAnalyser, MarketAnalysisPipeline
 from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.core.order_execution import OrderExecutionService
@@ -53,15 +54,19 @@ def main() -> None:
     pre_kickoff_service = PreKickoffService(
         clob_client, order_tracker, position_tracker, market_registry
     )
+    game_start_service = GameStartService(
+        clob_client, order_tracker, position_tracker, market_registry
+    )
 
     liquidity_analyser = LiquidityAnalyser(config.liquidity, config.btts)
     analysis_pipeline = MarketAnalysisPipeline(clob_client, liquidity_analyser, market_registry)
 
-    # 4. Scheduler (depends on pre_kickoff_service and discovery_service)
+    # 4. Scheduler (depends on pre_kickoff_service, game_start_service, and discovery_service)
     scheduler_service = SchedulerService(
         daily_fetch_hour_utc=config.timing.daily_fetch_hour_utc,
         discovery_service=discovery_service,
         pre_kickoff_service=pre_kickoff_service,
+        game_start_service=game_start_service,
         timing_config=config.timing,
     )
 

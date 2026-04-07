@@ -830,8 +830,27 @@ def test_place_buy_order_success_calls_schedule_pre_kickoff() -> None:
     scheduler.schedule_pre_kickoff.assert_called_once_with("token-sched", entry.kickoff_time)
 
 
+def test_place_buy_order_success_calls_schedule_game_start() -> None:
+    """After successful buy placement, scheduler.schedule_game_start is called with correct args."""
+    clob = MagicMock()
+    clob.create_buy_order.return_value = {"orderID": "order-sched-gs"}
+    scheduler = MagicMock()
+    tracker = OrderTracker()
+    registry = MarketRegistry()
+    entry = _register_market(registry, "token-sched-gs")
+    entry.lifecycle.transition(GameState.ANALYSED)
+
+    service = _make_service_with_scheduler(
+        clob=clob, tracker=tracker, registry=registry, scheduler_service=scheduler
+    )
+    result = service.place_buy_order("token-sched-gs", buy_price=0.48, sell_price=0.50)
+
+    assert result is True
+    scheduler.schedule_game_start.assert_called_once_with("token-sched-gs", entry.kickoff_time)
+
+
 def test_place_buy_order_api_failure_does_not_call_scheduler() -> None:
-    """After failed buy placement (None response), scheduler.schedule_pre_kickoff is NOT called."""
+    """After failed buy placement (None response), scheduler methods are NOT called."""
     clob = MagicMock()
     clob.create_buy_order.return_value = None  # API failure
     scheduler = MagicMock()
@@ -847,6 +866,7 @@ def test_place_buy_order_api_failure_does_not_call_scheduler() -> None:
 
     assert result is False
     scheduler.schedule_pre_kickoff.assert_not_called()
+    scheduler.schedule_game_start.assert_not_called()
 
 
 def test_place_buy_order_no_scheduler_service_does_not_crash() -> None:

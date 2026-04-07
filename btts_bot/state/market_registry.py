@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import dataclasses
 import logging
+import threading
 from datetime import datetime
 
 from btts_bot.core.game_lifecycle import GameLifecycle
@@ -28,6 +29,7 @@ class MarketEntry:
 
 class MarketRegistry:
     def __init__(self) -> None:
+        self._lock = threading.Lock()
         self._markets: dict[str, MarketEntry] = {}
 
     def register(
@@ -40,20 +42,21 @@ class MarketRegistry:
         home_team: str,
         away_team: str,
     ) -> MarketEntry:
-        if token_id in self._markets:
-            raise ValueError(f"Market already registered for token_id={token_id}")
-        lifecycle = GameLifecycle(token_id)
-        entry = MarketEntry(
-            token_id=token_id,
-            condition_id=condition_id,
-            token_ids=list(token_ids),
-            kickoff_time=kickoff_time,
-            league=league,
-            home_team=home_team,
-            away_team=away_team,
-            lifecycle=lifecycle,
-        )
-        self._markets[token_id] = entry
+        with self._lock:
+            if token_id in self._markets:
+                raise ValueError(f"Market already registered for token_id={token_id}")
+            lifecycle = GameLifecycle(token_id)
+            entry = MarketEntry(
+                token_id=token_id,
+                condition_id=condition_id,
+                token_ids=list(token_ids),
+                kickoff_time=kickoff_time,
+                league=league,
+                home_team=home_team,
+                away_team=away_team,
+                lifecycle=lifecycle,
+            )
+            self._markets[token_id] = entry
         logger.info(
             "Market registered: [%s vs %s] token=%s league=%s kickoff=%s",
             home_team,
@@ -65,10 +68,13 @@ class MarketRegistry:
         return entry
 
     def get(self, token_id: str) -> MarketEntry | None:
-        return self._markets.get(token_id)
+        with self._lock:
+            return self._markets.get(token_id)
 
     def is_processed(self, token_id: str) -> bool:
-        return token_id in self._markets
+        with self._lock:
+            return token_id in self._markets
 
     def all_markets(self) -> list[MarketEntry]:
-        return list(self._markets.values())
+        with self._lock:
+            return list(self._markets.values())

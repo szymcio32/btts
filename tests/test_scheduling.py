@@ -28,12 +28,14 @@ def _make_service(
     daily_fetch_hour_utc: int = 23,
     timing: TimingConfig | None = None,
     pre_kickoff_service: object = None,
+    game_start_service: object = None,
     discovery: object = None,
 ) -> SchedulerService:
     return SchedulerService(
         daily_fetch_hour_utc=daily_fetch_hour_utc,
         discovery_service=discovery or MagicMock(),
         pre_kickoff_service=pre_kickoff_service or MagicMock(),
+        game_start_service=game_start_service or MagicMock(),
         timing_config=timing or _make_timing(),
     )
 
@@ -231,3 +233,117 @@ def test_schedule_pre_kickoff_job_id_format() -> None:
         service.schedule_pre_kickoff("my-token-99", kickoff_time)
 
     assert mock_add.call_args.kwargs["id"] == "pre_kickoff_my-token-99"
+
+
+# ---------------------------------------------------------------------------
+# schedule_game_start tests (AC #1)
+# ---------------------------------------------------------------------------
+
+
+def test_schedule_game_start_adds_date_trigger_job() -> None:
+    """schedule_game_start adds a DateTrigger job at exactly kickoff_time."""
+    service = _make_service()
+    kickoff_time = datetime.now(timezone.utc) + timedelta(hours=2)
+
+    with (
+        patch("btts_bot.core.scheduling.DateTrigger") as mock_date_trigger,
+        patch.object(service.scheduler, "add_job") as mock_add,
+    ):
+        trigger_sentinel = object()
+        mock_date_trigger.return_value = trigger_sentinel
+        service.schedule_game_start("token-gs-1", kickoff_time)
+
+        mock_date_trigger.assert_called_once_with(run_date=kickoff_time)
+        mock_add.assert_called_once()
+        call_kwargs = mock_add.call_args.kwargs
+        assert call_kwargs["id"] == "game_start_token-gs-1"
+        assert call_kwargs["replace_existing"] is True
+        assert call_kwargs["misfire_grace_time"] == 300
+        assert call_kwargs["trigger"] is trigger_sentinel
+        assert call_kwargs["args"] == ["token-gs-1"]
+
+
+def test_schedule_game_start_past_trigger_logs_warning_no_job(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Kickoff time in the past: WARNING logged, add_job NOT called."""
+    service = _make_service()
+    # Kickoff is in the past
+    kickoff_time = datetime.now(timezone.utc) - timedelta(minutes=5)
+
+    with (
+        patch.object(service.scheduler, "add_job") as mock_add,
+        caplog.at_level("WARNING", logger="btts_bot.core.scheduling"),
+    ):
+        service.schedule_game_start("token-past", kickoff_time)
+
+    mock_add.assert_not_called()
+    assert "in the past" in caplog.text
+    assert "token-past" in caplog.text
+
+
+def test_schedule_game_start_duplicate_uses_replace_existing() -> None:
+    """Scheduling the same token_id twice uses replace_existing=True (idempotent)."""
+    service = _make_service()
+    kickoff_time = datetime.now(timezone.utc) + timedelta(hours=3)
+
+    with (
+        patch("btts_bot.core.scheduling.DateTrigger"),
+        patch.object(service.scheduler, "add_job") as mock_add,
+    ):
+        service.schedule_game_start("token-dup", kickoff_time)
+        service.schedule_game_start("token-dup", kickoff_time)  # second call
+
+    assert mock_add.call_count == 2
+    for call in mock_add.call_args_list:
+        assert call.kwargs["replace_existing"] is True
+
+
+def test_schedule_game_start_job_id_format() -> None:
+    """Job ID is 'game_start_{token_id}'."""
+    service = _make_service()
+    kickoff_time = datetime.now(timezone.utc) + timedelta(hours=1)
+
+    with (
+        patch("btts_bot.core.scheduling.DateTrigger"),
+        patch.object(service.scheduler, "add_job") as mock_add,
+    ):
+        service.schedule_game_start("my-game-token", kickoff_time)
+
+    assert mock_add.call_args.kwargs["id"] == "game_start_my-game-token"
+
+
+def test_schedule_game_start_callback_spawns_dedicated_thread() -> None:
+    """_launch_game_start_thread spawns a daemon Thread and calls start()."""
+    game_start_svc = MagicMock()
+    service = _make_service(game_start_service=game_start_svc)
+
+    with patch("btts_bot.core.scheduling.threading.Thread") as mock_thread_cls:
+        mock_thread = MagicMock()
+        mock_thread_cls.return_value = mock_thread
+
+        service._launch_game_start_thread("token-thread-test")
+
+        mock_thread_cls.assert_called_once_with(
+            target=game_start_svc.handle_game_start,
+            args=("token-thread-test",),
+            name="game_start_token-thread-test",
+            daemon=True,
+        )
+        mock_thread.start.assert_called_once()
+
+
+def test_schedule_game_start_func_is_launch_thread() -> None:
+    """schedule_game_start registers _launch_game_start_thread as the job function."""
+    service = _make_service()
+    kickoff_time = datetime.now(timezone.utc) + timedelta(hours=2)
+
+    with (
+        patch("btts_bot.core.scheduling.DateTrigger"),
+        patch.object(service.scheduler, "add_job") as mock_add,
+    ):
+        service.schedule_game_start("token-func", kickoff_time)
+
+    call_kwargs = mock_add.call_args.kwargs
+    # Compare by __func__ to avoid bound method identity issues
+    assert call_kwargs["func"].__func__ is service._launch_game_start_thread.__func__

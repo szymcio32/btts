@@ -53,6 +53,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mock_position_tracker_cls = extra_patches.pop("PositionTracker", MagicMock())
     mock_fill_polling_cls = extra_patches.pop("FillPollingService", MagicMock())
     mock_pre_kickoff_cls = extra_patches.pop("PreKickoffService", MagicMock())
+    mock_game_start_cls = extra_patches.pop("GameStartService", MagicMock())
 
     mock_discovery_cls.return_value.discover_markets.return_value = extra_patches.pop(
         "discover_count", 0
@@ -80,6 +81,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
         patch.object(main_module, "PositionTracker", mock_position_tracker_cls),
         patch.object(main_module, "FillPollingService", mock_fill_polling_cls),
         patch.object(main_module, "PreKickoffService", mock_pre_kickoff_cls),
+        patch.object(main_module, "GameStartService", mock_game_start_cls),
         patch.object(main_module.time, "sleep", mock_time_sleep),
     ):
         with redirect_stdout(io.StringIO()):
@@ -99,6 +101,7 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mocks["PositionTracker"] = mock_position_tracker_cls
     mocks["FillPollingService"] = mock_fill_polling_cls
     mocks["PreKickoffService"] = mock_pre_kickoff_cls
+    mocks["GameStartService"] = mock_game_start_cls
     mocks["time_sleep"] = mock_time_sleep
     mocks["config"] = config
     return mocks
@@ -173,6 +176,7 @@ logging:
                 patch.object(main_module, "OrderExecutionService", mock_order_execution_cls),
                 patch.object(main_module, "FillPollingService"),
                 patch.object(main_module, "PreKickoffService"),
+                patch.object(main_module, "GameStartService"),
                 patch.object(main_module.time, "sleep", side_effect=KeyboardInterrupt),
             ):
                 with redirect_stdout(io.StringIO()):
@@ -457,6 +461,33 @@ logging:
         mock_exec_cls = mocks["OrderExecutionService"]
         call_args = mock_exec_cls.call_args
         self.assertIs(call_args.args[5], mock_scheduler_instance)
+
+    # --- New tests for Story 4.2: GameStartService wiring ---
+
+    def test_main_instantiates_game_start_service(self) -> None:
+        """GameStartService is instantiated in main() before SchedulerService."""
+        mocks = _run_main_with_patches()
+        mocks["GameStartService"].assert_called_once()
+
+    def test_main_game_start_service_receives_correct_deps(self) -> None:
+        """GameStartService is constructed with clob_client, order_tracker, position_tracker, registry."""
+        mocks = _run_main_with_patches()
+        mock_clob_instance = mocks["ClobClientWrapper"].return_value
+        mock_tracker_instance = mocks["OrderTracker"].return_value
+        mock_pos_tracker_instance = mocks["PositionTracker"].return_value
+        mock_game_start_cls = mocks["GameStartService"]
+        call_args = mock_game_start_cls.call_args
+        self.assertIs(call_args.args[0], mock_clob_instance)
+        self.assertIs(call_args.args[1], mock_tracker_instance)
+        self.assertIs(call_args.args[2], mock_pos_tracker_instance)
+
+    def test_main_scheduler_receives_game_start_service(self) -> None:
+        """SchedulerService is constructed with game_start_service kwarg."""
+        mocks = _run_main_with_patches()
+        mock_game_start_instance = mocks["GameStartService"].return_value
+        mock_scheduler_cls = mocks["SchedulerService"]
+        call_kwargs = mock_scheduler_cls.call_args.kwargs
+        self.assertIs(call_kwargs["game_start_service"], mock_game_start_instance)
 
 
 if __name__ == "__main__":

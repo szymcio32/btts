@@ -3,6 +3,7 @@
 import logging
 import os
 import sys
+import threading
 
 from py_clob_client.client import ClobClient
 from py_clob_client.clob_types import OrderArgs, OrderType
@@ -23,6 +24,9 @@ class ClobClientWrapper:
       Phase 3 — L2 ClobClient (key + chain_id + creds + signature_type=POLY_GNOSIS_SAFE).
 
     Exits with SystemExit(1) if required environment variables are missing.
+    Thread-safe: all methods that access self._client are protected by a per-instance lock.
+    The lock is held per-attempt (not across retry attempts) so other threads can make
+    CLOB calls between retries.
     """
 
     def __init__(self) -> None:
@@ -42,6 +46,8 @@ class ClobClientWrapper:
                 file=sys.stderr,
             )
             raise SystemExit(1)
+
+        self._lock = threading.Lock()
 
         # Phase 1: L1 client — only used to derive creds
         l1_client = ClobClient(host=CLOB_HOST, chain_id=POLYGON, key=private_key)
@@ -66,32 +72,38 @@ class ClobClientWrapper:
 
     def get_tick_size(self, token_id: str) -> str:
         """Return the tick size for the given token (TTL-cached internally by py-clob-client)."""
-        return self._client.get_tick_size(token_id)
+        with self._lock:
+            return self._client.get_tick_size(token_id)
 
     @with_retry
     def get_order_book(self, token_id: str):
         """Fetch the order book for a token."""
-        return self._client.get_order_book(token_id)
+        with self._lock:
+            return self._client.get_order_book(token_id)
 
     @with_retry
     def get_order(self, order_id: str):
         """Fetch a specific order by ID."""
-        return self._client.get_order(order_id)
+        with self._lock:
+            return self._client.get_order(order_id)
 
     @with_retry
     def post_order(self, order, order_type: str = "GTC"):
         """Post an order to the CLOB."""
-        return self._client.post_order(order, order_type)
+        with self._lock:
+            return self._client.post_order(order, order_type)
 
     @with_retry
     def cancel_order(self, order_id: str):
         """Cancel a single order by ID."""
-        return self._client.cancel({"orderID": order_id})
+        with self._lock:
+            return self._client.cancel({"orderID": order_id})
 
     @with_retry
     def cancel_orders(self, order_ids: list[str]):
         """Cancel multiple orders by their IDs."""
-        return self._client.cancel_orders([{"orderID": oid} for oid in order_ids])
+        with self._lock:
+            return self._client.cancel_orders([{"orderID": oid} for oid in order_ids])
 
     @with_retry
     def create_buy_order(
@@ -102,15 +114,16 @@ class ClobClientWrapper:
         Returns the API response dict containing the order ID,
         or None if the retry decorator exhausts retries.
         """
-        order_args = OrderArgs(
-            token_id=token_id,
-            price=price,
-            size=float(size),
-            side="BUY",
-            expiration=expiration_ts,
-        )
-        signed_order = self._client.create_order(order_args)
-        return self._client.post_order(signed_order, orderType=OrderType.GTD)
+        with self._lock:
+            order_args = OrderArgs(
+                token_id=token_id,
+                price=price,
+                size=float(size),
+                side="BUY",
+                expiration=expiration_ts,
+            )
+            signed_order = self._client.create_order(order_args)
+            return self._client.post_order(signed_order, orderType=OrderType.GTD)
 
     @with_retry
     def create_sell_order(self, token_id: str, price: float, size: float) -> dict | None:
@@ -119,12 +132,13 @@ class ClobClientWrapper:
         Returns the API response dict containing the order ID,
         or None if the retry decorator exhausts retries.
         """
-        order_args = OrderArgs(
-            token_id=token_id,
-            price=price,
-            size=float(size),
-            side="SELL",
-            expiration=0,  # GTC -- no expiration
-        )
-        signed_order = self._client.create_order(order_args)
-        return self._client.post_order(signed_order, orderType=OrderType.GTC)
+        with self._lock:
+            order_args = OrderArgs(
+                token_id=token_id,
+                price=price,
+                size=float(size),
+                side="SELL",
+                expiration=0,  # GTC -- no expiration
+            )
+            signed_order = self._client.create_order(order_args)
+            return self._client.post_order(signed_order, orderType=OrderType.GTC)

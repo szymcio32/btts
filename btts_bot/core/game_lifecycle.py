@@ -5,6 +5,7 @@ Implemented in Story 1.6.
 
 import enum
 import logging
+import threading
 
 logger = logging.getLogger(__name__)
 
@@ -31,10 +32,31 @@ VALID_TRANSITIONS: dict[GameState, frozenset[GameState]] = {
     GameState.DISCOVERED: frozenset({GameState.ANALYSED, GameState.SKIPPED}),
     GameState.ANALYSED: frozenset({GameState.BUY_PLACED, GameState.SKIPPED}),
     GameState.BUY_PLACED: frozenset(
-        {GameState.FILLING, GameState.SKIPPED, GameState.EXPIRED, GameState.PRE_KICKOFF}
+        {
+            GameState.FILLING,
+            GameState.SKIPPED,
+            GameState.EXPIRED,
+            GameState.PRE_KICKOFF,
+            GameState.GAME_STARTED,  # pre-kickoff failed, game started with unfilled/partially-filled buy
+            GameState.DONE,  # pre-kickoff failed, game started with no fills
+        }
     ),
-    GameState.FILLING: frozenset({GameState.SELL_PLACED, GameState.PRE_KICKOFF, GameState.EXPIRED}),
-    GameState.SELL_PLACED: frozenset({GameState.PRE_KICKOFF, GameState.DONE}),
+    GameState.FILLING: frozenset(
+        {
+            GameState.SELL_PLACED,
+            GameState.PRE_KICKOFF,
+            GameState.EXPIRED,
+            GameState.GAME_STARTED,  # pre-kickoff failed, game started with fills but no sell
+            GameState.DONE,  # pre-kickoff failed, game started with no fills (edge case)
+        }
+    ),
+    GameState.SELL_PLACED: frozenset(
+        {
+            GameState.PRE_KICKOFF,
+            GameState.DONE,
+            GameState.GAME_STARTED,  # Polymarket cancelled sell at game start when pre-kickoff failed
+        }
+    ),
     GameState.PRE_KICKOFF: frozenset({GameState.GAME_STARTED, GameState.DONE}),
     GameState.GAME_STARTED: frozenset({GameState.RECOVERY_COMPLETE, GameState.DONE}),
     GameState.RECOVERY_COMPLETE: frozenset({GameState.DONE}),
@@ -48,23 +70,28 @@ class GameLifecycle:
     def __init__(self, token_id: str) -> None:
         self.token_id = token_id
         self._state = GameState.DISCOVERED
+        self._lock = threading.Lock()
 
     @property
     def state(self) -> GameState:
-        return self._state
+        with self._lock:
+            return self._state
 
     def transition(self, new_state: GameState) -> None:
-        if not isinstance(new_state, GameState):
-            raise InvalidTransitionError(f"Invalid transition: {self.state.value} → {new_state!r}")
-        allowed = VALID_TRANSITIONS.get(self.state, frozenset())
-        if new_state not in allowed:
-            raise InvalidTransitionError(
-                f"Invalid transition: {self.state.value} → {new_state.value}"
+        with self._lock:
+            if not isinstance(new_state, GameState):
+                raise InvalidTransitionError(
+                    f"Invalid transition: {self._state.value} → {new_state!r}"
+                )
+            allowed = VALID_TRANSITIONS.get(self._state, frozenset())
+            if new_state not in allowed:
+                raise InvalidTransitionError(
+                    f"Invalid transition: {self._state.value} → {new_state.value}"
+                )
+            logger.info(
+                "GameLifecycle [%s]: %s → %s",
+                self.token_id,
+                self._state.value,
+                new_state.value,
             )
-        logger.info(
-            "GameLifecycle [%s]: %s → %s",
-            self.token_id,
-            self.state.value,
-            new_state.value,
-        )
-        self._state = new_state
+            self._state = new_state
