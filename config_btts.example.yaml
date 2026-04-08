@@ -28,6 +28,7 @@ timing:
   daily_fetch_hour_utc: 23
   fill_poll_interval_seconds: 30
   pre_kickoff_minutes: 10
+  sell_verify_interval_seconds: 60
 
 logging:
   level: "INFO"

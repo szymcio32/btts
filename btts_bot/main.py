@@ -55,7 +55,7 @@ def main() -> None:
         clob_client, order_tracker, position_tracker, market_registry
     )
     game_start_service = GameStartService(
-        clob_client, order_tracker, position_tracker, market_registry
+        clob_client, order_tracker, position_tracker, market_registry, config.timing
     )
 
     liquidity_analyser = LiquidityAnalyser(config.liquidity, config.btts)

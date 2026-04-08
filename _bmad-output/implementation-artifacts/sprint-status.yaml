@@ -1,5 +1,5 @@
 # generated: 2026-03-28
-# last_updated: 2026-04-02
+# last_updated: 2026-04-08
 
 # project: btts-bot
 # project_key: NOKEY
@@ -36,7 +36,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-28
-last_updated: 2026-04-07
+last_updated: 2026-04-08  # Story 4.3 review findings applied - done
 project: btts-bot
 project_key: NOKEY
 tracking_system: file-system
@@ -72,7 +72,7 @@ development_status:
   epic-4: in-progress
   4-1-pre-kickoff-sell-consolidation-and-buy-cancellation: done
   4-2-game-start-order-cancellation-detection-and-sell-re-placement: done
-  4-3-post-game-start-sell-verification-and-retry-loop: backlog
+  4-3-post-game-start-sell-verification-and-retry-loop: done
   epic-4-retrospective: optional
 
   # Epic 5: Startup Reconciliation & Operational Resilience

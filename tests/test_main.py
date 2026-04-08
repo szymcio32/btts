@@ -470,8 +470,9 @@ logging:
         mocks["GameStartService"].assert_called_once()
 
     def test_main_game_start_service_receives_correct_deps(self) -> None:
-        """GameStartService is constructed with clob_client, order_tracker, position_tracker, registry."""
-        mocks = _run_main_with_patches()
+        """GameStartService is constructed with clob_client, order_tracker, position_tracker, registry, timing_config."""
+        config = make_config()
+        mocks = _run_main_with_patches(config=config)
         mock_clob_instance = mocks["ClobClientWrapper"].return_value
         mock_tracker_instance = mocks["OrderTracker"].return_value
         mock_pos_tracker_instance = mocks["PositionTracker"].return_value
@@ -480,6 +481,8 @@ logging:
         self.assertIs(call_args.args[0], mock_clob_instance)
         self.assertIs(call_args.args[1], mock_tracker_instance)
         self.assertIs(call_args.args[2], mock_pos_tracker_instance)
+        # 5th argument: timing_config
+        self.assertIs(call_args.args[4], config.timing)
 
     def test_main_scheduler_receives_game_start_service(self) -> None:
         """SchedulerService is constructed with game_start_service kwarg."""

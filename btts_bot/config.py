@@ -33,6 +33,7 @@ class TimingConfig(BaseModel):
     daily_fetch_hour_utc: int = Field(ge=0, le=23)
     fill_poll_interval_seconds: int = Field(default=30, gt=0)
     pre_kickoff_minutes: int = Field(default=10, gt=0)
+    sell_verify_interval_seconds: int = Field(default=60, gt=0)
 
 
 class LoggingConfig(BaseModel):

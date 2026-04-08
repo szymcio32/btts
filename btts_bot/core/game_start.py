@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import logging
 import threading
+import time
 
 from btts_bot.clients.clob import ClobClientWrapper
+from btts_bot.config import TimingConfig
 from btts_bot.core.game_lifecycle import GameState, InvalidTransitionError
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
@@ -30,8 +32,9 @@ class GameStartService:
 
     At game start, Polymarket automatically cancels ALL open orders. This service:
     1. Unconditionally removes any stale sell record (Polymarket cancelled it)
-    2. Places a new sell at buy_price for the full accumulated position
+    2. Places a new sell at buy_price for the full accumulated position (with retry)
     3. Transitions the game to GAME_STARTED
+    4. Verifies the sell is active after sell_verify_interval_seconds and retries until confirmed
 
     Runs in a dedicated daemon thread per game — concurrent games are handled concurrently
     without blocking the APScheduler thread pool.
@@ -43,11 +46,13 @@ class GameStartService:
         order_tracker: OrderTracker,
         position_tracker: PositionTracker,
         market_registry: MarketRegistry,
+        timing_config: TimingConfig,
     ) -> None:
         self._clob_client = clob_client
         self._order_tracker = order_tracker
         self._position_tracker = position_tracker
         self._market_registry = market_registry
+        self._timing = timing_config
         self._inflight_lock = threading.Lock()
         self._inflight_tokens: set[str] = set()
 
@@ -268,32 +273,43 @@ class GameStartService:
     ) -> None:
         """Place a sell at buy_price (capped at 0.99) and transition to GAME_STARTED.
 
+        Retries indefinitely until sell placement succeeds (position safety is paramount).
         Uses record_sell_if_absent for atomic duplicate prevention (thread-safety).
-        If sell placement fails: logs ERROR but does NOT transition (Story 4.3 retry
-        loop will handle it).
+        After successful placement and transition, calls _verify_and_retry_sell() to
+        confirm the sell is active on the CLOB.
         """
         sell_price = min(buy_price, 0.99)
 
         result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
-        if result is None:
-            logger.error(
-                "%s Game-start recovery: sell order failed for token=%s "
-                "(price=%.4f size=%.2f) — Story 4.3 retry will handle",
-                market_name,
-                token_id,
-                sell_price,
-                sell_size,
-            )
-            return
 
-        order_id = result.get("orderID", "")
-        if not order_id:
+        retry_count = 0
+        order_id = ""
+        while not order_id:
+            if result is None:
+                retry_count += 1
+                logger.warning(
+                    "%s Game-start recovery: sell placement failed, retrying #%d (token=%s)",
+                    market_name,
+                    retry_count,
+                    token_id,
+                )
+                time.sleep(self._timing.sell_verify_interval_seconds)
+                result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
+                continue
+
+            order_id = self._extract_order_id(result)
+            if order_id:
+                break
+
+            retry_count += 1
             logger.error(
-                "%s Game-start recovery: sell posted but no orderID for token=%s",
+                "%s Game-start recovery: sell posted but no orderID, retrying #%d (token=%s)",
                 market_name,
+                retry_count,
                 token_id,
             )
-            return
+            time.sleep(self._timing.sell_verify_interval_seconds)
+            result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
 
         # Atomic record — if another thread already placed a sell, False is returned
         # (race condition handled gracefully: another thread succeeded, recovery done)
@@ -324,6 +340,150 @@ class GameStartService:
             sell_price,
             sell_size,
         )
+
+        # Verify sell is active; retry until confirmed (AC #1-#3)
+        self._verify_and_retry_sell(token_id, market_name, entry, buy_price, sell_size)
+
+    def _is_sell_active(self, order_id: str, market_name: str) -> bool:
+        """Check if a sell order is still active on the CLOB.
+
+        Returns True if the order is live/open or matched (filled).
+        Returns False if cancelled, missing, or API error.
+        """
+        order_data = self._clob_client.get_order(order_id)
+        if order_data is None:
+            logger.warning(
+                "%s Sell verification: get_order returned None for order=%s",
+                market_name,
+                order_id,
+            )
+            return False
+
+        # py-clob-client returns order data with various status fields
+        status_obj: object = ""
+        if hasattr(order_data, "status"):
+            status_obj = order_data.status
+        elif hasattr(order_data, "order_status"):
+            status_obj = order_data.order_status
+        elif isinstance(order_data, dict):
+            status_obj = order_data.get("status")
+            if status_obj is None:
+                status_obj = order_data.get("order_status", "")
+
+        status = str(status_obj or "")
+
+        if status.upper() in ("LIVE", "OPEN", "MATCHED"):
+            return True
+
+        logger.warning(
+            "%s Sell verification: order=%s has status=%s (not active)",
+            market_name,
+            order_id,
+            status,
+        )
+        return False
+
+    def _verify_and_retry_sell(
+        self,
+        token_id: str,
+        market_name: str,
+        entry: object,
+        buy_price: float,
+        sell_size: float,
+    ) -> None:
+        """Verify sell order is active after placement; retry until confirmed (AC #1-#3).
+
+        Sleeps sell_verify_interval_seconds, then checks order status via get_order().
+        If active: transitions to RECOVERY_COMPLETE, logs INFO, returns.
+        If not active: re-places sell, loops until confirmed.
+        No maximum retry limit — position safety is paramount.
+        """
+        sell_record = self._order_tracker.get_sell_order(token_id)
+        retry_count = 0
+        current_order_id = sell_record.order_id if sell_record is not None else ""
+
+        if not current_order_id:
+            logger.warning(
+                "%s Verify: no sell record for token=%s after placement, attempting re-placement",
+                market_name,
+                token_id,
+            )
+
+        while True:
+            if current_order_id:
+                time.sleep(self._timing.sell_verify_interval_seconds)
+
+                if self._is_sell_active(current_order_id, market_name):
+                    try:
+                        entry.lifecycle.transition(GameState.RECOVERY_COMPLETE)
+                    except InvalidTransitionError:
+                        if entry.lifecycle.state == GameState.RECOVERY_COMPLETE:
+                            logger.debug(
+                                "%s RECOVERY_COMPLETE already set for token=%s",
+                                market_name,
+                                token_id,
+                            )
+                        else:
+                            raise
+                    logger.info(
+                        "%s Game-start recovery verified -- sell confirmed active",
+                        market_name,
+                    )
+                    return
+
+                # Sell is not active — re-place immediately
+                self._order_tracker.remove_sell_order(token_id)
+
+            retry_count += 1
+            logger.warning(
+                "%s Sell verification failed -- retry #%d",
+                market_name,
+                retry_count,
+            )
+
+            sell_price = min(buy_price, 0.99)
+
+            result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
+            if result is None:
+                logger.error(
+                    "%s Sell re-placement failed on retry #%d for token=%s",
+                    market_name,
+                    retry_count,
+                    token_id,
+                )
+                # Don't return — keep looping, next iteration will try again
+                current_order_id = ""
+                continue
+
+            order_id = self._extract_order_id(result)
+            if not order_id:
+                logger.error(
+                    "%s Sell re-placement returned no orderID on retry #%d",
+                    market_name,
+                    retry_count,
+                )
+                current_order_id = ""
+                continue
+
+            self._order_tracker.record_sell(token_id, order_id, sell_price, sell_size)
+            current_order_id = order_id
+            # Loop continues — will sleep and verify the new sell
+
+    def _extract_order_id(self, result: object) -> str:
+        """Extract order id from CLOB response variants."""
+        if isinstance(result, dict):
+            for key in ("orderID", "orderId", "id"):
+                raw_order_id = result.get(key)
+                if isinstance(raw_order_id, str) and raw_order_id:
+                    return raw_order_id
+
+        for attr in ("orderID", "orderId", "order_id", "id"):
+            if hasattr(result, attr):
+                raw_order_id = getattr(result, attr)
+                if isinstance(raw_order_id, str) and raw_order_id:
+                    return raw_order_id
+
+        return ""
 
     def _cancel_buy_if_active(self, token_id: str, market_name: str) -> bool:
         """Attempt to cancel the active buy if one exists.

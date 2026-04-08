@@ -7151,3 +7151,1111 @@
 2026-04-07 22:15:02,003 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
 2026-04-07 22:15:02,004 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
 2026-04-07 22:15:02,005 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,377 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-04-07 22:36:55,558 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-abc league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,559 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,559 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,564 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,565 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,565 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,569 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,574 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market has insufficient token_ids, skipping
+2026-04-07 22:36:55,574 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,575 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,579 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market missing condition_id, skipping
+2026-04-07 22:36:55,579 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,580 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,584 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got str
+2026-04-07 22:36:55,585 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got int
+2026-04-07 22:36:55,585 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,586 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,586 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,590 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-07 22:36:55,591 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,592 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,595 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,600 | ERROR    | btts_bot.core.market_discovery | Market discovery failed: could not fetch games data
+2026-04-07 22:36:55,604 | WARNING  | btts_bot.core.market_discovery | [A vs B] BTTS market has insufficient token_ids, skipping
+2026-04-07 22:36:55,605 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,605 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,609 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-07 22:36:55,610 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,610 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,614 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,615 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,615 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,623 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-1 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,624 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-2 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,628 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,636 | WARNING  | btts_bot.core.market_discovery | [A vs B] Invalid kickoff_utc, skipping
+2026-04-07 22:36:55,637 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,637 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,641 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,642 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-liga league=liga kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,642 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,642 | INFO     | btts_bot.core.market_discovery | Discovery: liga — 1 BTTS markets found
+2026-04-07 22:36:55,643 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 2 new markets registered
+2026-04-07 22:36:55,647 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,648 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,649 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,653 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,654 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=order-1 price=0.4800
+2026-04-07 22:36:55,658 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-dup league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,659 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,660 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,663 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,664 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,665 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,670 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,670 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,675 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 22:36:55,675 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 22:36:55,680 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-07 22:36:55,684 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-07 22:36:55,688 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,689 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 22:36:55,689 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 22:36:55,693 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,697 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,701 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=special-token league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,703 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,706 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,713 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,716 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,726 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,727 | INFO     | btts_bot.state.market_registry | Market registered: [Real Madrid vs Atletico] token=tok-2 league=LIGA kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,730 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,735 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,740 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,744 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,748 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 22:36:55,753 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.753108+00:00
+2026-04-07 22:36:55,753 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,757 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-123 price=0.4800
+2026-04-07 22:36:55,758 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,758 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-123
+2026-04-07 22:36:55,763 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.763098+00:00
+2026-04-07 22:36:55,763 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,764 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-456 price=0.4800
+2026-04-07 22:36:55,765 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,765 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-456
+2026-04-07 22:36:55,769 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.769843+00:00
+2026-04-07 22:36:55,770 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,771 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-789 price=0.4800
+2026-04-07 22:36:55,772 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,772 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=25, order=order-789
+2026-04-07 22:36:55,776 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=existing-order price=0.4800
+2026-04-07 22:36:55,777 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.777210+00:00
+2026-04-07 22:36:55,777 | WARNING  | btts_bot.core.order_execution | [Arsenal vs Chelsea] Duplicate buy prevented (token=token-1)
+2026-04-07 22:36:55,781 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=original-order-id price=0.4800
+2026-04-07 22:36:55,781 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.781805+00:00
+2026-04-07 22:36:55,782 | WARNING  | btts_bot.core.order_execution | [Arsenal vs Chelsea] Duplicate buy prevented (token=token-1)
+2026-04-07 22:36:55,786 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.786435+00:00
+2026-04-07 22:36:55,787 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,788 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed (retry exhausted): token=token-1 price=0.4800
+2026-04-07 22:36:55,788 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 22:36:55,792 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.792744+00:00
+2026-04-07 22:36:55,793 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,794 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order posted but no orderID in response: token=token-1
+2026-04-07 22:36:55,795 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 22:36:55,798 | WARNING  | btts_bot.core.order_execution | [unknown-token] Buy skipped: market entry not found
+2026-04-07 22:36:55,803 | WARNING  | btts_bot.core.order_execution | [unknown-token] Buy skipped: market entry not found
+2026-04-07 22:36:55,808 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.808485+00:00
+2026-04-07 22:36:55,809 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,810 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed with non-retryable error: token=token-1 price=0.4800 error=bad request
+2026-04-07 22:36:55,811 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 22:36:55,815 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.814993+00:00
+2026-04-07 22:36:55,815 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,816 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-ts price=0.4800
+2026-04-07 22:36:55,816 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,817 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-ts
+2026-04-07 22:36:55,821 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.821685+00:00
+2026-04-07 22:36:55,822 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,823 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-ts2 price=0.4800
+2026-04-07 22:36:55,824 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,824 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-ts2
+2026-04-07 22:36:55,829 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2020-01-01T12:00:00+00:00
+2026-04-07 22:36:55,830 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,831 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy skipped: computed expiration is not in the future (expiration=1577865600, now=1775594215, kickoff=1577880000, offset_hours=4)
+2026-04-07 22:36:55,831 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 22:36:55,836 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.836043+00:00
+2026-04-07 22:36:55,836 | INFO     | btts_bot.state.market_registry | Market registered: [Man City vs Liverpool] token=token-2 league=EPL kickoff=2026-05-07T20:36:55.836622+00:00
+2026-04-07 22:36:55,837 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,837 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,838 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:55,839 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,839 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-1
+2026-04-07 22:36:55,840 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-1 price=0.4900
+2026-04-07 22:36:55,840 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,841 | INFO     | btts_bot.core.order_execution | [Man City vs Liverpool] Buy order placed: token=token-2, price=0.4900, size=30, order=order-1
+2026-04-07 22:36:55,845 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.845117+00:00
+2026-04-07 22:36:55,845 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-2 league=EPL kickoff=2026-05-07T20:36:55.845648+00:00
+2026-04-07 22:36:55,846 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,847 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:55,847 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,848 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-1
+2026-04-07 22:36:55,852 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=existing-order price=0.4800
+2026-04-07 22:36:55,852 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.852518+00:00
+2026-04-07 22:36:55,853 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-2 league=EPL kickoff=2026-05-07T20:36:55.852995+00:00
+2026-04-07 22:36:55,853 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,853 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,854 | WARNING  | btts_bot.core.order_execution | [Arsenal vs Chelsea] Duplicate buy prevented (token=token-1)
+2026-04-07 22:36:55,855 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=new-order price=0.4900
+2026-04-07 22:36:55,855 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,856 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-2, price=0.4900, size=30, order=new-order
+2026-04-07 22:36:55,859 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.859871+00:00
+2026-04-07 22:36:55,868 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.868109+00:00
+2026-04-07 22:36:55,868 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,872 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.872913+00:00
+2026-04-07 22:36:55,873 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-2 league=EPL kickoff=2026-05-07T20:36:55.873456+00:00
+2026-04-07 22:36:55,873 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,874 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,875 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:55,875 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,875 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-1
+2026-04-07 22:36:55,876 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed (retry exhausted): token=token-2 price=0.4900
+2026-04-07 22:36:55,876 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: ANALYSED → SKIPPED
+2026-04-07 22:36:55,880 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,880 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.880594+00:00
+2026-04-07 22:36:55,881 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,881 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,882 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,882 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=10.00
+2026-04-07 22:36:55,883 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:55,883 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5200, size=10.00
+2026-04-07 22:36:55,886 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,887 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.887199+00:00
+2026-04-07 22:36:55,887 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,888 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,888 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,889 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-2 price=0.5500 size=10.00
+2026-04-07 22:36:55,889 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:55,889 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5500, size=10.00
+2026-04-07 22:36:55,893 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,893 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.893789+00:00
+2026-04-07 22:36:55,894 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,894 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,895 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,895 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-3 price=0.5200 size=15.50
+2026-04-07 22:36:55,896 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:55,896 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5200, size=15.50
+2026-04-07 22:36:55,900 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,901 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.901070+00:00
+2026-04-07 22:36:55,901 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,901 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,902 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,903 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-cap price=0.9900 size=10.00
+2026-04-07 22:36:55,903 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:55,904 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.9900, size=10.00
+2026-04-07 22:36:55,907 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,907 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-existing price=0.5200 size=10.00
+2026-04-07 22:36:55,912 | ERROR    | btts_bot.core.order_execution | [token-1] Sell skipped: no buy order record found for token=token-1
+2026-04-07 22:36:55,917 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,917 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.917617+00:00
+2026-04-07 22:36:55,918 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,918 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,919 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,919 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order failed (retry exhausted): token=token-1 price=0.5200 size=10.00
+2026-04-07 22:36:55,923 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:55,924 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T20:36:55.924135+00:00
+2026-04-07 22:36:55,924 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,925 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,925 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:55,926 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-log price=0.5200 size=10.00
+2026-04-07 22:36:55,926 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:55,927 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5200, size=10.00
+2026-04-07 22:36:55,934 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=10.00
+2026-04-07 22:36:55,939 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 22:36:55,939 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-new price=0.5200 size=15.00
+2026-04-07 22:36:55,940 | INFO     | btts_bot.core.order_execution | [token-1] Sell order updated: token=token-1, new_size=15.00, old_size=10.00
+2026-04-07 22:36:55,944 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 22:36:55,945 | ERROR    | btts_bot.core.order_execution | [token-1] Sell update failed: cancel of order=sell-order-old returned None, keeping old sell
+2026-04-07 22:36:55,950 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 22:36:55,951 | ERROR    | btts_bot.core.order_execution | [token-1] Sell update: cancel succeeded but new sell failed for token=token-1 — position temporarily has no sell coverage
+2026-04-07 22:36:55,956 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 22:36:55,957 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-updated price=0.5200 size=20.00
+2026-04-07 22:36:55,957 | INFO     | btts_bot.core.order_execution | [token-1] Sell order updated: token=token-1, new_size=20.00, old_size=10.00
+2026-04-07 22:36:55,962 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-sched league=EPL kickoff=2026-05-07T20:36:55.962062+00:00
+2026-04-07 22:36:55,962 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,963 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-sched order=order-sched-1 price=0.4800
+2026-04-07 22:36:55,964 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,964 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-sched, price=0.4800, size=30, order=order-sched-1
+2026-04-07 22:36:55,969 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-sched-gs league=EPL kickoff=2026-05-07T20:36:55.969128+00:00
+2026-04-07 22:36:55,969 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-gs]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,970 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-sched-gs order=order-sched-gs price=0.4800
+2026-04-07 22:36:55,971 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-gs]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,971 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-sched-gs, price=0.4800, size=30, order=order-sched-gs
+2026-04-07 22:36:55,977 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-sched-fail league=EPL kickoff=2026-05-07T20:36:55.977374+00:00
+2026-04-07 22:36:55,978 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-fail]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,979 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed (retry exhausted): token=token-sched-fail price=0.4800
+2026-04-07 22:36:55,979 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-fail]: ANALYSED → SKIPPED
+2026-04-07 22:36:55,984 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-nosched league=EPL kickoff=2026-05-07T20:36:55.984221+00:00
+2026-04-07 22:36:55,984 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-nosched]: DISCOVERED → ANALYSED
+2026-04-07 22:36:55,985 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-nosched order=order-no-sched price=0.4800
+2026-04-07 22:36:55,986 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-nosched]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:55,986 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-nosched, price=0.4800, size=30, order=order-no-sched
+2026-04-07 22:36:55,990 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:55,991 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=order-1
+2026-04-07 22:36:56,003 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,003 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.4900
+2026-04-07 22:36:56,004 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=order-1
+2026-04-07 22:36:56,008 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,009 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.4900
+2026-04-07 22:36:56,012 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,019 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,025 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,032 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5500 size=7.50
+2026-04-07 22:36:56,041 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,051 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=5.00
+2026-04-07 22:36:56,054 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,055 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.5200
+2026-04-07 22:36:56,058 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,059 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=order-1
+2026-04-07 22:36:56,069 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 22:36:56,069 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-2 price=0.5000
+2026-04-07 22:36:56,073 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=10.00
+2026-04-07 22:36:56,077 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=5.00
+2026-04-07 22:36:56,105 | WARNING  | btts_bot.core.pre_kickoff | Pre-kickoff handler: no registry entry for token=unknown-token, skipping
+2026-04-07 22:36:56,109 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,114 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,119 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,123 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,128 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,134 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,142 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,142 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,143 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,143 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,143 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,144 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,144 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,145 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=15.00
+2026-04-07 22:36:56,145 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,146 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,146 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,146 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=15.00
+2026-04-07 22:36:56,150 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,150 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,155 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,156 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,157 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,157 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,158 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,159 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 22:36:56,159 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,160 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,160 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,161 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=10.00
+2026-04-07 22:36:56,165 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,166 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,166 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,167 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,167 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,168 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,168 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,169 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=25.50
+2026-04-07 22:36:56,169 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,170 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,170 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,171 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=25.50
+2026-04-07 22:36:56,175 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=1.0000
+2026-04-07 22:36:56,175 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=1.0200 size=10.00
+2026-04-07 22:36:56,176 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,176 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,176 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,177 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,177 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,178 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.9900 size=10.00
+2026-04-07 22:36:56,178 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,179 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,179 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,180 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.9900, size=10.00
+2026-04-07 22:36:56,184 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,184 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,185 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,185 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,186 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,186 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,187 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,188 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation failed: cancel of sell order=old-sell-id returned None (token=token-1) — game left in SELL_PLACED for game-start recovery
+2026-04-07 22:36:56,192 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,193 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,193 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,194 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,194 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,195 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,195 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,196 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation failed: new sell order failed for token=token-1 (price=0.4800 size=10.00) — position has no sell coverage; game left in SELL_PLACED for game-start recovery
+2026-04-07 22:36:56,199 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,200 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,200 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,201 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,201 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,201 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,202 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,203 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 22:36:56,203 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,204 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,204 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,204 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=10.00
+2026-04-07 22:36:56,209 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,209 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,210 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,210 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,210 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,211 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,211 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,212 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 22:36:56,212 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,213 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,213 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,213 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=10.00
+2026-04-07 22:36:56,216 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,217 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,217 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,218 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,218 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,219 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-filling-id price=0.4800 size=3.00
+2026-04-07 22:36:56,219 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,220 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,220 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → PRE_KICKOFF
+2026-04-07 22:36:56,220 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=3.00
+2026-04-07 22:36:56,225 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,226 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,226 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,227 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,227 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,228 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-filling-id price=0.4800 size=5.00
+2026-04-07 22:36:56,229 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,229 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,230 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → PRE_KICKOFF
+2026-04-07 22:36:56,230 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=5.00
+2026-04-07 22:36:56,234 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,235 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,235 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,236 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,236 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,237 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff FILLING: sell order failed for token=token-1 (price=0.4800 size=3.00) — game left in FILLING for game-start recovery
+2026-04-07 22:36:56,241 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,242 | INFO     | btts_bot.state.market_registry | Market registered: [Man City vs Liverpool] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,243 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,243 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,244 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,245 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-id price=0.4800 size=5.00
+2026-04-07 22:36:56,245 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,246 | INFO     | btts_bot.core.pre_kickoff | [Man City vs Liverpool] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,246 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → PRE_KICKOFF
+2026-04-07 22:36:56,247 | INFO     | btts_bot.core.pre_kickoff | [Man City vs Liverpool] Pre-kickoff consolidation: sell at buy_price=0.4800, size=5.00
+2026-04-07 22:36:56,251 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,251 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,252 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,252 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,253 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,253 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,254 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,254 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: PRE_KICKOFF → DONE
+2026-04-07 22:36:56,258 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,259 | INFO     | btts_bot.state.market_registry | Market registered: [Juventus vs Milan] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,259 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,260 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,261 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,261 | INFO     | btts_bot.core.pre_kickoff | [Juventus vs Milan] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,262 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,262 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: PRE_KICKOFF → DONE
+2026-04-07 22:36:56,266 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,266 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,267 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,267 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,268 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,268 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 22:36:56,268 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=race-sell-id price=0.4800 size=8.00
+2026-04-07 22:36:56,269 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → PRE_KICKOFF
+2026-04-07 22:36:56,269 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=8.00
+2026-04-07 22:36:56,272 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,273 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,273 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,278 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,279 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff BUY_PLACED: cancel of buy order=buy-order-1 returned None (token=token-1)
+2026-04-07 22:36:56,284 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,285 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,285 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,286 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,286 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,287 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-filling-id price=0.4800 size=5.00
+2026-04-07 22:36:56,287 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff: cancel of buy order=buy-order-1 returned None (token=token-1) — buy may still be live on exchange
+2026-04-07 22:36:56,292 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,292 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 22:36:56,293 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,293 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,294 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,294 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 22:36:56,295 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 22:36:56,295 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 22:36:56,296 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff: cancel of buy order=buy-order-1 returned None (token=token-1) — buy may still be live on exchange
+2026-04-07 22:36:56,300 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,305 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 22:36:56,321 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 1/5 failed: connection refused — retrying in 1.0s
+2026-04-07 22:36:56,322 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 2/5 failed: connection refused — retrying in 2.0s
+2026-04-07 22:36:56,323 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 3/5 failed: connection refused — retrying in 4.0s
+2026-04-07 22:36:56,323 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 4/5 failed: connection refused — retrying in 8.0s
+2026-04-07 22:36:56,324 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 5/5 failed: connection refused — retrying in 16.0s
+2026-04-07 22:36:56,324 | ERROR    | btts_bot.retry | [retry] network_fail: all 5 retries exhausted. Last error: connection refused. Returning None.
+2026-04-07 22:36:56,329 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 1/5 failed: something went wrong — retrying in 1.0s
+2026-04-07 22:36:56,330 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 2/5 failed: something went wrong — retrying in 2.0s
+2026-04-07 22:36:56,331 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 3/5 failed: something went wrong — retrying in 4.0s
+2026-04-07 22:36:56,331 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 4/5 failed: something went wrong — retrying in 8.0s
+2026-04-07 22:36:56,332 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 5/5 failed: something went wrong — retrying in 16.0s
+2026-04-07 22:36:56,332 | ERROR    | btts_bot.retry | [retry] generic_fail: all 5 retries exhausted. Last error: something went wrong. Returning None.
+2026-04-07 22:36:56,337 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 22:36:56,338 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 22:36:56,339 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 22:36:56,340 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 22:36:56,341 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 22:36:56,341 | ERROR    | btts_bot.retry | [retry] flaky_425: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 22:36:56,346 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 22:36:56,347 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 22:36:56,348 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 22:36:56,349 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 22:36:56,350 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 22:36:56,350 | ERROR    | btts_bot.retry | [retry] flaky_429: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 22:36:56,355 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 22:36:56,356 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 22:36:56,357 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 22:36:56,358 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 22:36:56,358 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 22:36:56,359 | ERROR    | btts_bot.retry | [retry] flaky_500: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 22:36:56,364 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 22:36:56,365 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 22:36:56,365 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 22:36:56,366 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 22:36:56,367 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 22:36:56,368 | ERROR    | btts_bot.retry | [retry] flaky_503: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 22:36:56,372 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 1/5 failed: timed out — retrying in 1.0s
+2026-04-07 22:36:56,373 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 2/5 failed: timed out — retrying in 2.0s
+2026-04-07 22:36:56,374 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 3/5 failed: timed out — retrying in 4.0s
+2026-04-07 22:36:56,375 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 4/5 failed: timed out — retrying in 8.0s
+2026-04-07 22:36:56,375 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 5/5 failed: timed out — retrying in 16.0s
+2026-04-07 22:36:56,376 | ERROR    | btts_bot.retry | [retry] timeout_fail: all 5 retries exhausted. Last error: timed out. Returning None.
+2026-04-07 22:36:56,419 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-07 22:36:56,420 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-07 22:36:56,421 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-07 22:36:56,422 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-07 22:36:56,422 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-07 22:36:56,423 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-07 22:36:56,427 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-07 22:36:56,428 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-07 22:36:56,429 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-07 22:36:56,429 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-07 22:36:56,430 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-07 22:36:56,430 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-07 22:36:56,470 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 14:00 UTC
+2026-04-07 22:36:56,475 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 07:00 UTC
+2026-04-07 22:36:56,479 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-07 22:36:56,479 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch complete: 5 new markets
+2026-04-07 22:36:56,484 | INFO     | btts_bot.core.scheduling | Scheduler shut down
+2026-04-07 22:36:56,488 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-07 22:36:56,492 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-1 at 2026-04-07T22:26:56.492201+00:00
+2026-04-07 22:36:56,497 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-abc at 2026-04-07T22:26:56.496860+00:00
+2026-04-07 22:36:56,502 | WARNING  | btts_bot.core.scheduling | Pre-kickoff trigger for token=token-past is in the past (kickoff=2026-04-07T20:31:56.501979+00:00), skipping
+2026-04-07 22:36:56,507 | WARNING  | btts_bot.core.scheduling | Pre-kickoff trigger for token=token-now is in the past (kickoff=2026-04-07T20:36:26.506887+00:00), skipping
+2026-04-07 22:36:56,512 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-dup at 2026-04-07T23:26:56.511694+00:00
+2026-04-07 22:36:56,513 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-dup at 2026-04-07T23:26:56.511694+00:00
+2026-04-07 22:36:56,517 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=my-token-99 at 2026-04-07T21:26:56.517186+00:00
+2026-04-07 22:36:56,521 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-gs-1 at 2026-04-07T22:36:56.521518+00:00
+2026-04-07 22:36:56,526 | WARNING  | btts_bot.core.scheduling | Game-start trigger for token=token-past is in the past (kickoff=2026-04-07T20:31:56.526025+00:00), skipping
+2026-04-07 22:36:56,531 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-dup at 2026-04-07T23:36:56.530438+00:00
+2026-04-07 22:36:56,531 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-dup at 2026-04-07T23:36:56.530438+00:00
+2026-04-07 22:36:56,536 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=my-game-token at 2026-04-07T21:36:56.535696+00:00
+2026-04-07 22:36:56,540 | INFO     | btts_bot.core.scheduling | Game-start recovery thread launched for token=token-thread-test
+2026-04-07 22:36:56,545 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-func at 2026-04-07T22:36:56.544914+00:00
+2026-04-07 22:36:56,550 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,552 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-0 price=0.4800 size=0.00
+2026-04-07 22:36:56,553 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-2 price=0.4800 size=2.00
+2026-04-07 22:36:56,553 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-1 price=0.4800 size=1.00
+2026-04-07 22:36:56,554 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-3 price=0.4800 size=3.00
+2026-04-07 22:36:56,555 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-4 price=0.4800 size=4.00
+2026-04-07 22:36:56,555 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-5 price=0.4800 size=5.00
+2026-04-07 22:36:56,556 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-6 price=0.4800 size=6.00
+2026-04-07 22:36:56,557 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-7 price=0.4800 size=7.00
+2026-04-07 22:36:56,557 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-8 price=0.4800 size=8.00
+2026-04-07 22:36:56,558 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-9 price=0.4800 size=9.00
+2026-04-07 22:36:56,568 | INFO     | btts_bot.state.order_tracker | Sell order recorded (atomic): token=token-1 order=sell-0 price=0.4800 size=10.00
+2026-04-07 22:36:56,575 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 22:36:56,576 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,577 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,579 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,582 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,583 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,584 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,585 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,585 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,586 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,587 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,588 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,588 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,589 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,590 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,590 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,591 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,592 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,592 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,593 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,594 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 22:36:56,633 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 22:36:56,634 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 22:36:56,635 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:43,255 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-04-07 23:31:43,586 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-abc league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,587 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,588 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,598 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,599 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,600 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,609 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,618 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market has insufficient token_ids, skipping
+2026-04-07 23:31:43,619 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,620 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,628 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market missing condition_id, skipping
+2026-04-07 23:31:43,629 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,630 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,641 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got str
+2026-04-07 23:31:43,642 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got int
+2026-04-07 23:31:43,643 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,644 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,645 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,653 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-07 23:31:43,654 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,655 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,665 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,676 | ERROR    | btts_bot.core.market_discovery | Market discovery failed: could not fetch games data
+2026-04-07 23:31:43,684 | WARNING  | btts_bot.core.market_discovery | [A vs B] BTTS market has insufficient token_ids, skipping
+2026-04-07 23:31:43,685 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,686 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,699 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping
+2026-04-07 23:31:43,699 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,700 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,709 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,710 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,711 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,729 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-1 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,730 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-2 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,739 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,756 | WARNING  | btts_bot.core.market_discovery | [A vs B] Invalid kickoff_utc, skipping
+2026-04-07 23:31:43,757 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,758 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,767 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,768 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-liga league=liga kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,769 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,770 | INFO     | btts_bot.core.market_discovery | Discovery: liga — 1 BTTS markets found
+2026-04-07 23:31:43,771 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 2 new markets registered
+2026-04-07 23:31:43,781 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,782 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,783 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,790 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,791 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=order-1 price=0.4800
+2026-04-07 23:31:43,801 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-dup league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,803 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,804 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,810 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,813 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,814 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,823 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,824 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,833 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-07 23:31:43,834 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-07 23:31:43,843 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-07 23:31:43,852 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-07 23:31:43,863 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,864 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-07 23:31:43,865 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-07 23:31:43,875 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,884 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,893 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=special-token league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,900 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,909 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,923 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,933 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,956 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,957 | INFO     | btts_bot.state.market_registry | Market registered: [Real Madrid vs Atletico] token=tok-2 league=LIGA kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,965 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,974 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,983 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:43,991 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:44,001 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=tok-1 league=EPL kickoff=2026-04-01T15:00:00+00:00
+2026-04-07 23:31:44,009 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.009017+00:00
+2026-04-07 23:31:44,010 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,012 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-123 price=0.4800
+2026-04-07 23:31:44,013 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,014 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-123
+2026-04-07 23:31:44,024 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.024724+00:00
+2026-04-07 23:31:44,025 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,028 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-456 price=0.4800
+2026-04-07 23:31:44,030 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,031 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-456
+2026-04-07 23:31:44,040 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.040646+00:00
+2026-04-07 23:31:44,041 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,043 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-789 price=0.4800
+2026-04-07 23:31:44,044 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,045 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=25, order=order-789
+2026-04-07 23:31:44,054 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=existing-order price=0.4800
+2026-04-07 23:31:44,055 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.055730+00:00
+2026-04-07 23:31:44,057 | WARNING  | btts_bot.core.order_execution | [Arsenal vs Chelsea] Duplicate buy prevented (token=token-1)
+2026-04-07 23:31:44,065 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=original-order-id price=0.4800
+2026-04-07 23:31:44,066 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.066161+00:00
+2026-04-07 23:31:44,067 | WARNING  | btts_bot.core.order_execution | [Arsenal vs Chelsea] Duplicate buy prevented (token=token-1)
+2026-04-07 23:31:44,076 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.076829+00:00
+2026-04-07 23:31:44,078 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,081 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed (retry exhausted): token=token-1 price=0.4800
+2026-04-07 23:31:44,083 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 23:31:44,095 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.095151+00:00
+2026-04-07 23:31:44,096 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,100 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order posted but no orderID in response: token=token-1
+2026-04-07 23:31:44,104 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 23:31:44,113 | WARNING  | btts_bot.core.order_execution | [unknown-token] Buy skipped: market entry not found
+2026-04-07 23:31:44,122 | WARNING  | btts_bot.core.order_execution | [unknown-token] Buy skipped: market entry not found
+2026-04-07 23:31:44,131 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.131628+00:00
+2026-04-07 23:31:44,133 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,135 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed with non-retryable error: token=token-1 price=0.4800 error=bad request
+2026-04-07 23:31:44,136 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 23:31:44,151 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.151512+00:00
+2026-04-07 23:31:44,153 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,156 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-ts price=0.4800
+2026-04-07 23:31:44,157 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,158 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-ts
+2026-04-07 23:31:44,168 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.168519+00:00
+2026-04-07 23:31:44,169 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,172 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-ts2 price=0.4800
+2026-04-07 23:31:44,173 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,174 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-ts2
+2026-04-07 23:31:44,184 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2020-01-01T12:00:00+00:00
+2026-04-07 23:31:44,185 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,187 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy skipped: computed expiration is not in the future (expiration=1577865600, now=1775597504, kickoff=1577880000, offset_hours=4)
+2026-04-07 23:31:44,187 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → SKIPPED
+2026-04-07 23:31:44,196 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.195960+00:00
+2026-04-07 23:31:44,197 | INFO     | btts_bot.state.market_registry | Market registered: [Man City vs Liverpool] token=token-2 league=EPL kickoff=2026-05-07T21:31:44.197164+00:00
+2026-04-07 23:31:44,198 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,199 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,202 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,203 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,204 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-1
+2026-04-07 23:31:44,205 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-1 price=0.4900
+2026-04-07 23:31:44,206 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,207 | INFO     | btts_bot.core.order_execution | [Man City vs Liverpool] Buy order placed: token=token-2, price=0.4900, size=30, order=order-1
+2026-04-07 23:31:44,216 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.216260+00:00
+2026-04-07 23:31:44,217 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-2 league=EPL kickoff=2026-05-07T21:31:44.217785+00:00
+2026-04-07 23:31:44,219 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,222 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,223 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,224 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-1
+2026-04-07 23:31:44,233 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=existing-order price=0.4800
+2026-04-07 23:31:44,234 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.234589+00:00
+2026-04-07 23:31:44,236 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-2 league=EPL kickoff=2026-05-07T21:31:44.235895+00:00
+2026-04-07 23:31:44,237 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,238 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,239 | WARNING  | btts_bot.core.order_execution | [Arsenal vs Chelsea] Duplicate buy prevented (token=token-1)
+2026-04-07 23:31:44,241 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=new-order price=0.4900
+2026-04-07 23:31:44,242 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,243 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-2, price=0.4900, size=30, order=new-order
+2026-04-07 23:31:44,252 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.251976+00:00
+2026-04-07 23:31:44,269 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.269780+00:00
+2026-04-07 23:31:44,270 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,281 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.281149+00:00
+2026-04-07 23:31:44,282 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-2 league=EPL kickoff=2026-05-07T21:31:44.282479+00:00
+2026-04-07 23:31:44,283 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,284 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,286 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,287 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,288 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-1, price=0.4800, size=30, order=order-1
+2026-04-07 23:31:44,290 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed (retry exhausted): token=token-2 price=0.4900
+2026-04-07 23:31:44,291 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-2]: ANALYSED → SKIPPED
+2026-04-07 23:31:44,300 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,301 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.301622+00:00
+2026-04-07 23:31:44,302 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,303 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,304 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,306 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=10.00
+2026-04-07 23:31:44,308 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,309 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5200, size=10.00
+2026-04-07 23:31:44,319 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,321 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.321177+00:00
+2026-04-07 23:31:44,322 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,323 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,325 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,327 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-2 price=0.5500 size=10.00
+2026-04-07 23:31:44,328 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,330 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5500, size=10.00
+2026-04-07 23:31:44,340 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,341 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.341320+00:00
+2026-04-07 23:31:44,344 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,345 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,347 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,348 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-3 price=0.5200 size=15.50
+2026-04-07 23:31:44,349 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,350 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5200, size=15.50
+2026-04-07 23:31:44,360 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,362 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.361930+00:00
+2026-04-07 23:31:44,362 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,363 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,364 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,366 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-cap price=0.9900 size=10.00
+2026-04-07 23:31:44,367 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,368 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.9900, size=10.00
+2026-04-07 23:31:44,375 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,376 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-existing price=0.5200 size=10.00
+2026-04-07 23:31:44,386 | ERROR    | btts_bot.core.order_execution | [token-1] Sell skipped: no buy order record found for token=token-1
+2026-04-07 23:31:44,395 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,396 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.396307+00:00
+2026-04-07 23:31:44,397 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,398 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,398 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,400 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order failed (retry exhausted): token=token-1 price=0.5200 size=10.00
+2026-04-07 23:31:44,411 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,412 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-05-07T21:31:44.412340+00:00
+2026-04-07 23:31:44,413 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,414 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,414 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,416 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-log price=0.5200 size=10.00
+2026-04-07 23:31:44,417 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,418 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Sell order placed: token=token-1, price=0.5200, size=10.00
+2026-04-07 23:31:44,434 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=10.00
+2026-04-07 23:31:44,443 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 23:31:44,445 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-new price=0.5200 size=15.00
+2026-04-07 23:31:44,446 | INFO     | btts_bot.core.order_execution | [token-1] Sell order updated: token=token-1, new_size=15.00, old_size=10.00
+2026-04-07 23:31:44,454 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 23:31:44,457 | ERROR    | btts_bot.core.order_execution | [token-1] Sell update failed: cancel of order=sell-order-old returned None, keeping old sell
+2026-04-07 23:31:44,467 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 23:31:44,468 | ERROR    | btts_bot.core.order_execution | [token-1] Sell update: cancel succeeded but new sell failed for token=token-1 — position temporarily has no sell coverage
+2026-04-07 23:31:44,476 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-old price=0.5200 size=10.00
+2026-04-07 23:31:44,478 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-updated price=0.5200 size=20.00
+2026-04-07 23:31:44,480 | INFO     | btts_bot.core.order_execution | [token-1] Sell order updated: token=token-1, new_size=20.00, old_size=10.00
+2026-04-07 23:31:44,489 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-sched league=EPL kickoff=2026-05-07T21:31:44.489541+00:00
+2026-04-07 23:31:44,491 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,494 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-sched order=order-sched-1 price=0.4800
+2026-04-07 23:31:44,495 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,496 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-sched, price=0.4800, size=30, order=order-sched-1
+2026-04-07 23:31:44,506 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-sched-gs league=EPL kickoff=2026-05-07T21:31:44.506647+00:00
+2026-04-07 23:31:44,507 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-gs]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,510 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-sched-gs order=order-sched-gs price=0.4800
+2026-04-07 23:31:44,511 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-gs]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,512 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-sched-gs, price=0.4800, size=30, order=order-sched-gs
+2026-04-07 23:31:44,522 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-sched-fail league=EPL kickoff=2026-05-07T21:31:44.522395+00:00
+2026-04-07 23:31:44,524 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-fail]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,526 | ERROR    | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order failed (retry exhausted): token=token-sched-fail price=0.4800
+2026-04-07 23:31:44,527 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-sched-fail]: ANALYSED → SKIPPED
+2026-04-07 23:31:44,537 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-nosched league=EPL kickoff=2026-05-07T21:31:44.537114+00:00
+2026-04-07 23:31:44,538 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-nosched]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,540 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-nosched order=order-no-sched price=0.4800
+2026-04-07 23:31:44,541 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-nosched]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,541 | INFO     | btts_bot.core.order_execution | [Arsenal vs Chelsea] Buy order placed: token=token-nosched, price=0.4800, size=30, order=order-no-sched
+2026-04-07 23:31:44,551 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,553 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=order-1
+2026-04-07 23:31:44,567 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,568 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.4900
+2026-04-07 23:31:44,569 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=order-1
+2026-04-07 23:31:44,576 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,577 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.4900
+2026-04-07 23:31:44,585 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,599 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,606 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,627 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5500 size=7.50
+2026-04-07 23:31:44,643 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,659 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=5.00
+2026-04-07 23:31:44,668 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,669 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-2 order=order-2 price=0.5200
+2026-04-07 23:31:44,678 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,680 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=order-1
+2026-04-07 23:31:44,695 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-1 price=0.4800
+2026-04-07 23:31:44,696 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=order-2 price=0.5000
+2026-04-07 23:31:44,705 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=10.00
+2026-04-07 23:31:44,712 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-order-1 price=0.5200 size=5.00
+2026-04-07 23:31:44,780 | WARNING  | btts_bot.core.pre_kickoff | Pre-kickoff handler: no registry entry for token=unknown-token, skipping
+2026-04-07 23:31:44,790 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,800 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,812 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,827 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,903 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,912 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,923 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,924 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:44,925 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,927 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,933 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,934 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,935 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,937 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=15.00
+2026-04-07 23:31:44,938 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:44,939 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:44,940 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 23:31:44,941 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=15.00
+2026-04-07 23:31:44,950 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,951 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:44,952 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,953 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,954 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,955 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,956 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,958 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 23:31:44,960 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:44,961 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:44,961 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 23:31:44,962 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=10.00
+2026-04-07 23:31:44,970 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:44,971 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:44,972 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,973 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,974 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,975 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,976 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,978 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=25.50
+2026-04-07 23:31:44,979 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:44,980 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:44,981 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 23:31:44,982 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=25.50
+2026-04-07 23:31:44,991 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=1.0000
+2026-04-07 23:31:44,992 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=1.0200 size=10.00
+2026-04-07 23:31:44,993 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:44,994 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:44,995 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:44,996 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:44,997 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:44,999 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.9900 size=10.00
+2026-04-07 23:31:45,000 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,001 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,002 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 23:31:45,003 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.9900, size=10.00
+2026-04-07 23:31:45,011 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,012 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:45,013 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,014 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,016 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,017 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,018 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:45,020 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation failed: cancel of sell order=old-sell-id returned None (token=token-1) — game left in SELL_PLACED for game-start recovery
+2026-04-07 23:31:45,034 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,035 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:45,037 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,038 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,039 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,040 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,041 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:45,042 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation failed: new sell order failed for token=token-1 (price=0.4800 size=10.00) — position has no sell coverage; game left in SELL_PLACED for game-start recovery
+2026-04-07 23:31:45,053 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,054 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:45,055 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,056 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,057 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,058 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,059 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:45,061 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 23:31:45,062 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,063 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,063 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 23:31:45,064 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=10.00
+2026-04-07 23:31:45,074 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,075 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:45,076 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,080 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,081 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,082 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,083 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:45,085 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 23:31:45,085 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,086 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,087 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: SELL_PLACED → PRE_KICKOFF
+2026-04-07 23:31:45,088 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=10.00
+2026-04-07 23:31:45,098 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,100 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,102 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,103 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,104 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,106 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-filling-id price=0.4800 size=3.00
+2026-04-07 23:31:45,108 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,109 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,110 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → PRE_KICKOFF
+2026-04-07 23:31:45,111 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=3.00
+2026-04-07 23:31:45,121 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,122 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,123 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,125 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,126 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,128 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-filling-id price=0.4800 size=5.00
+2026-04-07 23:31:45,129 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,130 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,131 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → PRE_KICKOFF
+2026-04-07 23:31:45,132 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=5.00
+2026-04-07 23:31:45,142 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,143 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,144 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,145 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,146 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,148 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff FILLING: sell order failed for token=token-1 (price=0.4800 size=3.00) — game left in FILLING for game-start recovery
+2026-04-07 23:31:45,159 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,160 | INFO     | btts_bot.state.market_registry | Market registered: [Man City vs Liverpool] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,162 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,163 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,164 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,165 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-id price=0.4800 size=5.00
+2026-04-07 23:31:45,166 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,167 | INFO     | btts_bot.core.pre_kickoff | [Man City vs Liverpool] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,169 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → PRE_KICKOFF
+2026-04-07 23:31:45,170 | INFO     | btts_bot.core.pre_kickoff | [Man City vs Liverpool] Pre-kickoff consolidation: sell at buy_price=0.4800, size=5.00
+2026-04-07 23:31:45,182 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,188 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,189 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,190 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,192 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,193 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,194 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → PRE_KICKOFF
+2026-04-07 23:31:45,194 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: PRE_KICKOFF → DONE
+2026-04-07 23:31:45,203 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,204 | INFO     | btts_bot.state.market_registry | Market registered: [Juventus vs Milan] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,205 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,205 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,207 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,208 | INFO     | btts_bot.core.pre_kickoff | [Juventus vs Milan] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,209 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → PRE_KICKOFF
+2026-04-07 23:31:45,210 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: PRE_KICKOFF → DONE
+2026-04-07 23:31:45,218 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,219 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,221 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,222 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,224 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,225 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff buy cancelled
+2026-04-07 23:31:45,226 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=race-sell-id price=0.4800 size=8.00
+2026-04-07 23:31:45,227 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → PRE_KICKOFF
+2026-04-07 23:31:45,228 | INFO     | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff consolidation: sell at buy_price=0.4800, size=8.00
+2026-04-07 23:31:45,238 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,239 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,240 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,241 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,243 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff BUY_PLACED: cancel of buy order=buy-order-1 returned None (token=token-1)
+2026-04-07 23:31:45,253 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,254 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,255 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,256 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,257 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,258 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-filling-id price=0.4800 size=5.00
+2026-04-07 23:31:45,259 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff: cancel of buy order=buy-order-1 returned None (token=token-1) — buy may still be live on exchange
+2026-04-07 23:31:45,270 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,271 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=old-sell-id price=0.5200 size=10.00
+2026-04-07 23:31:45,272 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,273 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,274 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,274 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-07 23:31:45,275 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: FILLING → SELL_PLACED
+2026-04-07 23:31:45,277 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=new-sell-id price=0.4800 size=10.00
+2026-04-07 23:31:45,279 | ERROR    | btts_bot.core.pre_kickoff | [Arsenal vs Chelsea] Pre-kickoff: cancel of buy order=buy-order-1 returned None (token=token-1) — buy may still be live on exchange
+2026-04-07 23:31:45,291 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,301 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=token-1 league=EPL kickoff=2026-06-01T15:00:00+00:00
+2026-04-07 23:31:45,339 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 1/5 failed: connection refused — retrying in 1.0s
+2026-04-07 23:31:45,342 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 2/5 failed: connection refused — retrying in 2.0s
+2026-04-07 23:31:45,343 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 3/5 failed: connection refused — retrying in 4.0s
+2026-04-07 23:31:45,345 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 4/5 failed: connection refused — retrying in 8.0s
+2026-04-07 23:31:45,346 | WARNING  | btts_bot.retry | [retry] network_fail: attempt 5/5 failed: connection refused — retrying in 16.0s
+2026-04-07 23:31:45,347 | ERROR    | btts_bot.retry | [retry] network_fail: all 5 retries exhausted. Last error: connection refused. Returning None.
+2026-04-07 23:31:45,356 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 1/5 failed: something went wrong — retrying in 1.0s
+2026-04-07 23:31:45,358 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 2/5 failed: something went wrong — retrying in 2.0s
+2026-04-07 23:31:45,359 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 3/5 failed: something went wrong — retrying in 4.0s
+2026-04-07 23:31:45,361 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 4/5 failed: something went wrong — retrying in 8.0s
+2026-04-07 23:31:45,362 | WARNING  | btts_bot.retry | [retry] generic_fail: attempt 5/5 failed: something went wrong — retrying in 16.0s
+2026-04-07 23:31:45,363 | ERROR    | btts_bot.retry | [retry] generic_fail: all 5 retries exhausted. Last error: something went wrong. Returning None.
+2026-04-07 23:31:45,375 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 23:31:45,377 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 23:31:45,379 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 23:31:45,381 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 23:31:45,383 | WARNING  | btts_bot.retry | [retry] flaky_425: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 23:31:45,384 | ERROR    | btts_bot.retry | [retry] flaky_425: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 23:31:45,395 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 23:31:45,398 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 23:31:45,405 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 23:31:45,407 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 23:31:45,410 | WARNING  | btts_bot.retry | [retry] flaky_429: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 23:31:45,411 | ERROR    | btts_bot.retry | [retry] flaky_429: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 23:31:45,425 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 23:31:45,427 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 23:31:45,429 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 23:31:45,431 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 23:31:45,433 | WARNING  | btts_bot.retry | [retry] flaky_500: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 23:31:45,435 | ERROR    | btts_bot.retry | [retry] flaky_500: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 23:31:45,446 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 1/5 failed:  — retrying in 1.0s
+2026-04-07 23:31:45,449 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 2/5 failed:  — retrying in 2.0s
+2026-04-07 23:31:45,451 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 3/5 failed:  — retrying in 4.0s
+2026-04-07 23:31:45,453 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 4/5 failed:  — retrying in 8.0s
+2026-04-07 23:31:45,454 | WARNING  | btts_bot.retry | [retry] flaky_503: attempt 5/5 failed:  — retrying in 16.0s
+2026-04-07 23:31:45,456 | ERROR    | btts_bot.retry | [retry] flaky_503: all 5 retries exhausted. Last error: . Returning None.
+2026-04-07 23:31:45,465 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 1/5 failed: timed out — retrying in 1.0s
+2026-04-07 23:31:45,466 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 2/5 failed: timed out — retrying in 2.0s
+2026-04-07 23:31:45,467 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 3/5 failed: timed out — retrying in 4.0s
+2026-04-07 23:31:45,468 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 4/5 failed: timed out — retrying in 8.0s
+2026-04-07 23:31:45,469 | WARNING  | btts_bot.retry | [retry] timeout_fail: attempt 5/5 failed: timed out — retrying in 16.0s
+2026-04-07 23:31:45,470 | ERROR    | btts_bot.retry | [retry] timeout_fail: all 5 retries exhausted. Last error: timed out. Returning None.
+2026-04-07 23:31:45,560 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-07 23:31:45,561 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-07 23:31:45,562 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-07 23:31:45,563 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-07 23:31:45,564 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-07 23:31:45,566 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-07 23:31:45,577 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 1/5 failed: fail — retrying in 1.0s
+2026-04-07 23:31:45,578 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 2/5 failed: fail — retrying in 2.0s
+2026-04-07 23:31:45,579 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 3/5 failed: fail — retrying in 4.0s
+2026-04-07 23:31:45,580 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 4/5 failed: fail — retrying in 8.0s
+2026-04-07 23:31:45,581 | WARNING  | btts_bot.retry | [retry] always_fails: attempt 5/5 failed: fail — retrying in 16.0s
+2026-04-07 23:31:45,582 | ERROR    | btts_bot.retry | [retry] always_fails: all 5 retries exhausted. Last error: fail. Returning None.
+2026-04-07 23:31:45,603 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 14:00 UTC
+2026-04-07 23:31:45,619 | INFO     | btts_bot.core.scheduling | Scheduler started: daily market fetch at 07:00 UTC
+2026-04-07 23:31:45,643 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-07 23:31:45,644 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch complete: 5 new markets
+2026-04-07 23:31:45,656 | INFO     | btts_bot.core.scheduling | Scheduler shut down
+2026-04-07 23:31:45,669 | INFO     | btts_bot.core.scheduling | Daily scheduled market fetch starting
+2026-04-07 23:31:45,678 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-1 at 2026-04-07T23:21:45.677768+00:00
+2026-04-07 23:31:45,690 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-abc at 2026-04-07T23:21:45.688739+00:00
+2026-04-07 23:31:45,700 | WARNING  | btts_bot.core.scheduling | Pre-kickoff trigger for token=token-past is in the past (kickoff=2026-04-07T21:26:45.700066+00:00), skipping
+2026-04-07 23:31:45,710 | WARNING  | btts_bot.core.scheduling | Pre-kickoff trigger for token=token-now is in the past (kickoff=2026-04-07T21:31:15.709843+00:00), skipping
+2026-04-07 23:31:45,720 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-dup at 2026-04-08T00:21:45.718553+00:00
+2026-04-07 23:31:45,721 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=token-dup at 2026-04-08T00:21:45.718553+00:00
+2026-04-07 23:31:45,732 | INFO     | btts_bot.core.scheduling | Pre-kickoff trigger scheduled: token=my-token-99 at 2026-04-07T22:21:45.730648+00:00
+2026-04-07 23:31:45,741 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-gs-1 at 2026-04-07T23:31:45.741002+00:00
+2026-04-07 23:31:45,751 | WARNING  | btts_bot.core.scheduling | Game-start trigger for token=token-past is in the past (kickoff=2026-04-07T21:26:45.751276+00:00), skipping
+2026-04-07 23:31:45,762 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-dup at 2026-04-08T00:31:45.761112+00:00
+2026-04-07 23:31:45,764 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-dup at 2026-04-08T00:31:45.761112+00:00
+2026-04-07 23:31:45,774 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=my-game-token at 2026-04-07T22:31:45.772807+00:00
+2026-04-07 23:31:45,787 | INFO     | btts_bot.core.scheduling | Game-start recovery thread launched for token=token-thread-test
+2026-04-07 23:31:45,798 | INFO     | btts_bot.core.scheduling | Game-start trigger scheduled: token=token-func at 2026-04-07T23:31:45.797007+00:00
+2026-04-07 23:31:45,806 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,808 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-0 price=0.4800 size=0.00
+2026-04-07 23:31:45,810 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-2 price=0.4800 size=2.00
+2026-04-07 23:31:45,809 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-1 price=0.4800 size=1.00
+2026-04-07 23:31:45,812 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-3 price=0.4800 size=3.00
+2026-04-07 23:31:45,813 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-4 price=0.4800 size=4.00
+2026-04-07 23:31:45,814 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-5 price=0.4800 size=5.00
+2026-04-07 23:31:45,816 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-6 price=0.4800 size=6.00
+2026-04-07 23:31:45,817 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-7 price=0.4800 size=7.00
+2026-04-07 23:31:45,818 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-8 price=0.4800 size=8.00
+2026-04-07 23:31:45,821 | INFO     | btts_bot.state.order_tracker | Sell order recorded: token=token-1 order=sell-9 price=0.4800 size=9.00
+2026-04-07 23:31:45,841 | INFO     | btts_bot.state.order_tracker | Sell order recorded (atomic): token=token-1 order=sell-0 price=0.4800 size=10.00
+2026-04-07 23:31:45,853 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=token-1 order=buy-order-1 price=0.4800
+2026-04-07 23:31:45,856 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,858 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,860 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,863 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,869 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,871 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,873 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,875 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,876 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,878 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,879 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,881 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,883 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,884 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,885 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,887 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,888 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,890 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,892 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,893 | INFO     | btts_bot.state.order_tracker | Buy order marked inactive: token=token-1 order=buy-order-1
+2026-04-07 23:31:45,974 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: DISCOVERED → ANALYSED
+2026-04-07 23:31:45,975 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: ANALYSED → BUY_PLACED
+2026-04-07 23:31:45,977 | INFO     | btts_bot.core.game_lifecycle | GameLifecycle [token-1]: BUY_PLACED → FILLING
+2026-04-08 22:17:07,569 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-04-08 22:18:56,394 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
