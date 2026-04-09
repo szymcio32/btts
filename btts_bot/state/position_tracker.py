@@ -41,3 +41,17 @@ class PositionTracker:
         """Return True if accumulated fills >= min_size."""
         with self._lock:
             return self._fills.get(token_id, 0.0) >= min_size
+
+    def set_position(self, token_id: str, size: float) -> None:
+        """Set the absolute position size for token_id (used during reconciliation).
+
+        Unlike accumulate() which adds to the existing total, set_position()
+        replaces the current value with the given size.
+        """
+        with self._lock:
+            self._fills[token_id] = size
+        logger.debug(
+            "Position set (absolute): token=%s size=%.2f",
+            token_id,
+            size,
+        )

@@ -142,3 +142,13 @@ class ClobClientWrapper:
             )
             signed_order = self._client.create_order(order_args)
             return self._client.post_order(signed_order, orderType=OrderType.GTC)
+
+    @with_retry
+    def get_open_orders(self) -> list | None:
+        """Fetch all open orders for the authenticated wallet.
+
+        Returns a list of order objects on success,
+        or None if retries are exhausted.
+        """
+        with self._lock:
+            return self._client.get_orders(params={"status": "LIVE"})

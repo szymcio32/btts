@@ -1,9 +1,11 @@
 import argparse
 import logging
+import os
 import time
 from pathlib import Path
 
 from btts_bot.clients.clob import ClobClientWrapper
+from btts_bot.clients.data_api import DataApiClient
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import load_config
 from btts_bot.core.fill_polling import FillPollingService
@@ -12,6 +14,7 @@ from btts_bot.core.liquidity import LiquidityAnalyser, MarketAnalysisPipeline
 from btts_bot.core.market_discovery import MarketDiscoveryService
 from btts_bot.core.order_execution import OrderExecutionService
 from btts_bot.core.pre_kickoff import PreKickoffService
+from btts_bot.core.reconciliation import ReconciliationService
 from btts_bot.core.scheduling import SchedulerService
 from btts_bot.logging_setup import setup_logging
 from btts_bot.state.market_registry import MarketRegistry
@@ -46,6 +49,8 @@ def main() -> None:
 
     # 2. Clients
     gamma_client = GammaClient(config.data_file)
+    proxy_address = os.environ["POLYMARKET_PROXY_ADDRESS"]
+    data_api_client = DataApiClient(proxy_address)
 
     # 3. Core services — discovery and pre-kickoff (no circular deps)
     discovery_service = MarketDiscoveryService(
@@ -90,11 +95,27 @@ def main() -> None:
         order_execution_service,
     )
 
-    # 7. Immediate startup discovery (FR5)
+    # 7. Reconciliation service
+    reconciliation_service = ReconciliationService(
+        clob_client=clob_client,
+        data_api_client=data_api_client,
+        gamma_client=gamma_client,
+        order_tracker=order_tracker,
+        position_tracker=position_tracker,
+        market_registry=market_registry,
+        scheduler_service=scheduler_service,
+        btts_config=config.btts,
+    )
+
+    # 8. Startup reconciliation (BEFORE discovery — reconciled markets won't be re-discovered)
+    reconciliation_service.reconcile()
+    logger.info("Startup reconciliation complete")
+
+    # 9. Immediate startup discovery (FR5) — skips markets already reconciled
     discovered_count = discovery_service.discover_markets()
     logger.info("Startup discovery complete: %d markets", discovered_count)
 
-    # 8. Liquidity analysis for all discovered markets
+    # 10. Liquidity analysis for all discovered markets
     analysis_results = analysis_pipeline.analyse_all_discovered()
     analysed_count = len(analysis_results)
     skipped_count = discovered_count - analysed_count
@@ -104,12 +125,12 @@ def main() -> None:
         skipped_count,
     )
 
-    # 9. Start scheduler BEFORE execute_all_analysed so pre-kickoff triggers
-    #    can be added to a running scheduler (APScheduler also allows adding
-    #    jobs before start — they queue safely either way)
+    # 11. Start scheduler BEFORE execute_all_analysed so pre-kickoff triggers
+    #     can be added to a running scheduler (APScheduler also allows adding
+    #     jobs before start — they queue safely either way)
     scheduler_service.start()
 
-    # 10. Buy order placement — registers pre-kickoff trigger per game (FR12)
+    # 12. Buy order placement — registers pre-kickoff trigger per game (FR12)
     placed_count = order_execution_service.execute_all_analysed(analysis_results)
     logger.info(
         "Buy orders placed: %d out of %d analysed markets",

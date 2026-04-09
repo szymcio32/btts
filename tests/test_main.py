@@ -43,6 +43,8 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mock_logger = extra_patches.pop("logger", MagicMock())
     mock_clob = extra_patches.pop("ClobClientWrapper", MagicMock())
     mock_gamma = extra_patches.pop("GammaClient", MagicMock())
+    mock_data_api = extra_patches.pop("DataApiClient", MagicMock())
+    mock_reconciliation_cls = extra_patches.pop("ReconciliationService", MagicMock())
     mock_discovery_cls = extra_patches.pop("MarketDiscoveryService", MagicMock())
     mock_scheduler_cls = extra_patches.pop("SchedulerService", MagicMock())
     mock_order_tracker_cls = extra_patches.pop("OrderTracker", MagicMock())
@@ -67,11 +69,18 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
 
     with (
         patch("sys.argv", extra_patches.pop("argv", ["btts_bot"])),
+        patch.dict(
+            "os.environ",
+            {"POLYMARKET_PROXY_ADDRESS": "0xproxy"},
+            clear=False,
+        ),
         patch.object(main_module, "load_config", mock_load),
         patch.object(main_module, "setup_logging", mock_setup_logging),
         patch.object(main_module, "logger", mock_logger),
         patch.object(main_module, "ClobClientWrapper", mock_clob),
         patch.object(main_module, "GammaClient", mock_gamma),
+        patch.object(main_module, "DataApiClient", mock_data_api),
+        patch.object(main_module, "ReconciliationService", mock_reconciliation_cls),
         patch.object(main_module, "MarketDiscoveryService", mock_discovery_cls),
         patch.object(main_module, "SchedulerService", mock_scheduler_cls),
         patch.object(main_module, "OrderTracker", mock_order_tracker_cls),
@@ -92,6 +101,8 @@ def _run_main_with_patches(**extra_patches: MagicMock) -> dict[str, MagicMock]:
     mocks["logger"] = mock_logger
     mocks["ClobClientWrapper"] = mock_clob
     mocks["GammaClient"] = mock_gamma
+    mocks["DataApiClient"] = mock_data_api
+    mocks["ReconciliationService"] = mock_reconciliation_cls
     mocks["MarketDiscoveryService"] = mock_discovery_cls
     mocks["SchedulerService"] = mock_scheduler_cls
     mocks["OrderTracker"] = mock_order_tracker_cls
@@ -164,9 +175,16 @@ logging:
 
             with (
                 patch("sys.argv", ["btts_bot", "--config", str(config_path)]),
+                patch.dict(
+                    "os.environ",
+                    {"POLYMARKET_PROXY_ADDRESS": "0xproxy"},
+                    clear=False,
+                ),
                 patch.object(main_module, "logger", fake_logger),
                 patch.object(main_module, "ClobClientWrapper"),
                 patch.object(main_module, "GammaClient"),
+                patch.object(main_module, "DataApiClient"),
+                patch.object(main_module, "ReconciliationService"),
                 patch.object(main_module, "MarketDiscoveryService", mock_discovery_cls),
                 patch.object(main_module, "SchedulerService", mock_scheduler_cls),
                 patch.object(main_module, "OrderTracker"),
@@ -491,6 +509,68 @@ logging:
         mock_scheduler_cls = mocks["SchedulerService"]
         call_kwargs = mock_scheduler_cls.call_args.kwargs
         self.assertIs(call_kwargs["game_start_service"], mock_game_start_instance)
+
+    # --- New tests for Story 5.1: Reconciliation wiring ---
+
+    def test_main_instantiates_data_api_client(self) -> None:
+        """DataApiClient is instantiated in main() with proxy_address."""
+        mocks = _run_main_with_patches()
+        mocks["DataApiClient"].assert_called_once_with("0xproxy")
+
+    def test_main_instantiates_reconciliation_service(self) -> None:
+        """ReconciliationService is instantiated in main() before reconcile() is called."""
+        mocks = _run_main_with_patches()
+        mocks["ReconciliationService"].assert_called_once()
+
+    def test_main_reconciliation_service_receives_correct_deps(self) -> None:
+        """ReconciliationService is constructed with all required keyword dependencies."""
+        mocks = _run_main_with_patches()
+        mock_recon_cls = mocks["ReconciliationService"]
+        call_kwargs = mock_recon_cls.call_args.kwargs
+        self.assertIs(call_kwargs["clob_client"], mocks["ClobClientWrapper"].return_value)
+        self.assertIs(call_kwargs["data_api_client"], mocks["DataApiClient"].return_value)
+        self.assertIs(call_kwargs["gamma_client"], mocks["GammaClient"].return_value)
+        self.assertIs(call_kwargs["order_tracker"], mocks["OrderTracker"].return_value)
+        self.assertIs(call_kwargs["position_tracker"], mocks["PositionTracker"].return_value)
+        self.assertIsNotNone(call_kwargs["market_registry"])
+        self.assertIs(call_kwargs["scheduler_service"], mocks["SchedulerService"].return_value)
+
+    def test_main_calls_reconcile_before_discover_markets(self) -> None:
+        """reconcile() is called before discover_markets() on startup."""
+        event_log: list[str] = []
+
+        reconciliation_cls = MagicMock()
+        discovery_cls = MagicMock()
+        reconciliation_cls.return_value.reconcile.side_effect = lambda: event_log.append(
+            "reconcile"
+        )
+        discovery_cls.return_value.discover_markets.side_effect = lambda: (
+            event_log.append("discover") or 0
+        )
+
+        _run_main_with_patches(
+            ReconciliationService=reconciliation_cls,
+            MarketDiscoveryService=discovery_cls,
+        )
+
+        self.assertEqual(event_log, ["reconcile", "discover"])
+
+    def test_main_calls_reconcile_once(self) -> None:
+        """reconcile() is called exactly once on startup."""
+        mocks = _run_main_with_patches()
+        recon_instance = mocks["ReconciliationService"].return_value
+        recon_instance.reconcile.assert_called_once()
+
+    def test_main_logs_reconciliation_complete(self) -> None:
+        """main() logs 'Startup reconciliation complete' after reconcile()."""
+        mocks = _run_main_with_patches()
+        mocks["logger"].info.assert_any_call("Startup reconciliation complete")
+
+    def test_main_reconcile_called_on_reconciliation_instance(self) -> None:
+        """reconcile() is called on the ReconciliationService instance."""
+        mocks = _run_main_with_patches()
+        recon_instance = mocks["ReconciliationService"].return_value
+        recon_instance.reconcile.assert_called_once()
 
 
 if __name__ == "__main__":

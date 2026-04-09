@@ -433,5 +433,71 @@ class TestClobClientWrapperCreateSellOrder(unittest.TestCase):
         self.assertIsNone(result)
 
 
+@patch("btts_bot.clients.clob.ClobClient")
+class TestClobClientWrapperGetOpenOrders(unittest.TestCase):
+    """Tests for ClobClientWrapper.get_open_orders (Story 5.1)."""
+
+    def _make_wrapper(self, mock_clob_cls):
+        mock_l1 = MagicMock()
+        mock_creds = MagicMock()
+        mock_l1.create_or_derive_api_creds.return_value = mock_creds
+        mock_l2 = MagicMock()
+        mock_clob_cls.side_effect = [mock_l1, mock_l2]
+        with patch.dict(
+            "os.environ",
+            {
+                "POLYMARKET_PRIVATE_KEY": "0xdeadbeef",
+                "POLYMARKET_PROXY_ADDRESS": "0xproxy",
+            },
+        ):
+            wrapper = ClobClientWrapper()
+        return wrapper, mock_l2
+
+    def test_get_open_orders_returns_order_list_on_success(self, mock_clob_cls) -> None:
+        """Successful call returns list of orders from the underlying client."""
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        orders = [
+            {"id": "order-1", "side": "BUY", "asset_id": "token-1"},
+            {"id": "order-2", "side": "SELL", "asset_id": "token-2"},
+        ]
+        mock_l2.get_orders.return_value = orders
+
+        result = wrapper.get_open_orders()
+
+        self.assertIs(result, orders)
+
+    def test_get_open_orders_calls_get_orders_with_live_status(self, mock_clob_cls) -> None:
+        """get_open_orders() calls underlying client.get_orders with status=LIVE filter."""
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        mock_l2.get_orders.return_value = []
+
+        wrapper.get_open_orders()
+
+        mock_l2.get_orders.assert_called_once_with(params={"status": "LIVE"})
+
+    def test_get_open_orders_retries_on_transient_error(self, mock_clob_cls) -> None:
+        """Transient errors are retried; eventual success returns data."""
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        orders = [{"id": "order-1", "side": "BUY"}]
+        mock_l2.get_orders.side_effect = [Exception("transient"), orders]
+
+        with patch("time.sleep"):
+            result = wrapper.get_open_orders()
+
+        self.assertIs(result, orders)
+        self.assertEqual(mock_l2.get_orders.call_count, 2)
+
+    def test_get_open_orders_returns_none_after_exhausted_retries(self, mock_clob_cls) -> None:
+        """When all retries are exhausted, returns None."""
+        wrapper, mock_l2 = self._make_wrapper(mock_clob_cls)
+        mock_l2.get_orders.side_effect = Exception("persistent failure")
+
+        with patch("time.sleep"):
+            result = wrapper.get_open_orders()
+
+        self.assertIsNone(result)
+        self.assertEqual(mock_l2.get_orders.call_count, 5)  # MAX_RETRIES = 5
+
+
 if __name__ == "__main__":
     unittest.main()
