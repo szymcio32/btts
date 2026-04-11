@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 
 from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import LeagueConfig
+from btts_bot.logging_setup import create_market_logger
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
 
@@ -51,12 +52,13 @@ class MarketDiscoveryService:
 
             league = game.get("league", "")
             if not isinstance(league, str):
-                logger.warning(
-                    "[%s vs %s] Invalid league value type (%s), skipping",
+                mlog = create_market_logger(
+                    __name__,
                     game.get("home_team", "?"),
                     game.get("away_team", "?"),
-                    type(league).__name__,
+                    "unknown",
                 )
+                mlog.warning("Invalid league value type (%s), skipping", type(league).__name__)
                 continue
 
             league_key = league.lower()
@@ -69,61 +71,55 @@ class MarketDiscoveryService:
 
             token_ids = btts_market.get("token_ids", [])
             if not isinstance(token_ids, list) or len(token_ids) < 2:
-                logger.warning(
-                    "[%s vs %s] BTTS market has insufficient token_ids, skipping",
+                mlog = create_market_logger(
+                    __name__,
                     game.get("home_team", "?"),
                     game.get("away_team", "?"),
+                    "unknown",
                 )
+                mlog.warning("BTTS market has insufficient token_ids, skipping")
                 continue
 
             if not all(isinstance(token_id, str) and token_id for token_id in token_ids[:2]):
-                logger.warning(
-                    "[%s vs %s] BTTS market has invalid token_ids, skipping",
+                mlog = create_market_logger(
+                    __name__,
                     game.get("home_team", "?"),
                     game.get("away_team", "?"),
+                    "unknown",
                 )
+                mlog.warning("BTTS market has invalid token_ids, skipping")
                 continue
 
             no_token_id = token_ids[BTTS_NO_TOKEN_INDEX]
 
+            # Create per-game market logger for context-rich log messages
+            mlog = create_market_logger(
+                __name__,
+                game.get("home_team", "?"),
+                game.get("away_team", "?"),
+                no_token_id,
+            )
+
             # Duplicate check: already in registry
             if self._registry.is_processed(no_token_id):
-                logger.debug(
-                    "[%s vs %s] Already processed, skipping (token=%s)",
-                    game.get("home_team", "?"),
-                    game.get("away_team", "?"),
-                    no_token_id,
-                )
+                mlog.debug("Already processed, skipping")
                 continue
 
             # Duplicate check: existing buy order (from API reconciliation)
             if self._order_tracker.has_buy_order(no_token_id):
-                logger.info(
-                    "[%s vs %s] Buy order already exists, skipping (token=%s)",
-                    game.get("home_team", "?"),
-                    game.get("away_team", "?"),
-                    no_token_id,
-                )
+                mlog.info("Buy order already exists, skipping")
                 continue
 
             # Parse kickoff time
             kickoff_utc = self._parse_kickoff(game.get("kickoff_utc", ""))
             if kickoff_utc is None:
-                logger.warning(
-                    "[%s vs %s] Invalid kickoff_utc, skipping",
-                    game.get("home_team", "?"),
-                    game.get("away_team", "?"),
-                )
+                mlog.warning("Invalid kickoff_utc, skipping")
                 continue
 
             # Register in MarketRegistry
             condition_id = btts_market.get("condition_id")
             if not isinstance(condition_id, str) or not condition_id:
-                logger.warning(
-                    "[%s vs %s] BTTS market missing condition_id, skipping",
-                    game.get("home_team", "?"),
-                    game.get("away_team", "?"),
-                )
+                mlog.warning("BTTS market missing condition_id, skipping")
                 continue
 
             self._registry.register(
@@ -139,7 +135,7 @@ class MarketDiscoveryService:
             total_discovered += 1
             per_league_counts[league_key] = per_league_counts.get(league_key, 0) + 1
 
-        # Log per-league summary
+        # Log per-league summary (standard logger — not market-specific)
         for league_abbr, count in per_league_counts.items():
             logger.info("Discovery: %s — %d BTTS markets found", league_abbr, count)
 

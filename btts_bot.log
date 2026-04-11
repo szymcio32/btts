@@ -10526,3 +10526,67 @@
 2026-04-09 23:27:06,209 | WARNING  | btts_bot.retry | [retry] get_open_orders: attempt 5/5 failed: persistent failure — retrying in 16.1s
 2026-04-09 23:27:06,210 | ERROR    | btts_bot.retry | [retry] get_open_orders: all 5 retries exhausted. Last error: persistent failure. Returning None.
 2026-04-09 23:27:06,218 | INFO     | btts_bot.clients.clob | ClobClientWrapper initialized — L2 auth established
+2026-04-10 23:29:51,262 | WARNING  | btts_bot.logging_setup | Log file btts_bot.log permissions are 777 instead of 600
+2026-04-10 23:29:51,734 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-abc league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,735 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,736 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-10 23:29:51,744 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,745 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,746 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-10 23:29:51,754 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,762 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market has insufficient token_ids, skipping
+2026-04-10 23:29:51,763 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,764 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,773 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] BTTS market missing condition_id, skipping (token=no-token-id)
+2026-04-10 23:29:51,774 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,775 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,783 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got str
+2026-04-10 23:29:51,784 | WARNING  | btts_bot.core.market_discovery | Skipping malformed game entry: expected object, got int
+2026-04-10 23:29:51,785 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,787 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,788 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-10 23:29:51,796 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping (token=no-token-id)
+2026-04-10 23:29:51,797 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,798 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,806 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,816 | ERROR    | btts_bot.core.market_discovery | Market discovery failed: could not fetch games data
+2026-04-10 23:29:51,824 | WARNING  | btts_bot.core.market_discovery | [A vs B] BTTS market has insufficient token_ids, skipping
+2026-04-10 23:29:51,826 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,827 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,836 | WARNING  | btts_bot.core.market_discovery | [Arsenal vs Chelsea] Invalid kickoff_utc, skipping (token=no-token-id)
+2026-04-10 23:29:51,837 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,838 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,846 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,847 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,848 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-10 23:29:51,867 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-1 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,868 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-2 league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,878 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,898 | WARNING  | btts_bot.core.market_discovery | [A vs B] Invalid kickoff_utc, skipping (token=no)
+2026-04-10 23:29:51,899 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,900 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,909 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-epl league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,911 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-liga league=liga kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,912 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,913 | INFO     | btts_bot.core.market_discovery | Discovery: liga — 1 BTTS markets found
+2026-04-10 23:29:51,918 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 2 new markets registered
+2026-04-10 23:29:51,927 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,929 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,930 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-10 23:29:51,938 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,939 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=order-1 price=0.4800
+2026-04-10 23:29:51,949 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-dup league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,951 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:51,952 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered
+2026-04-10 23:29:51,960 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token-id league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:51,962 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,963 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,972 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,973 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,981 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 0 BTTS markets found
+2026-04-10 23:29:51,982 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 0 new markets registered
+2026-04-10 23:29:51,990 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-10 23:29:51,999 | INFO     | btts_bot.state.order_tracker | Buy order recorded: token=no-token-id order=existing-order price=0.4800
+2026-04-10 23:29:52,009 | INFO     | btts_bot.state.market_registry | Market registered: [Arsenal vs Chelsea] token=no-token league=epl kickoff=2026-04-01T15:00:00+00:00
+2026-04-10 23:29:52,010 | INFO     | btts_bot.core.market_discovery | Discovery: epl — 1 BTTS markets found
+2026-04-10 23:29:52,011 | INFO     | btts_bot.core.market_discovery | Market discovery complete: 1 new markets registered

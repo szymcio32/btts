@@ -12,6 +12,7 @@ from btts_bot.clients.gamma import GammaClient
 from btts_bot.config import BttsConfig
 from btts_bot.core.game_lifecycle import GameState
 from btts_bot.core.scheduling import SchedulerService
+from btts_bot.logging_setup import create_market_logger, create_token_logger
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
 from btts_bot.state.position_tracker import PositionTracker
@@ -235,9 +236,14 @@ class ReconciliationService:
 
                 game = token_to_game.get(token_id)
                 if game:
-                    label = f"[{game.get('home_team', 'Unknown')} vs {game.get('away_team', 'Unknown')}]"
+                    mlog = create_market_logger(
+                        __name__,
+                        game.get("home_team", "Unknown"),
+                        game.get("away_team", "Unknown"),
+                        token_id,
+                    )
                 else:
-                    label = f"[token={token_id}]"
+                    mlog = create_token_logger(__name__, token_id)
 
                 sell_response = self._clob.create_sell_order(token_id, sell_price, pos_size)
                 if sell_response is not None:
@@ -248,17 +254,15 @@ class ReconciliationService:
                         or ""
                     )
                     self._order_tracker.record_sell(token_id, sell_order_id, sell_price, pos_size)
-                    logger.warning(
-                        "%s Orphaned position detected -- sell placed at buy_price=%.4f, size=%.2f",
-                        label,
+                    mlog.warning(
+                        "Orphaned position detected -- sell placed at buy_price=%.4f, size=%.2f",
                         sell_at,
                         pos_size,
                     )
                 else:
-                    logger.error(
-                        "%s Orphaned position detected but sell placement failed (retries exhausted)"
+                    mlog.error(
+                        "Orphaned position detected but sell placement failed (retries exhausted)"
                         " -- manual intervention required. size=%.2f",
-                        label,
                         pos_size,
                     )
             except Exception as exc:
@@ -393,10 +397,14 @@ class ReconciliationService:
         self._scheduler.schedule_pre_kickoff(token_id, kickoff_time)
         self._scheduler.schedule_game_start(token_id, kickoff_time)
 
-        label = f"[{game.get('home_team', 'Unknown')} vs {game.get('away_team', 'Unknown')}]"
-        logger.info(
-            "Reconciliation: %s registered with state=%s (buy=%s pos=%s sell=%s)",
-            label,
+        mlog = create_market_logger(
+            __name__,
+            game.get("home_team", "Unknown"),
+            game.get("away_team", "Unknown"),
+            token_id,
+        )
+        mlog.info(
+            "Reconciliation: registered with state=%s (buy=%s pos=%s sell=%s)",
             entry.lifecycle.state.value,
             has_buy,
             has_position,

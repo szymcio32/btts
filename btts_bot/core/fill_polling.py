@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from btts_bot.state.position_tracker import PositionTracker
 
 from btts_bot.core.game_lifecycle import GameState
+from btts_bot.logging_setup import create_market_logger, create_token_logger
 
 logger = logging.getLogger(__name__)
 
@@ -59,9 +60,10 @@ class FillPollingService:
         order_id = buy_record.order_id
 
         entry = self._market_registry.get(token_id)
-        market_name = (
-            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
-        )
+        if entry is not None:
+            mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
+        else:
+            mlog = create_token_logger(__name__, token_id)
 
         try:
             # Only poll orders in active buy lifecycle states.
@@ -76,9 +78,8 @@ class FillPollingService:
             # Query CLOB API
             order = self._clob_client.get_order(order_id)
             if order is None:
-                logger.warning(
-                    "%s Fill poll failed (retry exhausted): order=%s",
-                    market_name,
+                mlog.warning(
+                    "Fill poll failed (retry exhausted): order=%s",
                     order_id,
                 )
                 return
@@ -92,9 +93,8 @@ class FillPollingService:
             # Accumulate new fills
             if delta > 0:
                 self._position_tracker.accumulate(token_id, delta)
-                logger.info(
-                    "%s Fill detected: +%.2f shares (total: %.2f / %.2f) order=%s",
-                    market_name,
+                mlog.info(
+                    "Fill detected: +%.2f shares (total: %.2f / %.2f) order=%s",
                     delta,
                     current_filled,
                     original_size,
@@ -120,9 +120,8 @@ class FillPollingService:
                         GameState.FILLING,
                     ):
                         entry.lifecycle.transition(GameState.EXPIRED)
-                        logger.info(
-                            "%s Buy order expired with no fills: order=%s",
-                            market_name,
+                        mlog.info(
+                            "Buy order expired with no fills: order=%s",
                             order_id,
                         )
                 else:
@@ -130,9 +129,8 @@ class FillPollingService:
                     if order_status == "MATCHED":
                         self._check_and_trigger_sell(token_id)
         except Exception as exc:
-            logger.warning(
-                "%s Fill poll failed for order=%s: %s",
-                market_name,
+            mlog.warning(
+                "Fill poll failed for order=%s: %s",
                 order_id,
                 exc,
             )

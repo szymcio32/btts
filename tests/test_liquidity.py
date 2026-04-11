@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timezone
-from unittest.mock import MagicMock
+from unittest.mock import ANY, MagicMock
 
 import pytest
 
 from btts_bot.config import BttsConfig, LiquidityConfig
 from btts_bot.core.game_lifecycle import GameLifecycle, GameState
 from btts_bot.core.liquidity import AnalysisResult, LiquidityAnalyser, MarketAnalysisPipeline
+from btts_bot.logging_setup import create_market_logger
 from btts_bot.state.market_registry import MarketEntry
 
 
@@ -64,6 +66,11 @@ def _make_market_entry(token_id: str = "token-1") -> MarketEntry:
     )
 
 
+def _make_mlog(token_id: str = "token-1") -> logging.LoggerAdapter:
+    """Create a real MarketLoggerAdapter for use in tests."""
+    return create_market_logger("btts_bot.core.liquidity", "Arsenal", "Chelsea", token_id)
+
+
 # ---------------------------------------------------------------------------
 # LiquidityAnalyser — three-case algorithm tests
 # ---------------------------------------------------------------------------
@@ -78,7 +85,7 @@ class TestLiquidityAnalyserCaseB:
         analyser = LiquidityAnalyser(config, btts)
         # 800 + 700 + 600 = 2100 >= 2000 (deep book)
         ob = _make_orderbook([("0.50", "800"), ("0.49", "700"), ("0.48", "600")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.token_id == "token-1"
         assert result.buy_price == pytest.approx(0.49)
@@ -90,7 +97,7 @@ class TestLiquidityAnalyserCaseB:
         analyser = LiquidityAnalyser(config, btts)
         # Total exactly 2000
         ob = _make_orderbook([("0.55", "700"), ("0.54", "800"), ("0.53", "500")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.buy_price == pytest.approx(0.54)
         assert result.case == "B"
@@ -105,7 +112,7 @@ class TestLiquidityAnalyserCaseA:
         analyser = LiquidityAnalyser(config, btts)
         # 500 + 400 + 300 = 1200 >= 1000 and < 2000 (standard)
         ob = _make_orderbook([("0.50", "500"), ("0.49", "400"), ("0.48", "300")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.buy_price == pytest.approx(0.48)
         assert result.case == "A"
@@ -116,7 +123,7 @@ class TestLiquidityAnalyserCaseA:
         analyser = LiquidityAnalyser(config, btts)
         # Exactly at standard_depth boundary (1000)
         ob = _make_orderbook([("0.60", "400"), ("0.59", "400"), ("0.58", "200")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.buy_price == pytest.approx(0.58)
         assert result.case == "A"
@@ -127,7 +134,7 @@ class TestLiquidityAnalyserCaseA:
         analyser = LiquidityAnalyser(config, btts)
         # 1999 < 2000, so Case A not B
         ob = _make_orderbook([("0.50", "700"), ("0.49", "700"), ("0.48", "599")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "A"
 
@@ -143,7 +150,7 @@ class TestLiquidityAnalyserCaseC:
         analyser = LiquidityAnalyser(config, btts)
         # 300 + 200 + 100 = 600 >= 500 and < 1000 (thin liquidity)
         ob = _make_orderbook([("0.50", "300"), ("0.49", "200"), ("0.48", "100")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.buy_price == pytest.approx(0.48 - 0.01)
         assert result.case == "C"
@@ -156,7 +163,7 @@ class TestLiquidityAnalyserCaseC:
         analyser = LiquidityAnalyser(config, btts)
         # Exactly 500 == low_liquidity_total → Case C
         ob = _make_orderbook([("0.50", "200"), ("0.49", "200"), ("0.48", "100")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "C"
 
@@ -168,7 +175,7 @@ class TestLiquidityAnalyserCaseC:
         analyser = LiquidityAnalyser(config, btts)
         # L3 price 0.48 - tick_offset 0.50 = -0.02 → skip
         ob = _make_orderbook([("0.50", "300"), ("0.49", "200"), ("0.48", "100")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
 
@@ -181,7 +188,7 @@ class TestLiquidityAnalyserSkip:
         analyser = LiquidityAnalyser(config, btts)
         # 100 + 100 + 100 = 300 < 500 → skip
         ob = _make_orderbook([("0.50", "100"), ("0.49", "100"), ("0.48", "100")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
     def test_skip_fewer_than_3_bids(self) -> None:
@@ -189,7 +196,7 @@ class TestLiquidityAnalyserSkip:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.50", "800"), ("0.49", "700")])  # only 2 bids
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
     def test_skip_empty_orderbook(self) -> None:
@@ -197,7 +204,7 @@ class TestLiquidityAnalyserSkip:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([])  # 0 bids
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
     def test_skip_bids_is_none(self) -> None:
@@ -206,7 +213,7 @@ class TestLiquidityAnalyserSkip:
         analyser = LiquidityAnalyser(config, btts)
         ob = MagicMock()
         ob.bids = None
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
     def test_skip_invalid_price_string(self) -> None:
@@ -219,7 +226,7 @@ class TestLiquidityAnalyserSkip:
             MagicMock(price="0.49", size="700"),
             MagicMock(price="0.48", size="600"),
         ]
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
     def test_skip_none_price(self) -> None:
@@ -232,7 +239,7 @@ class TestLiquidityAnalyserSkip:
             MagicMock(price="0.49", size="700"),
             MagicMock(price="0.48", size="600"),
         ]
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
 
@@ -244,7 +251,7 @@ class TestSellPriceDeriivation:
         btts = _make_btts_config(price_diff=0.02)
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.50", "800"), ("0.49", "700"), ("0.48", "600")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         # L2=0.49, sell=0.49+0.02=0.51
         assert result.sell_price == pytest.approx(0.51)
@@ -255,7 +262,7 @@ class TestSellPriceDeriivation:
         analyser = LiquidityAnalyser(config, btts)
         # L2=0.98, sell would be 1.00 → capped at 0.99
         ob = _make_orderbook([("0.99", "800"), ("0.98", "700"), ("0.97", "600")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.sell_price == pytest.approx(0.99)
 
@@ -265,7 +272,7 @@ class TestSellPriceDeriivation:
         analyser = LiquidityAnalyser(config, btts)
         # L2=0.98, sell=0.98+0.01=0.99 → exactly at cap
         ob = _make_orderbook([("0.99", "800"), ("0.98", "700"), ("0.97", "600")])
-        result = analyser.analyse(ob, "token-1", "[Arsenal vs Chelsea]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.sell_price == pytest.approx(0.99)
 
@@ -285,7 +292,7 @@ class TestBoundaryValues:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.55", "700"), ("0.54", "800"), ("0.53", "500")])
-        result = analyser.analyse(ob, "token-1", "[A vs B]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "B"
 
@@ -296,7 +303,7 @@ class TestBoundaryValues:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.55", "700"), ("0.54", "799"), ("0.53", "500")])
-        result = analyser.analyse(ob, "token-1", "[A vs B]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "A"
 
@@ -307,7 +314,7 @@ class TestBoundaryValues:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.55", "400"), ("0.54", "400"), ("0.53", "200")])
-        result = analyser.analyse(ob, "token-1", "[A vs B]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "A"
 
@@ -318,7 +325,7 @@ class TestBoundaryValues:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.55", "400"), ("0.54", "399"), ("0.53", "200")])
-        result = analyser.analyse(ob, "token-1", "[A vs B]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "C"
 
@@ -329,7 +336,7 @@ class TestBoundaryValues:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.55", "200"), ("0.54", "200"), ("0.53", "100")])
-        result = analyser.analyse(ob, "token-1", "[A vs B]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is not None
         assert result.case == "C"
 
@@ -340,7 +347,7 @@ class TestBoundaryValues:
         btts = _make_btts_config()
         analyser = LiquidityAnalyser(config, btts)
         ob = _make_orderbook([("0.55", "200"), ("0.54", "199"), ("0.53", "100")])
-        result = analyser.analyse(ob, "token-1", "[A vs B]")
+        result = analyser.analyse(ob, "token-1", _make_mlog("token-1"))
         assert result is None
 
 
@@ -383,7 +390,8 @@ class TestMarketAnalysisPipelineAnalyseMarket:
         assert returned is result
         assert entry.lifecycle.state == GameState.ANALYSED
         mock_clob.get_order_book.assert_called_once_with("token-1")
-        mock_analyser.analyse.assert_called_once_with(ob, "token-1", "[Arsenal vs Chelsea]")
+        # Third arg is now a LoggerAdapter — use ANY to avoid brittle adapter equality check
+        mock_analyser.analyse.assert_called_once_with(ob, "token-1", ANY)
 
     def test_skip_path_transitions_to_skipped(self) -> None:
         entry = _make_market_entry("token-1")

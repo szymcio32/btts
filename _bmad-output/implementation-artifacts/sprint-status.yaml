@@ -36,7 +36,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-28
-last_updated: 2026-04-09  # Story 5.1 ready for review
+last_updated: 2026-04-11  # Story 5.2 completed
 project: btts-bot
 project_key: NOKEY
 tracking_system: file-system
@@ -78,7 +78,7 @@ development_status:
   # Epic 5: Startup Reconciliation & Operational Resilience
   epic-5: in-progress
   5-1-startup-state-reconciliation-from-polymarket-api: done
-  5-2-market-context-logging-with-loggeradapter: backlog
+  5-2-market-context-logging-with-loggeradapter: done
   5-3-non-fatal-error-handling-and-credential-protection: backlog
   5-4-long-running-stability-and-state-pruning: backlog
   epic-5-retrospective: optional

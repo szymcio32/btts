@@ -6,6 +6,7 @@ import logging
 
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.core.game_lifecycle import GameState
+from btts_bot.logging_setup import create_market_logger
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
 from btts_bot.state.position_tracker import PositionTracker
@@ -55,9 +56,6 @@ class PreKickoffService:
         Designed to be idempotent: checks state before acting.
         """
         entry = self._market_registry.get(token_id)
-        market_name = (
-            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
-        )
 
         if entry is None:
             logger.warning(
@@ -66,64 +64,59 @@ class PreKickoffService:
             )
             return
 
+        mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
         state = entry.lifecycle.state
 
         # Already handled or terminal — nothing to do
         if state in _TERMINAL_STATES:
-            logger.debug(
-                "%s Pre-kickoff handler: game already in %s, skipping",
-                market_name,
+            mlog.debug(
+                "Pre-kickoff handler: game already in %s, skipping",
                 state.value,
             )
             return
 
         # DISCOVERED / ANALYSED — buy was never placed; nothing to manage
         if state in (GameState.DISCOVERED, GameState.ANALYSED):
-            logger.debug(
-                "%s Pre-kickoff handler: game in %s (no position), skipping",
-                market_name,
+            mlog.debug(
+                "Pre-kickoff handler: game in %s (no position), skipping",
                 state.value,
             )
             return
 
         if state == GameState.SELL_PLACED:
-            self._handle_sell_placed(token_id, market_name, entry)
+            self._handle_sell_placed(token_id, mlog, entry)
         elif state == GameState.FILLING:
-            self._handle_filling(token_id, market_name, entry)
+            self._handle_filling(token_id, mlog, entry)
         elif state == GameState.BUY_PLACED:
-            self._handle_buy_placed(token_id, market_name, entry)
+            self._handle_buy_placed(token_id, mlog, entry)
         else:
-            logger.warning(
-                "%s Pre-kickoff handler: unexpected state %s for token=%s",
-                market_name,
+            mlog.warning(
+                "Pre-kickoff handler: unexpected state %s",
                 state.value,
-                token_id,
             )
 
     # ------------------------------------------------------------------
     # State-specific handlers
     # ------------------------------------------------------------------
 
-    def _handle_sell_placed(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_sell_placed(
+        self, token_id: str, mlog: logging.LoggerAdapter, entry: object
+    ) -> None:
         """SELL_PLACED path: cancel existing sell, re-create at buy_price (AC #2)."""
         existing_sell = self._order_tracker.get_sell_order(token_id)
         if existing_sell is None:
-            logger.error(
-                "%s Pre-kickoff SELL_PLACED: no sell record found for token=%s",
-                market_name,
-                token_id,
+            mlog.error(
+                "Pre-kickoff SELL_PLACED: no sell record found",
             )
             return
 
         # Step 1: Cancel existing sell
         cancel_result = self._clob_client.cancel_order(existing_sell.order_id)
         if cancel_result is None:
-            logger.error(
-                "%s Pre-kickoff consolidation failed: cancel of sell order=%s returned None "
-                "(token=%s) — game left in SELL_PLACED for game-start recovery",
-                market_name,
+            mlog.error(
+                "Pre-kickoff consolidation failed: cancel of sell order=%s returned None "
+                "-- game left in SELL_PLACED for game-start recovery",
                 existing_sell.order_id,
-                token_id,
             )
             return
 
@@ -133,10 +126,8 @@ class PreKickoffService:
         # Step 3: Get buy_price (NOT sell_price) and accumulated fills
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.error(
-                "%s Pre-kickoff consolidation: no buy record for token=%s after sell cancel",
-                market_name,
-                token_id,
+            mlog.error(
+                "Pre-kickoff consolidation: no buy record after sell cancel",
             )
             return
 
@@ -146,12 +137,10 @@ class PreKickoffService:
         # Step 4: Place new consolidated sell at buy_price
         result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
         if result is None:
-            logger.error(
-                "%s Pre-kickoff consolidation failed: new sell order failed for token=%s "
-                "(price=%.4f size=%.2f) — position has no sell coverage; "
+            mlog.error(
+                "Pre-kickoff consolidation failed: new sell order failed "
+                "(price=%.4f size=%.2f) -- position has no sell coverage; "
                 "game left in SELL_PLACED for game-start recovery",
-                market_name,
-                token_id,
                 sell_price,
                 sell_size,
             )
@@ -159,37 +148,28 @@ class PreKickoffService:
 
         order_id = result.get("orderID", "")
         if not order_id:
-            logger.error(
-                "%s Pre-kickoff consolidation: sell order posted but no orderID for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Pre-kickoff consolidation: sell order posted but no orderID")
             return
 
         self._order_tracker.record_sell(token_id, order_id, sell_price, sell_size)
 
         # Step 5: Cancel active buy (may have been partially filled)
-        if not self._cancel_buy_if_active(token_id, market_name):
+        if not self._cancel_buy_if_active(token_id, mlog):
             return
 
         # Step 6: Transition to PRE_KICKOFF
         entry.lifecycle.transition(GameState.PRE_KICKOFF)
-        logger.info(
-            "%s Pre-kickoff consolidation: sell at buy_price=%.4f, size=%.2f",
-            market_name,
+        mlog.info(
+            "Pre-kickoff consolidation: sell at buy_price=%.4f, size=%.2f",
             sell_price,
             sell_size,
         )
 
-    def _handle_filling(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_filling(self, token_id: str, mlog: logging.LoggerAdapter, entry: object) -> None:
         """FILLING path: place sell at buy_price for accumulated fills, cancel buy (AC #4)."""
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.error(
-                "%s Pre-kickoff FILLING: no buy record for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Pre-kickoff FILLING: no buy record")
             return
 
         sell_price = min(buy_record.buy_price, 0.99)
@@ -197,11 +177,9 @@ class PreKickoffService:
 
         result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
         if result is None:
-            logger.error(
-                "%s Pre-kickoff FILLING: sell order failed for token=%s "
-                "(price=%.4f size=%.2f) — game left in FILLING for game-start recovery",
-                market_name,
-                token_id,
+            mlog.error(
+                "Pre-kickoff FILLING: sell order failed "
+                "(price=%.4f size=%.2f) -- game left in FILLING for game-start recovery",
                 sell_price,
                 sell_size,
             )
@@ -209,51 +187,40 @@ class PreKickoffService:
 
         order_id = result.get("orderID", "")
         if not order_id:
-            logger.error(
-                "%s Pre-kickoff FILLING: sell order posted but no orderID for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Pre-kickoff FILLING: sell order posted but no orderID")
             return
 
         self._order_tracker.record_sell(token_id, order_id, sell_price, sell_size)
 
         # Cancel active buy
-        if not self._cancel_buy_if_active(token_id, market_name):
+        if not self._cancel_buy_if_active(token_id, mlog):
             return
 
         # Transition to PRE_KICKOFF
         entry.lifecycle.transition(GameState.PRE_KICKOFF)
-        logger.info(
-            "%s Pre-kickoff consolidation: sell at buy_price=%.4f, size=%.2f",
-            market_name,
+        mlog.info(
+            "Pre-kickoff consolidation: sell at buy_price=%.4f, size=%.2f",
             sell_price,
             sell_size,
         )
 
-    def _handle_buy_placed(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_buy_placed(self, token_id: str, mlog: logging.LoggerAdapter, entry: object) -> None:
         """BUY_PLACED path: cancel buy, transition to PRE_KICKOFF / DONE (AC #3)."""
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.warning(
-                "%s Pre-kickoff BUY_PLACED: no buy record for token=%s, skipping",
-                market_name,
-                token_id,
-            )
+            mlog.warning("Pre-kickoff BUY_PLACED: no buy record, skipping")
             return
 
         # Cancel the unfilled buy
         cancel_result = self._clob_client.cancel_order(buy_record.order_id)
         if cancel_result is None:
-            logger.error(
-                "%s Pre-kickoff BUY_PLACED: cancel of buy order=%s returned None (token=%s)",
-                market_name,
+            mlog.error(
+                "Pre-kickoff BUY_PLACED: cancel of buy order=%s returned None",
                 buy_record.order_id,
-                token_id,
             )
             return
         self._order_tracker.mark_inactive(token_id)
-        logger.info("%s Pre-kickoff buy cancelled", market_name)
+        mlog.info("Pre-kickoff buy cancelled")
 
         accumulated_fills = self._position_tracker.get_accumulated_fills(token_id)
 
@@ -266,11 +233,9 @@ class PreKickoffService:
             sell_price = min(buy_record.buy_price, 0.99)
             result = self._clob_client.create_sell_order(token_id, sell_price, accumulated_fills)
             if result is None:
-                logger.error(
-                    "%s Pre-kickoff BUY_PLACED: sell for race-condition fills failed "
-                    "(token=%s price=%.4f size=%.2f)",
-                    market_name,
-                    token_id,
+                mlog.error(
+                    "Pre-kickoff BUY_PLACED: sell for race-condition fills failed "
+                    "(price=%.4f size=%.2f)",
                     sell_price,
                     accumulated_fills,
                 )
@@ -278,18 +243,13 @@ class PreKickoffService:
 
             order_id = result.get("orderID", "")
             if not order_id:
-                logger.error(
-                    "%s Pre-kickoff BUY_PLACED: sell posted but no orderID for token=%s",
-                    market_name,
-                    token_id,
-                )
+                mlog.error("Pre-kickoff BUY_PLACED: sell posted but no orderID")
                 return
 
             self._order_tracker.record_sell(token_id, order_id, sell_price, accumulated_fills)
             entry.lifecycle.transition(GameState.PRE_KICKOFF)
-            logger.info(
-                "%s Pre-kickoff consolidation: sell at buy_price=%.4f, size=%.2f",
-                market_name,
+            mlog.info(
+                "Pre-kickoff consolidation: sell at buy_price=%.4f, size=%.2f",
                 sell_price,
                 accumulated_fills,
             )
@@ -298,7 +258,7 @@ class PreKickoffService:
     # Helpers
     # ------------------------------------------------------------------
 
-    def _cancel_buy_if_active(self, token_id: str, market_name: str) -> bool:
+    def _cancel_buy_if_active(self, token_id: str, mlog: logging.LoggerAdapter) -> bool:
         """Cancel the active buy order if one exists, then mark it inactive.
 
         Returns True if no active buy existed or cancellation succeeded.
@@ -310,14 +270,12 @@ class PreKickoffService:
 
         cancel_result = self._clob_client.cancel_order(buy_record.order_id)
         if cancel_result is None:
-            logger.error(
-                "%s Pre-kickoff: cancel of buy order=%s returned None (token=%s) — "
+            mlog.error(
+                "Pre-kickoff: cancel of buy order=%s returned None -- "
                 "buy may still be live on exchange",
-                market_name,
                 buy_record.order_id,
-                token_id,
             )
             return False
         self._order_tracker.mark_inactive(token_id)
-        logger.info("%s Pre-kickoff buy cancelled", market_name)
+        mlog.info("Pre-kickoff buy cancelled")
         return True

@@ -9,6 +9,7 @@ import time
 from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.config import TimingConfig
 from btts_bot.core.game_lifecycle import GameState, InvalidTransitionError
+from btts_bot.logging_setup import create_market_logger
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
 from btts_bot.state.position_tracker import PositionTracker
@@ -90,9 +91,6 @@ class GameStartService:
     def _do_game_start_recovery(self, token_id: str) -> None:
         """Dispatch to state-specific recovery path."""
         entry = self._market_registry.get(token_id)
-        market_name = (
-            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
-        )
 
         if entry is None:
             logger.warning(
@@ -101,86 +99,76 @@ class GameStartService:
             )
             return
 
+        mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
         state = entry.lifecycle.state
 
         # Already handled or terminal — nothing to do
         if state in _TERMINAL_STATES:
-            logger.debug(
-                "%s Game-start recovery: game already in %s, skipping",
-                market_name,
+            mlog.debug(
+                "Game-start recovery: game already in %s, skipping",
                 state.value,
             )
             return
 
         # DISCOVERED / ANALYSED — no position was ever started
         if state in (GameState.DISCOVERED, GameState.ANALYSED):
-            logger.debug(
-                "%s Game-start recovery: game in %s (no position), skipping",
-                market_name,
+            mlog.debug(
+                "Game-start recovery: game in %s (no position), skipping",
                 state.value,
             )
             return
 
         # Normal path: pre-kickoff succeeded (PRE_KICKOFF)
         if state == GameState.PRE_KICKOFF:
-            self._handle_pre_kickoff_state(token_id, market_name, entry)
+            self._handle_pre_kickoff_state(token_id, mlog, entry)
         # Pre-kickoff failed: sell was live but pre-kickoff didn't complete
         elif state == GameState.SELL_PLACED:
-            self._handle_sell_placed_state(token_id, market_name, entry)
+            self._handle_sell_placed_state(token_id, mlog, entry)
         # Pre-kickoff failed: had fills but no sell placed yet
         elif state == GameState.FILLING:
-            self._handle_filling_state(token_id, market_name, entry)
+            self._handle_filling_state(token_id, mlog, entry)
         # Pre-kickoff failed: buy may still be active/partially filled
         elif state == GameState.BUY_PLACED:
-            self._handle_buy_placed_state(token_id, market_name, entry)
+            self._handle_buy_placed_state(token_id, mlog, entry)
         else:
-            logger.warning(
-                "%s Game-start recovery: unexpected state %s for token=%s",
-                market_name,
+            mlog.warning(
+                "Game-start recovery: unexpected state %s",
                 state.value,
-                token_id,
             )
 
     # ------------------------------------------------------------------
     # State-specific handlers
     # ------------------------------------------------------------------
 
-    def _handle_pre_kickoff_state(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_pre_kickoff_state(
+        self, token_id: str, mlog: logging.LoggerAdapter, entry: object
+    ) -> None:
         """PRE_KICKOFF path (normal): Polymarket cancelled sell at game start, re-place it."""
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.error(
-                "%s Game-start recovery PRE_KICKOFF: no buy record for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Game-start recovery PRE_KICKOFF: no buy record")
             return
 
         accumulated_fills = self._position_tracker.get_accumulated_fills(token_id)
         if accumulated_fills <= 0.0:
             # No position to protect
             entry.lifecycle.transition(GameState.DONE)
-            logger.info(
-                "%s No position at game start -- nothing to recover",
-                market_name,
-            )
+            mlog.info("No position at game start -- nothing to recover")
             return
 
         # Polymarket cancelled old sell — remove stale record and re-place
         self._order_tracker.remove_sell_order(token_id)
         self._place_sell_and_transition(
-            token_id, market_name, entry, buy_record.buy_price, accumulated_fills
+            token_id, mlog, entry, buy_record.buy_price, accumulated_fills
         )
 
-    def _handle_sell_placed_state(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_sell_placed_state(
+        self, token_id: str, mlog: logging.LoggerAdapter, entry: object
+    ) -> None:
         """SELL_PLACED path: pre-kickoff failed, sell was live but Polymarket cancelled it."""
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.error(
-                "%s Game-start recovery SELL_PLACED: no buy record for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Game-start recovery SELL_PLACED: no buy record")
             return
 
         accumulated_fills = self._position_tracker.get_accumulated_fills(token_id)
@@ -188,57 +176,47 @@ class GameStartService:
             # Edge case: no fills — transition to DONE
             self._order_tracker.remove_sell_order(token_id)
             entry.lifecycle.transition(GameState.DONE)
-            logger.info(
-                "%s No position at game start -- nothing to recover",
-                market_name,
-            )
+            mlog.info("No position at game start -- nothing to recover")
             return
 
         # Remove old (now-cancelled) sell record and re-place at buy_price
         self._order_tracker.remove_sell_order(token_id)
         self._place_sell_and_transition(
-            token_id, market_name, entry, buy_record.buy_price, accumulated_fills
+            token_id, mlog, entry, buy_record.buy_price, accumulated_fills
         )
 
-    def _handle_filling_state(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_filling_state(
+        self, token_id: str, mlog: logging.LoggerAdapter, entry: object
+    ) -> None:
         """FILLING path: pre-kickoff failed, had fills but no sell placed yet."""
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.error(
-                "%s Game-start recovery FILLING: no buy record for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Game-start recovery FILLING: no buy record")
             return
 
         accumulated_fills = self._position_tracker.get_accumulated_fills(token_id)
         if accumulated_fills <= 0.0:
             # No fills — transition to DONE
             entry.lifecycle.transition(GameState.DONE)
-            logger.info(
-                "%s No position at game start -- nothing to recover",
-                market_name,
-            )
+            mlog.info("No position at game start -- nothing to recover")
             return
 
         # Cancel active buy (Polymarket may have already cancelled it — handle gracefully)
-        self._cancel_buy_if_active(token_id, market_name)
+        self._cancel_buy_if_active(token_id, mlog)
         self._order_tracker.mark_inactive(token_id)
 
         # Place sell at buy_price for accumulated fills
         self._place_sell_and_transition(
-            token_id, market_name, entry, buy_record.buy_price, accumulated_fills
+            token_id, mlog, entry, buy_record.buy_price, accumulated_fills
         )
 
-    def _handle_buy_placed_state(self, token_id: str, market_name: str, entry: object) -> None:
+    def _handle_buy_placed_state(
+        self, token_id: str, mlog: logging.LoggerAdapter, entry: object
+    ) -> None:
         """BUY_PLACED path: pre-kickoff failed, buy may be active/partially filled."""
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.warning(
-                "%s Game-start recovery BUY_PLACED: no buy record for token=%s, skipping",
-                market_name,
-                token_id,
-            )
+            mlog.warning("Game-start recovery BUY_PLACED: no buy record, skipping")
             return
 
         # Mark buy as inactive — Polymarket already cancelled it at game start
@@ -248,15 +226,12 @@ class GameStartService:
         if accumulated_fills <= 0.0:
             # No fills — no position to protect
             entry.lifecycle.transition(GameState.DONE)
-            logger.info(
-                "%s No position at game start -- nothing to recover",
-                market_name,
-            )
+            mlog.info("No position at game start -- nothing to recover")
             return
 
         # Race condition fills: buy was partially filled before cancellation
         self._place_sell_and_transition(
-            token_id, market_name, entry, buy_record.buy_price, accumulated_fills
+            token_id, mlog, entry, buy_record.buy_price, accumulated_fills
         )
 
     # ------------------------------------------------------------------
@@ -266,7 +241,7 @@ class GameStartService:
     def _place_sell_and_transition(
         self,
         token_id: str,
-        market_name: str,
+        mlog: logging.LoggerAdapter,
         entry: object,
         buy_price: float,
         sell_size: float,
@@ -287,11 +262,9 @@ class GameStartService:
         while not order_id:
             if result is None:
                 retry_count += 1
-                logger.warning(
-                    "%s Game-start recovery: sell placement failed, retrying #%d (token=%s)",
-                    market_name,
+                mlog.warning(
+                    "Game-start recovery: sell placement failed, retrying #%d",
                     retry_count,
-                    token_id,
                 )
                 time.sleep(self._timing.sell_verify_interval_seconds)
                 result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
@@ -302,11 +275,9 @@ class GameStartService:
                 break
 
             retry_count += 1
-            logger.error(
-                "%s Game-start recovery: sell posted but no orderID, retrying #%d (token=%s)",
-                market_name,
+            mlog.error(
+                "Game-start recovery: sell posted but no orderID, retrying #%d",
                 retry_count,
-                token_id,
             )
             time.sleep(self._timing.sell_verify_interval_seconds)
             result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
@@ -317,34 +288,25 @@ class GameStartService:
             token_id, order_id, sell_price, sell_size
         )
         if not recorded:
-            logger.info(
-                "%s Game-start recovery: sell already recorded by another thread for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.info("Game-start recovery: sell already recorded by another thread")
 
         try:
             entry.lifecycle.transition(GameState.GAME_STARTED)
         except InvalidTransitionError:
             if entry.lifecycle.state == GameState.GAME_STARTED:
-                logger.debug(
-                    "%s Game-start recovery: GAME_STARTED already set by another path for token=%s",
-                    market_name,
-                    token_id,
-                )
+                mlog.debug("Game-start recovery: GAME_STARTED already set by another path")
             else:
                 raise
-        logger.info(
-            "%s Game-start recovery: sell re-placed at buy_price=%.4f, size=%.2f",
-            market_name,
+        mlog.info(
+            "Game-start recovery: sell re-placed at buy_price=%.4f, size=%.2f",
             sell_price,
             sell_size,
         )
 
         # Verify sell is active; retry until confirmed (AC #1-#3)
-        self._verify_and_retry_sell(token_id, market_name, entry, buy_price, sell_size)
+        self._verify_and_retry_sell(token_id, mlog, entry, buy_price, sell_size)
 
-    def _is_sell_active(self, order_id: str, market_name: str) -> bool:
+    def _is_sell_active(self, order_id: str, mlog: logging.LoggerAdapter) -> bool:
         """Check if a sell order is still active on the CLOB.
 
         Returns True if the order is live/open or matched (filled).
@@ -352,9 +314,8 @@ class GameStartService:
         """
         order_data = self._clob_client.get_order(order_id)
         if order_data is None:
-            logger.warning(
-                "%s Sell verification: get_order returned None for order=%s",
-                market_name,
+            mlog.warning(
+                "Sell verification: get_order returned None for order=%s",
                 order_id,
             )
             return False
@@ -375,9 +336,8 @@ class GameStartService:
         if status.upper() in ("LIVE", "OPEN", "MATCHED"):
             return True
 
-        logger.warning(
-            "%s Sell verification: order=%s has status=%s (not active)",
-            market_name,
+        mlog.warning(
+            "Sell verification: order=%s has status=%s (not active)",
             order_id,
             status,
         )
@@ -386,7 +346,7 @@ class GameStartService:
     def _verify_and_retry_sell(
         self,
         token_id: str,
-        market_name: str,
+        mlog: logging.LoggerAdapter,
         entry: object,
         buy_price: float,
         sell_size: float,
@@ -403,53 +363,38 @@ class GameStartService:
         current_order_id = sell_record.order_id if sell_record is not None else ""
 
         if not current_order_id:
-            logger.warning(
-                "%s Verify: no sell record for token=%s after placement, attempting re-placement",
-                market_name,
-                token_id,
+            mlog.warning(
+                "Verify: no sell record after placement, attempting re-placement",
             )
 
         while True:
             if current_order_id:
                 time.sleep(self._timing.sell_verify_interval_seconds)
 
-                if self._is_sell_active(current_order_id, market_name):
+                if self._is_sell_active(current_order_id, mlog):
                     try:
                         entry.lifecycle.transition(GameState.RECOVERY_COMPLETE)
                     except InvalidTransitionError:
                         if entry.lifecycle.state == GameState.RECOVERY_COMPLETE:
-                            logger.debug(
-                                "%s RECOVERY_COMPLETE already set for token=%s",
-                                market_name,
-                                token_id,
-                            )
+                            mlog.debug("RECOVERY_COMPLETE already set")
                         else:
                             raise
-                    logger.info(
-                        "%s Game-start recovery verified -- sell confirmed active",
-                        market_name,
-                    )
+                    mlog.info("Game-start recovery verified -- sell confirmed active")
                     return
 
                 # Sell is not active — re-place immediately
                 self._order_tracker.remove_sell_order(token_id)
 
             retry_count += 1
-            logger.warning(
-                "%s Sell verification failed -- retry #%d",
-                market_name,
-                retry_count,
-            )
+            mlog.warning("Sell verification failed -- retry #%d", retry_count)
 
             sell_price = min(buy_price, 0.99)
 
             result = self._clob_client.create_sell_order(token_id, sell_price, sell_size)
             if result is None:
-                logger.error(
-                    "%s Sell re-placement failed on retry #%d for token=%s",
-                    market_name,
+                mlog.error(
+                    "Sell re-placement failed on retry #%d",
                     retry_count,
-                    token_id,
                 )
                 # Don't return — keep looping, next iteration will try again
                 current_order_id = ""
@@ -457,9 +402,8 @@ class GameStartService:
 
             order_id = self._extract_order_id(result)
             if not order_id:
-                logger.error(
-                    "%s Sell re-placement returned no orderID on retry #%d",
-                    market_name,
+                mlog.error(
+                    "Sell re-placement returned no orderID on retry #%d",
                     retry_count,
                 )
                 current_order_id = ""
@@ -485,7 +429,7 @@ class GameStartService:
 
         return ""
 
-    def _cancel_buy_if_active(self, token_id: str, market_name: str) -> bool:
+    def _cancel_buy_if_active(self, token_id: str, mlog: logging.LoggerAdapter) -> bool:
         """Attempt to cancel the active buy if one exists.
 
         Returns True if no active buy or cancellation attempt was made (even if it failed).
@@ -497,12 +441,10 @@ class GameStartService:
 
         cancel_result = self._clob_client.cancel_order(buy_record.order_id)
         if cancel_result is None:
-            logger.warning(
-                "%s Game-start recovery: cancel of buy order=%s returned None (token=%s) — "
+            mlog.warning(
+                "Game-start recovery: cancel of buy order=%s returned None -- "
                 "Polymarket likely already cancelled it at game start",
-                market_name,
                 buy_record.order_id,
-                token_id,
             )
         return True
 

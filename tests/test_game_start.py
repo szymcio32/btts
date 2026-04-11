@@ -1250,6 +1250,4 @@ def test_verify_missing_sell_record_replaces_and_recovers(
             service.handle_game_start("token-1")
 
     assert entry.lifecycle.state == GameState.RECOVERY_COMPLETE
-    assert (
-        "no sell record for token=token-1 after placement, attempting re-placement" in caplog.text
-    )
+    assert "Verify: no sell record after placement, attempting re-placement" in caplog.text

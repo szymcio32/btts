@@ -10,6 +10,7 @@ from btts_bot.clients.clob import ClobClientWrapper
 from btts_bot.config import BttsConfig
 from btts_bot.core.game_lifecycle import GameState
 from btts_bot.core.liquidity import AnalysisResult
+from btts_bot.logging_setup import create_market_logger, create_token_logger
 from btts_bot.state.market_registry import MarketRegistry
 from btts_bot.state.order_tracker import OrderTracker
 from btts_bot.state.position_tracker import PositionTracker
@@ -45,27 +46,26 @@ class OrderExecutionService:
         Returns True if order was placed successfully, False otherwise.
         """
         entry = self._market_registry.get(token_id)
-        market_name = (
-            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
-        )
 
         # Duplicate prevention (AC #3)
         if self._order_tracker.has_buy_order(token_id):
-            logger.warning(
-                "%s Duplicate buy prevented (token=%s)",
-                market_name,
-                token_id,
-            )
+            if entry is not None:
+                mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
+            else:
+                mlog = create_token_logger(__name__, token_id)
+            mlog.warning("Duplicate buy prevented")
             return False
 
         if entry is None:
-            logger.warning("[%s] Buy skipped: market entry not found", token_id)
+            mlog = create_token_logger(__name__, token_id)
+            mlog.warning("Buy skipped: market entry not found")
             return False
 
+        mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
+
         if entry.lifecycle.state != GameState.ANALYSED:
-            logger.warning(
-                "%s Buy skipped: expected ANALYSED state, got %s",
-                market_name,
+            mlog.warning(
+                "Buy skipped: expected ANALYSED state, got %s",
                 entry.lifecycle.state.value,
             )
             return False
@@ -75,10 +75,9 @@ class OrderExecutionService:
         expiration_ts = kickoff_ts - self._btts.expiration_hour_offset * 3600
         now_ts = int(time.time())
         if expiration_ts <= now_ts:
-            logger.error(
-                "%s Buy skipped: computed expiration is not in the future "
+            mlog.error(
+                "Buy skipped: computed expiration is not in the future "
                 "(expiration=%d, now=%d, kickoff=%d, offset_hours=%d)",
-                market_name,
                 expiration_ts,
                 now_ts,
                 kickoff_ts,
@@ -93,12 +92,7 @@ class OrderExecutionService:
         try:
             self._clob_client.get_tick_size(token_id)
         except Exception as exc:  # pragma: no cover - defensive, non-fatal path
-            logger.warning(
-                "%s Tick size prefetch failed for token=%s: %s",
-                market_name,
-                token_id,
-                exc,
-            )
+            mlog.warning("Tick size prefetch failed: %s", exc)
 
         # Place buy order via CLOB (AC #2)
         try:
@@ -109,10 +103,8 @@ class OrderExecutionService:
                 expiration_ts=expiration_ts,
             )
         except Exception as exc:
-            logger.error(
-                "%s Buy order failed with non-retryable error: token=%s price=%.4f error=%s",
-                market_name,
-                token_id,
+            mlog.error(
+                "Buy order failed with non-retryable error: price=%.4f error=%s",
                 buy_price,
                 exc,
             )
@@ -121,10 +113,8 @@ class OrderExecutionService:
 
         if result is None:
             # API failure after retries (AC #4)
-            logger.error(
-                "%s Buy order failed (retry exhausted): token=%s price=%.4f",
-                market_name,
-                token_id,
+            mlog.error(
+                "Buy order failed (retry exhausted): price=%.4f",
                 buy_price,
             )
             entry.lifecycle.transition(GameState.SKIPPED)
@@ -132,21 +122,15 @@ class OrderExecutionService:
 
         order_id = result.get("orderID", "")
         if not order_id:
-            logger.error(
-                "%s Buy order posted but no orderID in response: token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Buy order posted but no orderID in response")
             entry.lifecycle.transition(GameState.SKIPPED)
             return False
 
         # Record and transition
         self._order_tracker.record_buy(token_id, order_id, buy_price, sell_price)
         entry.lifecycle.transition(GameState.BUY_PLACED)
-        logger.info(
-            "%s Buy order placed: token=%s, price=%.4f, size=%d, order=%s",
-            market_name,
-            token_id,
+        mlog.info(
+            "Buy order placed: price=%.4f, size=%d, order=%s",
             buy_price,
             self._btts.order_size,
             order_id,
@@ -191,25 +175,19 @@ class OrderExecutionService:
         Returns True if order was placed successfully, False otherwise.
         """
         entry = self._market_registry.get(token_id)
-        market_name = (
-            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
-        )
+        if entry is not None:
+            mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
+        else:
+            mlog = create_token_logger(__name__, token_id)
 
         # Duplicate prevention (AC #2)
         if self._order_tracker.has_sell_order(token_id):
-            logger.debug(
-                "%s Duplicate sell prevented -- live sell exists",
-                market_name,
-            )
+            mlog.debug("Duplicate sell prevented -- live sell exists")
             return False
 
         buy_record = self._order_tracker.get_buy_order(token_id)
         if buy_record is None:
-            logger.error(
-                "%s Sell skipped: no buy order record found for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Sell skipped: no buy order record found")
             return False
 
         # Use pre-computed sell_price from buy record, capped at 0.99 (AC #1)
@@ -222,10 +200,8 @@ class OrderExecutionService:
 
         if result is None:
             # Do NOT transition to SKIPPED — position still needs to be managed
-            logger.error(
-                "%s Sell order failed (retry exhausted): token=%s price=%.4f size=%.2f",
-                market_name,
-                token_id,
+            mlog.error(
+                "Sell order failed (retry exhausted): price=%.4f size=%.2f",
                 sell_price,
                 sell_size,
             )
@@ -233,11 +209,7 @@ class OrderExecutionService:
 
         order_id = result.get("orderID", "")
         if not order_id:
-            logger.error(
-                "%s Sell order posted but no orderID in response: token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Sell order posted but no orderID in response")
             return False
 
         self._order_tracker.record_sell(token_id, order_id, sell_price, sell_size)
@@ -246,10 +218,8 @@ class OrderExecutionService:
         if entry is not None:
             entry.lifecycle.transition(GameState.SELL_PLACED)
 
-        logger.info(
-            "%s Sell order placed: token=%s, price=%.4f, size=%.2f",
-            market_name,
-            token_id,
+        mlog.info(
+            "Sell order placed: price=%.4f, size=%.2f",
             sell_price,
             sell_size,
         )
@@ -261,17 +231,14 @@ class OrderExecutionService:
         Returns True if the sell was successfully updated, False otherwise.
         """
         entry = self._market_registry.get(token_id)
-        market_name = (
-            f"[{entry.home_team} vs {entry.away_team}]" if entry is not None else f"[{token_id}]"
-        )
+        if entry is not None:
+            mlog = create_market_logger(__name__, entry.home_team, entry.away_team, token_id)
+        else:
+            mlog = create_token_logger(__name__, token_id)
 
         existing_record = self._order_tracker.get_sell_order(token_id)
         if existing_record is None:
-            logger.debug(
-                "%s update_sell_order: no existing sell order for token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.debug("update_sell_order: no existing sell order")
             return False
 
         accumulated_fills = self._position_tracker.get_accumulated_fills(token_id)
@@ -283,9 +250,8 @@ class OrderExecutionService:
         # Cancel existing sell
         cancel_result = self._clob_client.cancel_order(existing_record.order_id)
         if cancel_result is None:
-            logger.error(
-                "%s Sell update failed: cancel of order=%s returned None, keeping old sell",
-                market_name,
+            mlog.error(
+                "Sell update failed: cancel of order=%s returned None, keeping old sell",
                 existing_record.order_id,
             )
             return False
@@ -298,29 +264,21 @@ class OrderExecutionService:
         result = self._clob_client.create_sell_order(token_id, sell_price, accumulated_fills)
 
         if result is None:
-            logger.error(
-                "%s Sell update: cancel succeeded but new sell failed for token=%s — "
-                "position temporarily has no sell coverage",
-                market_name,
-                token_id,
+            mlog.error(
+                "Sell update: cancel succeeded but new sell failed -- "
+                "position temporarily has no sell coverage"
             )
             return False
 
         order_id = result.get("orderID", "")
         if not order_id:
-            logger.error(
-                "%s Sell update posted but no orderID in response: token=%s",
-                market_name,
-                token_id,
-            )
+            mlog.error("Sell update posted but no orderID in response")
             return False
 
         self._order_tracker.record_sell(token_id, order_id, sell_price, accumulated_fills)
 
-        logger.info(
-            "%s Sell order updated: token=%s, new_size=%.2f, old_size=%.2f",
-            market_name,
-            token_id,
+        mlog.info(
+            "Sell order updated: new_size=%.2f, old_size=%.2f",
             accumulated_fills,
             existing_record.sell_size,
         )
